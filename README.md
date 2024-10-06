@@ -1,10 +1,14 @@
 ## Libraries, API, and Packages Used
 
 # Packages
-- npm i express
-- npm i nodemon
-- npm i axios
+- npm i express (backend)
+- npm i nodemon (Backend)
+- npm i axios (Front end)
+- npm i dotenv
+- npm i body-parser
 
+# How to cheack each packages installed in the front/backend
+npm list --/dev0
 
 
 ## Things to take note 
