@@ -1,12 +1,43 @@
 import "./App.css";
 import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import axios from 'axios';
-import AdminDashboard from './admin/AdminDashboard';
-import Scheduling from './admin/Scheduling';
+
 import Layout from "./admin/LayoutAdmin";
 
+import AdminDashboard from './admin/AdminDashboard';
+import Scheduling from './admin/Scheduling';
+import Accounts from './admin/Accounts';
+import Feedback from './admin/Feedback';
+import NotFound from "./NotFound";
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement : <NotFound />,
+    children : [
+      {
+        path: '/',
+        element: <AdminDashboard />,
+      },
+      {
+        path: '/accounts',
+        element: <Accounts />
+      },
+      {
+        path: '/feedback',
+        element: <Feedback />
+      },
+      {
+        path: '/scheduling',
+        element: <Scheduling />
+      },
+    ]
+  }
+
+]);
 
 function App() {
   const [data, setData] = useState(null);
@@ -34,15 +65,10 @@ function App() {
 
   return (
      
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="scheduling" element={<Scheduling />} />
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
 
-      </Route>
-    </Routes>
-  </BrowserRouter>
    
   );
 }

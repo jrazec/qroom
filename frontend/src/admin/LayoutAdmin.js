@@ -5,34 +5,40 @@ const Layout = () => {
   return (
     <div className="app">
     <aside className="sidebar">
-      <div className="sidebar-header">
-        <div className="profile-picture">
-          <span>Admin</span>
-        </div>
-      </div>
+
+
+    
       <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#accounts">Accounts</a></li>
-          <li><a href="#scheduling">Scheduling</a></li>
-          <li><a href="#feedback">Feedback</a></li>
-        </ul>
+        <div class="sidebar-sticky text-center">
+          <h2 class="brand-title text-white pt-3">QRoom</h2>
+          <div class="user-circle bg-light my-3"></div>
+          <span class="text-white mb-4 d-block">Admin</span>
+
+          <ul class="nav flex-column">
+            <li class="nav-item">
+             <Link to="/" class="nav-link text-white active">Home</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/accounts" class="nav-link text-white">Accounts</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/scheduling" class="nav-link text-white">Scheduling</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/feedback" class="nav-link text-white">Feedback</Link>
+            </li>
+          </ul>
+
+          <div class="logout mt-auto">
+            <Link to="/" class="text-white">logout</Link>
+          </div>
+        </div>
       </nav>
-      <div className="logout">
-        <a href="#logout">logout</a>
-      </div>
+
+
     </aside>
     <main className="main-content">
-      <header className="dashboard-header">
-        <h1>Dashboard <span>Home</span></h1>
-      </header>
-      <section className="dashboard-grid">
-        <div className="grid-item large"></div>
-        <div className="grid-item small"></div>
-        <div className="grid-item medium"></div>
-        <div className="grid-item large"></div>
-        <div className="grid-item medium"></div>
-      </section>
+      <Outlet />
     </main>
   </div>
   )
@@ -41,21 +47,3 @@ const Layout = () => {
 export default Layout;
 
 
-    <>
-    
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/blogs">Blogs</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Outlet />
-    </>
