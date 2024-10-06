@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 import Layout from "./admin/LayoutAdmin";
 
@@ -11,6 +13,8 @@ import Scheduling from './admin/Scheduling';
 import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
 import NotFound from "./NotFound";
+
+import HomePage from "./users/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -65,10 +69,11 @@ function App() {
 
   return (
      
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    // <React.StrictMode>
+    //   <RouterProvider router={router} />
+    // </React.StrictMode>
 
+    <HomePage/>
    
   );
 }

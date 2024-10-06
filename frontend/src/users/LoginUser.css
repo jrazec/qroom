@@ -1,0 +1,97 @@
+/* Main container with modern background */
+.modern-login-page {
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-container {
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+  }
+  
+  /* Left section */
+  .brand-logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #800000; /* Maroon color */
+    font-size: 4rem;
+    margin-bottom: 30px;
+  }
+  
+  .vr-image {
+    max-width: 70%;
+    height: auto;
+  }
+  
+  /* Login card */
+  .login-card {
+    border-radius: 15px;
+    background-color: white;
+    padding: 2rem;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Brand and text styling */
+  .brand-name {
+    color: #800000; 
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+  }
+  
+  /* Form input styling */
+  .form-group label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #800000;
+    margin-bottom: 0.5rem;
+  }
+  
+  .modern-input {
+    border: 2px solid #800000;
+    border-radius: 8px;
+    padding: 12px;
+    height: auto;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease;
+  }
+  
+  .modern-input:focus {
+    border-color: #9b1c1c;
+    box-shadow: 0 0 0 3px rgba(155, 28, 28, 0.2);
+    outline: none;
+  }
+  
+  /* Button styling */
+  .login-btn {
+    background-image: linear-gradient(to right, #800000, #a52a2a);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px;
+    transition: background 0.3s ease;
+    border: none;
+  }
+  
+  .login-btn:hover {
+    background-image: linear-gradient(to right, #9b1c1c, #c04040);
+  }
+  
+  /* Forgot password link */
+  .forgot-password-link {
+    text-decoration: none;
+    color: #800000;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+  
