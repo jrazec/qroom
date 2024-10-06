@@ -1,116 +1,79 @@
-/* General styling */
-body {
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    height: 100vh;
-    background-color: #8B0000; /* Dark Red */
-    border-top-right-radius: 25px; /* Rounded top-right corner */
-  }
-  
-  .brand-title {
-    font-size: 30px;
-    font-weight: bold;
-  }
-  
-  .sidebar .user-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-link {
-    font-size: 20px;
-    margin: 20px 0; /* Spacing between links */
+
+  .dashboard-container {
+    padding: 20px;
+    background-color: #f5f5f5;
     text-align: center;
   }
   
-  .nav-link.active {
-    font-weight: bold;
-    color: white;
+  .dashboard-header {
+    margin-bottom: 20px;
   }
   
-  .logout {
-    padding-bottom: 30px;
-    text-align: center;
+  .dashboard-title {
+    font-size: 2.5rem;
+    color: #7f0000; /* Dark red */
   }
   
-  .logout a {
-    font-size: 18px;
+  .sub-title {
+    font-size: 1.2rem;
+    color: #333;
   }
   
-  /* Main content */
-  .table-responsive {
+  .department-room-assignment {
+    margin: 20px auto;
+    padding: 20px;
     background-color: white;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
   }
   
-  .custom-table {
+  .room-assignment-grid {
+    display: flex;
+    justify-content: space-around;
     margin-top: 20px;
-    border: none;
   }
   
-  .table-bordered td {
-    border: 1px solid #8B0000; /* Red borders for table cells */
-  }
-  
-  .table thead {
-    background-color: #f8f9fa;
-  }
-  
-  .table tbody td {
-    height: 40px;
+  .room-column {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #7f0000;
     text-align: center;
-    border-color: #8B0000; /* Red table borders */
+    font-size: 1.2rem;
   }
   
-  .back-arrow {
-    font-size: 24px;
-    text-decoration: none;
-    color: #8B0000;
-    font-weight: bold;
+  .add-button {
+    background-color: #7f0000;
+    color: white;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+    font-size: 1rem;
   }
   
-  #departments {
+  .circle-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  
+  .circle-btn {
+    background-color: white;
+    color: #7f0000;
+    font-size: 1.1rem;
     width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #7f0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
   }
   
-  .btn-danger {
-    background-color: #8B0000;
-    border: none;
+  .circle-btn:hover {
+    background-color: #7f0000;
+    color: white;
   }
-  
-  .btn-light {
-    border: none;
-    color: #8B0000;
-  }
-  
-  .btn-light.edit-btn, .btn-light.delete-btn {
-    padding: 6px;
-  }
-  
-  .table td button {
-    margin-right: 10px;
-  }
-  
-  h1.h2 {
-    color: #8B0000;
-  }
-  
-  /* Adjusting for mobile */
-  @media screen and (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-  
-    main {
-      margin-left: 0 !important;
-    }
-  }
-  

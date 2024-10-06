@@ -1,0 +1,115 @@
+/* General styling */
+body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    height: 100vh;
+    background-color: #8B0000; /* Dark Red */
+    border-top-right-radius: 25px; /* Rounded top-right corner */
+  }
+  
+  .brand-title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
+  .sidebar .user-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-link {
+    font-size: 20px;
+    margin: 20px 0; /* Spacing between links */
+    text-align: center;
+  }
+  
+  .nav-link.active {
+    font-weight: bold;
+    color: white;
+  }
+  
+  .logout {
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  .logout a {
+    font-size: 18px;
+  }
+  
+  /* Main content */
+  .table-responsive {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-table {
+    margin-top: 20px;
+    border: none;
+  }
+  
+  .table-bordered td {
+    border: 1px solid #8B0000; /* Red borders for table cells */
+  }
+  
+  .table thead {
+    background-color: #f8f9fa;
+  }
+  
+  .table tbody td {
+    height: 40px;
+    text-align: center;
+    border-color: #8B0000; /* Red table borders */
+  }
+  
+  .back-arrow {
+    font-size: 24px;
+    text-decoration: none;
+    color: #8B0000;
+    font-weight: bold;
+  }
+  
+  #departments {
+    width: 150px;
+  }
+  
+  .btn-danger {
+    background-color: #8B0000;
+    border: none;
+  }
+  
+  .btn-light {
+    border: none;
+    color: #8B0000;
+  }
+  
+  .btn-light.edit-btn, .btn-light.delete-btn {
+    padding: 6px;
+  }
+  
+  .table td button {
+    margin-right: 10px;
+  }
+  
+  h1.h2 {
+    color: #8B0000;
+  }
+  
+  /* Adjusting for mobile */
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  
+    main {
+      margin-left: 0 !important;
+    }
+  }
