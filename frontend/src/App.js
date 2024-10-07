@@ -15,6 +15,7 @@ import Feedback from './admin/Feedback';
 import NotFound from "./NotFound";
 
 import HomePage from "./users/HomePage";
+import LoginUser from "./users/LoginUser";
 
 const router = createBrowserRouter([
   {
@@ -73,7 +74,7 @@ function App() {
     //   <RouterProvider router={router} />
     // </React.StrictMode>
 
-    <HomePage/>
+    <LoginUser/>
    
   );
 }
