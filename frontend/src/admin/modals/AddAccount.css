@@ -1,0 +1,101 @@
+/* General layout */
+body {
+    background-color: #F8F8F8; /* Light background color */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Form container */
+  .modal-content {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* Form inputs */
+  input.form-control {
+    border: 1px solid #C4C4C4;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input.form-control:focus {
+    border-color: #800000; /* Dark red border when focused */
+    box-shadow: none;
+  }
+  
+  select.form-select {
+    border: 1px solid #C4C4C4;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  select.form-select:focus {
+    border-color: #800000;
+    box-shadow: none;
+  }
+  
+  /* Header */
+  .modal-header {
+    border-bottom: none;
+  }
+  
+  h5.modal-title {
+    color: #800000; /* Dark red title color */
+    font-size: 24px;
+  }
+  
+  /* Buttons */
+  button.btn-primary {
+    background-color: #800000;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  button.btn-primary:hover {
+    background-color: #A52A2A;
+  }
+  
+  button.btn-secondary {
+    background-color: #C4C4C4;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.btn-secondary:hover {
+    background-color: #A9A9A9;
+  }
+  
+  /* Align Add and Cancel buttons to the right and together */
+  .d-flex.justify-content-end {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .d-flex.justify-content-end button {
+    margin-left: 10px; /* Add space between the buttons */
+  }
+  
+  /* Back button */
+  .modal-header .btn-close {
+    background-color: #800000;
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    width: 30px;
+    height: 30px;
+    line-height: 1;
+  }
+  
