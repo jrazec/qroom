@@ -50,18 +50,6 @@ function HomePage() {
         </nav>
       </header>
 
-      <div className="social-icons">
-        <a href="#" className="social-icon">
-          <i className="fa fa-facebook"></i>
-        </a>
-        <a href="#" className="social-icon">
-          <i className="fa fa-envelope"></i>
-        </a>
-        <a href="#" className="social-icon">
-          <i className="fa fa-twitter"></i>
-        </a>
-      </div>
-
       <main className="main-content">
         <h1 className="brand-title">QRoom</h1>
 
@@ -69,15 +57,15 @@ function HomePage() {
           <div
             className="carousel-track"
             style={{
-              transform: `translateX(-${currentSlide * (isMobile ? 100 : 33.33)}%)`,
-              width: `${cards.length * (isMobile ? 100 : 33.33)}%`
+              transform: `translateX(-${currentSlide * 100}%)`,
+              width: `${cards.length * 100}%`
             }}
           >
             {cards.map((card, index) => (
               <div
                 key={index}
                 className="carousel-slide"
-                style={{ width: `${isMobile ? 100 : 33.33}%` }}
+                style={{ width: `${100 / cards.length}%` }}
               >
                 {card}
               </div>
@@ -93,6 +81,19 @@ function HomePage() {
               onClick={() => handleDotClick(index)}
             ></span>
           ))}
+        </div>
+
+         {/* Move social icons here */}
+         <div className="social-icons pt-5 mt-5">
+          <a href="#" className="social-icon">
+            <i className="fa fa-facebook"></i>
+          </a>
+          <a href="#" className="social-icon">
+            <i className="fa fa-envelope"></i>
+          </a>
+          <a href="#" className="social-icon">
+            <i className="fa fa-twitter"></i>
+          </a>
         </div>
       </main>
 
