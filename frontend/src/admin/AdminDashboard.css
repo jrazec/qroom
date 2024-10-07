@@ -1,9 +1,4 @@
-/* General Styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
+
   .bg-maroon {
     background-color: #800000;
   }
@@ -31,11 +26,7 @@ body {
     color: #800000;
   }
   
-  /* Sidebar styles */
-  #sidebar {
-    width: 220px;
-    height: 100vh;
-  }
+
   
   .nav-link {
     font-size: 1.2em;
@@ -58,11 +49,6 @@ body {
   
   /* Responsive tweaks */
   @media (max-width: 768px) {
-    #sidebar {
-      width: 100%;
-      height: auto;
-    }
-  
     .main-content {
       margin-left: 0;
     }

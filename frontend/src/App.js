@@ -12,6 +12,9 @@ import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
 import NotFound from "./NotFound";
 
+
+const cur = {}; //current temp holder
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -74,3 +77,4 @@ function App() {
 }
 
 export default App;
+export {cur };

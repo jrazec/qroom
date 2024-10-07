@@ -3,19 +3,13 @@ body {
     font-family: 'Arial', sans-serif;
   }
   
-  /* Sidebar */
-  .sidebar {
-    height: 100vh;
-    background-color: #8B0000; /* Dark Red */
-    border-top-right-radius: 25px; /* Rounded top-right corner */
-  }
-  
+
   .brand-title {
     font-size: 30px;
     font-weight: bold;
   }
   
-  .sidebar .user-circle {
+  .user-circle {
     width: 120px;
     height: 120px;
     border-radius: 50%;
