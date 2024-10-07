@@ -1,6 +1,6 @@
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import './LoginUser.css'
+import './LoginUser.css';
 
 function LoginUser() {
 
@@ -14,7 +14,7 @@ function LoginUser() {
             <div className="login-container container-fluid">
                 <div className="row justify-content-center align-items-center h-100">
 
-                    {/* Left Section */}
+                    {/* Left Section - Hide on smaller screens */}
                     <div className="col-md-6 text-center d-none d-md-block">
                         <h1 className="brand-logo">QRoom</h1>
                         <img

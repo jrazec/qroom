@@ -108,3 +108,44 @@
   align-items: center;
   margin-top: 10px;
 }
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .brand-logo {
+    font-size: 3rem;
+  }
+
+  .vr-image {
+    display: none; /* Hide image on smaller devices */
+  }
+
+  .login-card {
+    padding: 1.5rem;
+  }
+
+  .modern-input {
+    padding: 10px;
+  }
+
+  .login-btn {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .brand-logo {
+    font-size: 2.5rem;
+  }
+
+  .login-card {
+    padding: 1rem;
+  }
+
+  .modern-input {
+    padding: 8px;
+  }
+
+  .login-btn {
+    padding: 8px;
+  }
+}
