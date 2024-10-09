@@ -19,6 +19,7 @@ function Navbar() {
       <nav className="bottom-nav">
         <a href="#"><i className="fa fa-home"></i></a>
         <a href="#"><i className="fa fa-search"></i></a>
+        <a href="#"><i className="fa fa-instagram"></i></a>
         <a href="#"><i className="fa fa-calendar"></i></a>
         <a href="#"><i className="fa fa-envelope"></i></a>
       </nav>

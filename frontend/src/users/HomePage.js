@@ -11,10 +11,12 @@ function HomePage() {
       <i className="fa fa-calculator fa-3x"></i>
     </a>,
     <a href="/calendar" className="room-card" key={2}>
-      <i className="fa fa-calendar fa-3x"></i>
+      {/* <i className="fa fa-calendar fa-3x"></i> */}
+      <h2>ROOM</h2>
     </a>,
     <a href="/messages" className="room-card" key={3}>
-      <i className="fa fa-envelope fa-3x"></i>
+      {/* <i className="fa fa-envelope fa-3x"></i> */}
+      <h2>ROOM</h2>
     </a>
   ];
 

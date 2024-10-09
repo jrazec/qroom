@@ -16,19 +16,6 @@
     color: white;
     font-weight: bold;
     position: relative;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-.logo::after {
-    content: 'QRoom';
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) scaleY(-1);
-    opacity: 0.3;
 }
 
 /* Top Navbar */
