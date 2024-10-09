@@ -30,6 +30,8 @@ function Accounts() {
     // Sample account data (replace this with your actual data)
     const sampleAccounts = [
       { userName: "john_doe", firstName: "John", lastName: "Doe", password: "password123", role: "Instructor" },
+      { userName: "jane_smith", firstName: "Jane", lastName: "Smith", password: "password456", role: "Student" },
+      { userName: "jane_smith", firstName: "Jane", lastName: "Smith", password: "password456", role: "Student" },
       { userName: "jane_smith", firstName: "Jane", lastName: "Smith", password: "password456", role: "Student" }
     ];
 

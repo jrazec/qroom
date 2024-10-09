@@ -41,9 +41,9 @@ function AddAccount() {
             <button
               type="button"
               className="btn-close"
-              data-bs-dismiss="modal"  // Properly close the modal using Bootstrap
+              data-dismiss="modal"  // Properly close the modal using Bootstrap
               aria-label="Close"
-            ></button>
+            >X</button>
           </div>
           <div className="modal-body p-3">
             <p>Choose a Department First</p>
