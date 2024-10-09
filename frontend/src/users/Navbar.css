@@ -1,0 +1,192 @@
+/* Header Styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #660000, #900000);
+    padding: 10px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.logo::after {
+    content: 'QRoom';
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) scaleY(-1);
+    opacity: 0.3;
+}
+
+/* Top Navbar */
+.nav {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-item {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    margin: 0 10px;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: -1;
+    transition: height 0.3s ease;
+}
+
+.nav-item:hover::before {
+    height: 100%;
+}
+
+.nav-item:hover {
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.nav-item.active::before {
+    display: none;
+}
+
+/* Social Media Icons */
+.social-icons {
+    position: fixed; /* Fix the icons to the viewport */
+    left: 20px;      /* Align to the left of the screen */
+    bottom: 20px;    /* Stick to the bottom of the screen */
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;  /* Remove any left margin on smaller screens */
+    margin-bottom: 0; /* Remove bottom margin for consistent positioning */
+}
+
+.social-icon {
+    background-color: #660000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Space between icons */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Remove underline from link */
+}
+
+.social-icon i {
+    color: white; /* Ensure icon stays white */
+}
+
+.social-icon:hover {
+    background-color: #900000;
+}
+
+.social-icon:hover i {
+    color: white; /* Ensure icon color remains white on hover */
+}
+
+/* Apply additional margin only in desktop view */
+@media (min-width: 769px) {
+    .social-icons {
+        margin-left: 1.5rem; /* Apply ml-4 equivalent for desktop */
+        margin-bottom: 1rem; /* Apply mb-3 equivalent for desktop */
+    }
+}
+
+/* Mobile Specific Layout */
+@media (max-width: 768px) {
+    /* Hide Top Navbar on Mobile */
+    .nav {
+        display: none; /* Hide the top navbar on mobile */
+    }
+
+    /* Show Bottom Navigation */
+    .bottom-nav {
+        display: flex !important; /* Make sure bottom nav is displayed on mobile */
+    }
+
+    .social-icons {
+        position: fixed;
+        left: 10px; /* Ensure it's aligned properly on mobile */
+        bottom: 10px; /* Stick to the bottom */
+        flex-direction: row; /* Align icons horizontally on mobile */
+    }
+
+    .social-icon {
+        margin-bottom: 0;
+        margin-right: 10px; /* Add spacing between icons on mobile */
+    }
+}
+
+/* Bottom Navigation for Mobile */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+}
+
+.bottom-nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    text-decoration: none;
+}
+
+.bottom-nav i {
+    font-size: 1.5rem;
+    color: #660000;
+    transition: color 0.3s ease;
+}
+
+.bottom-nav i:hover {
+    color: #900000;
+}
+
+/* Desktop Specific Layout */
+@media (min-width: 769px) {
+    .bottom-nav {
+        display: none;
+    }
+}

@@ -1,11 +1,48 @@
-/* General Styling */
+/* General Styling for App */
 .app {
     font-family: 'Arial', sans-serif;
     background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh; /* Use min-height to ensure scrollability */
     position: relative;
+    overflow: hidden; /* Allow content to overflow if it exceeds the viewport */
+}
+
+/* Main Content Area */
+.main-content {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Floating effect */
+    padding: 20px;
+    margin: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto; /* Ensure content is scrollable */
+}
+
+/* Remove unnecessary content for mobile */
+@media (max-width: 768px) {
+    .brand-title::after {
+        display: none; /* Remove reflected text on mobile */
+    }
+
+    /* Adjust main content to take up full width on mobile */
+    .main-content {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        border-radius: 15px; /* Adjust rounded corners */
+    }
+
+    /* Adjust layout to ensure scrollability */
+    .app {
+        overflow-y: auto; /* Allow scrolling */
+        padding-bottom: 60px; /* Ensure space for bottom navigation */
+    }
 }
 
 /* Header Styling */
@@ -41,56 +78,7 @@
     opacity: 0.3;
 }
 
-/* Top Navbar */
-.nav {
-    display: flex;
-    justify-content: center;
-}
-
-.nav-item {
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    margin: 0 10px;
-    border-radius: 30px;
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-item::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 0%;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.2);
-    z-index: -1;
-    transition: height 0.3s ease;
-}
-
-.nav-item:hover::before {
-    height: 100%;
-}
-
-.nav-item:hover {
-    color: #fff;
-    transform: scale(1.05);
-}
-
-.nav-item.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-
-.nav-item.active::before {
-    display: none;
-}
-
-/* Brand Title */
+/* Brand Title Styling */
 .brand-title {
     font-size: 4rem;
     color: #660000;
@@ -98,18 +86,21 @@
     margin-bottom: 20px;
     position: relative;
     text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Add shadow to text */
+    display: inline-block;
 }
 
+/* Adding reflection for QRoom */
 .brand-title::after {
     content: 'QRoom';
     position: absolute;
-    top: 100%;
+    top: 100%; /* Position below the original text */
     left: 50%;
-    transform: translateX(-50%) scaleY(-1);
-    opacity: 0.3;
-    color: rgba(102, 0, 0, 0.5);
+    transform: translateX(-50%) scaleY(-1); /* Reflect the text */
+    opacity: 0.3; /* Add transparency to the reflection */
+    color: rgba(102, 0, 0, 0.5); /* Faded color */
     font-size: 4rem;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Shadow for reflection */
 }
 
 /* Carousel Container */
@@ -165,13 +156,16 @@
 
 /* Social Media Icons */
 .social-icons {
-    position: fixed;
-    left: 20px;
-    bottom: 20px;
+    position: fixed; /* Fix the icons to the viewport */
+    left: 20px;      /* Align to the left of the screen */
+    bottom: 20px;    /* Stick to the bottom of the screen */
     display: flex;
     flex-direction: column;
+    margin-left: 0;  /* Remove any left margin on smaller screens */
+    margin-bottom: 0; /* Remove bottom margin for consistent positioning */
 }
 
+/* Social Media Icon Styling */
 .social-icon {
     background-color: #660000;
     color: white;
@@ -181,13 +175,45 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Space between icons */
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s ease;
+    text-decoration: none; /* Remove underline from link */
+}
+.social-icon i {
+    color: white; /* Ensure icon stays white */
 }
 
 .social-icon:hover {
     background-color: #900000;
+    text-decoration: none; /* Remove underline from link */
+}
+
+.social-icon:hover i {
+    color: white; /* Ensure icon color remains white on hover */
+}
+
+/* Apply additional margin only in desktop view */
+@media (min-width: 769px) {
+    .social-icons {
+        margin-left: 1.5rem; /* Apply ml-4 equivalent for desktop */
+        margin-bottom: 1rem; /* Apply mb-3 equivalent for desktop */
+    }
+}
+
+/* Mobile Specific Layout */
+@media (max-width: 768px) {
+    .social-icons {
+        position: fixed;
+        left: 10px; /* Ensure it's aligned properly on mobile */
+        bottom: 10px; /* Stick to the bottom */
+        flex-direction: row; /* Align icons horizontally on mobile */
+    }
+
+    .social-icon {
+        margin-bottom: 0;
+        margin-right: 10px; /* Add spacing between icons on mobile */
+    }
 }
 
 /* Pagination Dots */
@@ -209,40 +235,6 @@
 
 .pagination-dot.active {
     background-color: #660000;
-}
-
-/* Bottom Navigation for Mobile */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #fff;
-    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
-}
-
-.bottom-nav a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    text-decoration: none;
-}
-
-.bottom-nav i {
-    font-size: 1.5rem;
-    color: #660000;
-    transition: color 0.3s ease;
-}
-
-.bottom-nav i:hover {
-    color: #900000;
 }
 
 /* Desktop Specific Layout */
@@ -283,18 +275,10 @@
     .pagination {
         display: none;
     }
-
-    .bottom-nav {
-        display: none;
-    }
 }
 
 /* Mobile Specific Layout */
 @media (max-width: 768px) {
-    /* Hide Top Navbar */
-    .nav {
-        display: none;
-    }
 
     .main-content {
         text-align: center;
@@ -324,10 +308,6 @@
     .pagination {
         display: block;
         margin-top: 10px;
-    }
-
-    .bottom-nav {
-        display: flex;
     }
 
     /* Adjust Social Icons on Mobile */

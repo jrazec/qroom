@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
 import './HomePage.css';
 
 function HomePage() {
@@ -17,12 +18,11 @@ function HomePage() {
     </a>
   ];
 
-  // Handle resizing to adjust the layout
   useEffect(() => {
     const handleResize = () => {
       const isMobileView = window.innerWidth <= 768;
       if (isMobileView !== isMobile) {
-        setCurrentSlide(0); // Reset to first slide on view switch
+        setCurrentSlide(0);
         setIsMobile(isMobileView);
       }
     };
@@ -40,16 +40,7 @@ function HomePage() {
 
   return (
     <div className="app">
-      <header className="header">
-        <div className="logo">QRoom</div>
-        <nav className="nav">
-          <a href="/" className="nav-item active">Home</a>
-          <a href="/schedule" className="nav-item">Schedule</a>
-          <a href="/rooms" className="nav-item">Rooms</a>
-          <a href="/feedback" className="nav-item">Feedback</a>
-        </nav>
-      </header>
-
+      <Navbar />
       <main className="main-content">
         <h1 className="brand-title">QRoom</h1>
 
@@ -83,8 +74,7 @@ function HomePage() {
           ))}
         </div>
 
-         {/* Move social icons here */}
-         <div className="social-icons pt-5 mt-5">
+        <div className="social-icons">
           <a href="#" className="social-icon">
             <i className="fa fa-facebook"></i>
           </a>
@@ -92,17 +82,10 @@ function HomePage() {
             <i className="fa fa-envelope"></i>
           </a>
           <a href="#" className="social-icon">
-            <i className="fa fa-twitter"></i>
+          <i className="fa fa-twitter"></i>
           </a>
         </div>
       </main>
-
-      <nav className="bottom-nav">
-        <a href="#"><i className="fa fa-home"></i></a>
-        <a href="#"><i className="fa fa-search"></i></a>
-        <a href="#"><i className="fa fa-calendar"></i></a>
-        <a href="#"><i className="fa fa-envelope"></i></a>
-      </nav>
     </div>
   );
 }
