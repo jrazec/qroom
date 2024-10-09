@@ -44,6 +44,18 @@ function HomePage() {
       <main className="main-content">
         <h1 className="brand-title">QRoom</h1>
 
+        <div className="social-icons mt-5">
+          <a href="#" className="social-icon">
+            <i className="fa fa-facebook"></i>
+          </a>
+          <a href="#" className="social-icon">
+            <i className="fa fa-envelope"></i>
+          </a>
+          <a href="#" className="social-icon">
+          <i className="fa fa-twitter"></i>
+          </a>
+        </div>
+
         <div className="carousel">
           <div
             className="carousel-track"
@@ -72,18 +84,6 @@ function HomePage() {
               onClick={() => handleDotClick(index)}
             ></span>
           ))}
-        </div>
-
-        <div className="social-icons">
-          <a href="#" className="social-icon">
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className="social-icon">
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className="social-icon">
-          <i className="fa fa-twitter"></i>
-          </a>
         </div>
       </main>
     </div>
