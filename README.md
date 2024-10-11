@@ -7,6 +7,7 @@
 - npm i dotenv (Backend)
 - npm i body-parser (Backend)
 - npm i mysql2 (Backend)
+- npm i cors 
 
 # How to cheack each packages installed in the front/backend
 npm list --/dev0
