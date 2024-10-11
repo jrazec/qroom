@@ -43,28 +43,28 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3000/api');
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-    // Set up a polling interval to check for changes in the JSON file
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 5000); // Adjust the interval as needed
+  //   // Set up a polling interval to check for changes in the JSON file
+  //   const intervalId = setInterval(() => {
+  //     fetchData();
+  //   }, 5000); // Adjust the interval as needed
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
+  //   // Clean up the interval on component unmount
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
      

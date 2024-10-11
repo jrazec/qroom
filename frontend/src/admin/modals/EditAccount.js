@@ -5,9 +5,10 @@ import "./AddAccount.css";  // Reuse AddAccount.css for consistent styling
 import { cur } from "../../App"; // Assuming you need this for department selection
 
 function EditAccount({ existingData, closeEditModal }) {
-  const [userName, setUserName] = useState(existingData.userName || '');
-  const [firstName, setFirstName] = useState(existingData.firstName || '');
-  const [lastName, setLastName] = useState(existingData.lastName || '');
+  const [userName, setUserName] = useState(existingData.user_name || '');
+  const [firstName, setFirstName] = useState(existingData.first_name || '');
+  const [lastName, setLastName] = useState(existingData.last_name || '');
+  const [middleName, setMiddleName] = useState(existingData.middle_name || '');
   const [password, setPassword] = useState(existingData.password || '');
   const [role, setRole] = useState(existingData.role || '');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
@@ -81,6 +82,19 @@ function EditAccount({ existingData, closeEditModal }) {
                   placeholder="Enter your value"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+
+              {/* Middle Name Field */}
+              <div className="mb-3">
+                <label htmlFor="middleName">Middle Name:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="middleName"
+                  placeholder="Enter your value"
+                  value={middleName}
+                  onChange={(e) => setMiddleName(e.target.value)}
                 />
               </div>
 
