@@ -2,9 +2,9 @@
 .app {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
@@ -12,60 +12,96 @@
 /* Main Content Area */
 .main-content {
     background-color: #F5F5F5;
-    border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
     padding: 30px;
-    margin: 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
 }
 
-/* Remove unnecessary content for mobile */
-@media (max-width: 768px) {
-
-    .main-content {
-        width: 100%;
-        margin: 0;
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-        margin-top: 20px;
-    }
-
-    .app {
-        overflow-y: auto;
-        padding-bottom: 60px;
-    }
+.content-wrapper {
+    width: 100%;
+    max-width: 600px; /* Center content */
+    margin: 0 auto;
+    text-align: center;
 }
 
-/* Social Media Icons */
+/* Search Bar */
+.search-input {
+    max-width: 400px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-container .btn {
+    height: 45px;
+    width: 100px;
+}
+
+/* Image Container */
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Password Input and Send Button */
+.password-container .form-control {
+    max-width: 400px;
+    border-radius: 50px;
+    height: 45px;
+}
+
+.password-container .btn {
+    background-color: #520000;
+    border: none;
+    height: 45px;
+    width: 100px;
+}
+
+.password-container .btn:hover {
+    background-color: #850000;
+}
+
+/* Chat Button */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.chat-button .btn {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Social Media Icons (Always Visible) */
 .social-icons {
     position: fixed;
     left: 20px;
     bottom: 20px;
-    display: flex;
-    flex-direction: column;
 }
 
-.social-icon {
-    background-color: #520000;
-    color: white;
-    border-radius: 50%;
+.social-icon .btn {
     width: 40px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
 
-.social-icon:hover {
+.social-icon .btn:hover {
     background-color: #850000;
 }
 
@@ -73,24 +109,33 @@
     color: white;
 }
 
-/* Apply additional margin in desktop view */
-@media (min-width: 769px) {
-    .social-icons {
-        margin-left: 1.5rem;
-        margin-bottom: 1rem;
-    }
+/* Chat Bubbles */
+.chat-content {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
-/* Mobile Specific Layout */
-@media (max-width: 768px) {
-    .social-icons {
-        position: fixed;
-        left: 10px;
-        bottom: 10px;
-        flex-direction: row;
-    }
+.chat-bubble {
+    background-color: #FFF;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
 
-    .social-icon {
-        margin-right: 10px;
-    }
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
 }
