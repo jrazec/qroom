@@ -7,7 +7,8 @@
 - npm i dotenv (Backend)
 - npm i body-parser (Backend)
 - npm i mysql2 (Backend)
-- npm i cors 
+- npm i cors (Backend)
+- npm i env-cmd (Frontend)
 
 # How to cheack each packages installed in the front/backend
 npm list --/dev0
@@ -36,3 +37,13 @@ npm list --/dev0
 - Look for your local machine's IP address via entering the command `ipconfig`
 - Enter the command `netsh interface portproxy add v4tov4 listenport=3000 listenaddress=YOUR-IP-ADDRESS-HERE connectport=3000 connectaddress=$($(wsl hostname -I).Trim());`. Don't forget to input your own IP address at the `listenaddress`.
 #### You can now try to access the website in a mobile device via the local machine's IP address and the port. Ensure that you are on the same network for it to work.
+
+## Setting up of ENV variables 
+- REACT_APP_LOCALHOST = "Your_IP_ADDRESS:3000"
+
+-PORT = 3001
+
+-HOST = localhost
+-USER = usernamenyusaMYSQL # Not being read
+-PASSWORD = passwordnyusaMYSQL
+-DATABASE = qroom
