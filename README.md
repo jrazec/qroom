@@ -19,9 +19,8 @@ npm list --/dev0
 ##
 > then go to the client directory and run **npm start** to access the client
 
-
-## How to access via phone from WSL
 ---------------
+## How to access via phone from WSL
 ### Configure Firewall Settings
 - Go to Firewall & network protection -> Advanced settings
 - On the left pane, click Inbound Rules
@@ -35,4 +34,4 @@ npm list --/dev0
 - Open PowerShell as administrator
 - Look for your local machine's IP address via entering the command `ipconfig`
 - Enter the command `netsh interface portproxy add v4tov4 listenport=3000 listenaddress=YOUR-IP-ADDRESS-HERE connectport=3000 connectaddress=$($(wsl hostname -I).Trim());`. Don't forget to input your own IP address at the `listenaddress`.
-### You can now try to access the website in a mobile device via the local machine's IP address and the port. Ensure that you are on the same network for it to work.
+#### You can now try to access the website in a mobile device via the local machine's IP address and the port. Ensure that you are on the same network for it to work.
