@@ -16,16 +16,16 @@ const Layout = () => {
         <nav id="botNav">
             <ul class="nav flex-column">
               <li class="nav-item">
-              <Link to="/" class="nav-link text-white active">Home</Link>
+              <Link to="/admin" class="nav-link text-white active">Home</Link>
               </li>
               <li class="nav-item">
-                <Link to="/accounts" class="nav-link text-white">Accounts</Link>
+                <Link to="/admin/accounts" class="nav-link text-white">Accounts</Link>
               </li>
               <li class="nav-item">
-                <Link to="/scheduling" class="nav-link text-white">Scheduling</Link>
+                <Link to="/admin/scheduling" class="nav-link text-white">Scheduling</Link>
               </li>
               <li class="nav-item">
-                <Link to="/feedback" class="nav-link text-white">Feedback</Link>
+                <Link to="/admin/feedback" class="nav-link text-white">Feedback</Link>
               </li>
               <li class="nav-item">
                 <Link to="/" class="nav-link text-white">logout</Link>

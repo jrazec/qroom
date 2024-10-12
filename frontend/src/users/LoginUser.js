@@ -1,9 +1,9 @@
 import React from "react";
 
-function LoginUser() {
+function LoginUser({page}) {
     return (
         <>
-        <div>Login User</div>
+        <div>{page}</div>
         </>
     );
 }

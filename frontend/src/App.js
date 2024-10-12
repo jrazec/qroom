@@ -12,59 +12,73 @@ import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
 import NotFound from "./NotFound";
 
+import LoginUser from "./users/LoginUser"
 
 const cur = {}; //current temp holder
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/admin',
     element: <Layout />,
     errorElement : <NotFound />,
     children : [
       {
-        path: '/',
+        path: '/admin',
         element: <AdminDashboard />,
       },
       {
-        path: '/accounts',
+        path: '/admin/accounts',
         element: <Accounts />
       },
       {
-        path: '/feedback',
+        path: '/admin/feedback',
         element: <Feedback />
       },
       {
-        path: '/scheduling',
+        path: '/admin/scheduling',
         element: <Scheduling />
       },
     ]
-  }
+  },
+  {
+    path: '/user',
+    element: <LoginUser page={"Main Dashboard"} />,
+  },
+  {
+    path: '/user/login',
+    element: <LoginUser page={"Login"}/>,
+  },
+  {
+    path: '/user/room-search',
+    element: <LoginUser page={"Room Search"}/>,
+  },
+  {
+    path: '/user/room-search/bldg/:bldgid',
+    element: <LoginUser page={"BLDG Search"}/>,
+  },
+  {
+    path: '/user/room-search/floor/:floorid',
+    element: <LoginUser page={"FLOOR SEARCH"}/>,
+  },
+  {
+    path: '/user/room-search/room/:roomid',
+    element: <LoginUser page={"ROOM SEARCH"}/>,
+  },
+
+  {
+    path: '/user/schedule',
+    element: <LoginUser page={"Schedule"}/>,
+  },
+  {
+    path: '/user/dashboard',
+    element: <LoginUser page={"DASHBOARD"} />
+  },
+   
+  
 
 ]);
 
 function App() {
-  // const [data, setData] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3000/api');
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-
-  //   // Set up a polling interval to check for changes in the JSON file
-  //   const intervalId = setInterval(() => {
-  //     fetchData();
-  //   }, 5000); // Adjust the interval as needed
-
-  //   // Clean up the interval on component unmount
-  //   return () => clearInterval(intervalId);
-  // }, []);
 
   return (
      
