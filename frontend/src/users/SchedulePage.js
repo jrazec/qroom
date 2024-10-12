@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import './SchedulePage.css';
 
+
 function SchedulePage() {
 
   return (

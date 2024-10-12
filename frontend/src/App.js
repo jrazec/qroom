@@ -19,12 +19,17 @@ import LoginUser from "./users/LoginUser";
 import SchedulePage from "./users/SchedulePage";
 import FeedbackPage from "./users/FeedbackPage";
 
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     errorElement : <NotFound />,
     children : [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
       {
         path: '/',
         element: <AdminDashboard />,
@@ -76,7 +81,7 @@ function App() {
     //   <RouterProvider router={router} />
     // </React.StrictMode>
 
-    <FeedbackPage/>
+    <HomePage/>
    
   );
 }

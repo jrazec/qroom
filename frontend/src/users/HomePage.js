@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import './HomePage.css';
+import HomeCss from './HomePage.module.css';
 
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const cards = [
-    <a href="/calculator" className="room-card" key={1}>
+    <a href="/calculator" className={HomeCss.roomCard} key={1}>
       <i className="fa fa-calculator fa-3x"></i>
     </a>,
-    <a href="/calendar" className="room-card" key={2}>
-      {/* <i className="fa fa-calendar fa-3x"></i> */}
+    <a href="/calendar" className={HomeCss.roomCard} key={2}>
       <h2>ROOM</h2>
     </a>,
-    <a href="/messages" className="room-card" key={3}>
-      {/* <i className="fa fa-envelope fa-3x"></i> */}
+    <a href="/messages" className={HomeCss.roomCard} key={3}>
       <h2>ROOM</h2>
     </a>
   ];
@@ -41,26 +39,26 @@ function HomePage() {
   };
 
   return (
-    <div className="app">
+    <div className={HomeCss.app}>
       <Navbar />
-      <main className="main-content">
-        <h1 className="brand-title">QRoom</h1>
+      <main className={HomeCss.mainContent}>
+        <h1 className={HomeCss.brandTitle}>QRoom</h1>
 
-        <div className="social-icons mt-5">
-          <a href="#" className="social-icon">
+        <div className={HomeCss.socialIcons}>
+          <a href="#" className={HomeCss.socialIcon}>
             <i className="fa fa-facebook"></i>
           </a>
-          <a href="#" className="social-icon">
+          <a href="#" className={HomeCss.socialIcon}>
             <i className="fa fa-envelope"></i>
           </a>
-          <a href="#" className="social-icon">
-          <i className="fa fa-twitter"></i>
+          <a href="#" className={HomeCss.socialIcon}>
+            <i className="fa fa-twitter"></i>
           </a>
         </div>
 
-        <div className="carousel">
+        <div className={HomeCss.carousel}>
           <div
-            className="carousel-track"
+            className={HomeCss.carouselTrack}
             style={{
               transform: `translateX(-${currentSlide * 100}%)`,
               width: `${cards.length * 100}%`
@@ -69,7 +67,7 @@ function HomePage() {
             {cards.map((card, index) => (
               <div
                 key={index}
-                className="carousel-slide"
+                className={HomeCss.carouselSlide}
                 style={{ width: `${100 / cards.length}%` }}
               >
                 {card}
@@ -78,11 +76,11 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="pagination">
+        <div className={HomeCss.pagination}>
           {cards.map((_, index) => (
             <span
               key={index}
-              className={`pagination-dot ${currentSlide === index ? 'active' : ''}`}
+              className={`${HomeCss.paginationDot} ${currentSlide === index ? HomeCss.active : ''}`}
               onClick={() => handleDotClick(index)}
             ></span>
           ))}

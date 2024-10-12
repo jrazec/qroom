@@ -2,13 +2,13 @@
 #navbar{
     width: 100vw;
     max-width: 100%;
-    
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 10vh;
     background: linear-gradient(90deg, #660000, #900000);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: sticky;
@@ -23,15 +23,16 @@
     color: white;
     font-weight: bold;
     position: relative;
-    left: 2.1rem;
+    left: 6.1rem;
 }
 
 /* Top Navbar */
 .nav {
+    position: fixed;
     display: flex;
     justify-content: center;
     position: relative;
-    right: 3.1rem;
+    right: 5.1rem;
 }
 
 .nav-item {
@@ -45,7 +46,7 @@
     font-weight: 500;
    /* transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;*/
     position: relative;
-    top: 1.03rem;
+    top: 1.1rem;
     overflow: hidden;
     transition: 0.6s ease-in-out;
 }
@@ -138,6 +139,10 @@
         display: none; /* Hide the top navbar on mobile */
     }
 
+    .logo {
+        position: relative;
+        left: 20px;
+    }
     /* Show Bottom Navigation */
     .bottom-nav {
         display: flex !important; /* Make sure bottom nav is displayed on mobile */
@@ -145,9 +150,9 @@
 
     .social-icons {
         position: fixed;
-        left: 10px; /* Ensure it's aligned properly on mobile */
-        bottom: 10px; /* Stick to the bottom */
-        flex-direction: row; /* Align icons horizontally on mobile */
+        left: 10px; 
+        bottom: 10px; 
+        flex-direction: row; 
     }
 
     .social-icon {
