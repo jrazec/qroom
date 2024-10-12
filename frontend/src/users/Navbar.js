@@ -3,7 +3,7 @@ import './Navbar.css';
 
 function Navbar() {
   return (
-    <div>
+    <div id="navbar">
       {/* Top Navbar */}
       <header className="header">
         <div className="logo">QRoom</div>

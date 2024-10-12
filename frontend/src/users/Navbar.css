@@ -1,12 +1,19 @@
 /* Header Styling */
+#navbar{
+    width: 100vw;
+    max-width: 100%;
+    
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, #660000, #900000);
-    padding: 10px 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: sticky;
+    margin: 0;
+    padding: 0;
     top: 0;
     z-index: 1000;
 }
@@ -16,27 +23,33 @@
     color: white;
     font-weight: bold;
     position: relative;
+    left: 2.1rem;
 }
 
 /* Top Navbar */
 .nav {
     display: flex;
     justify-content: center;
+    position: relative;
+    right: 3.1rem;
 }
 
 .nav-item {
     color: white;
-    padding: 10px 20px;
+    background-color: #4b0000;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 10px 25px;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    margin: 0 10px;
-    border-radius: 30px;
+   /* transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;*/
     position: relative;
+    top: 1.03rem;
     overflow: hidden;
+    transition: 0.6s ease-in-out;
 }
-
+/*
 .nav-item::before {
     content: '';
     position: absolute;
@@ -47,25 +60,30 @@
     background-color: rgba(255, 255, 255, 0.2);
     z-index: -1;
     transition: height 0.3s ease;
-}
+}*/
 
-.nav-item:hover::before {
+/*.nav-item:hover::before {
     height: 100%;
 }
-
+*/
 .nav-item:hover {
-    color: #fff;
-    transform: scale(1.05);
+    color: #800000;
+    background-color: white;
+    text-decoration: none;
 }
 
 .nav-item.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    background-color: white;
+    color: maroon;
+    font-weight: bold;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
 }
-
+/*
 .nav-item.active::before {
     display: none;
-}
+}*/
 
 /* Social Media Icons */
 .social-icons {
