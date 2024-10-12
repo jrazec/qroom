@@ -14,18 +14,18 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
 
 
-    const fetchData = async () =>{
-      try {
-        const fetchedData = await fetchGroupAccounts();
-        setData(fetchedData);
-        setGroupAccounts(fetchedData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+  const fetchData = async () =>{
+    try {
+      const fetchedData = await fetchGroupAccounts();
+      setData(fetchedData);
+      setGroupAccounts(fetchedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-    useEffect(() => {
-      fetchData(); // Call fetchData when the component mounts
-    }, []); // }, [groupAccounts]); // This automatically renders. but infinitely loops 
+  }
+  useEffect(() => {
+    fetchData(); // Call fetchData when the component mounts
+  }, []); // }, [groupAccounts]); // This automatically renders. but infinitely loops 
 
 
 
@@ -51,6 +51,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
     await sendData(dataToSend);
     await fetchData();
+    window.location.reload();
   }
   const validateInput = (formData) => {
     const fData = [ formData.get("userNameInput"),
