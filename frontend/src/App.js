@@ -12,6 +12,8 @@ import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
 import NotFound from "./NotFound";
 
+import Scheduling5 from "./admin/Scheduling5";
+
 
 const cur = {}; //current temp holder
 
@@ -68,11 +70,11 @@ function App() {
 
   return (
      
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    // <React.StrictMode>
+    //   <RouterProvider router={router} />
+    // </React.StrictMode>
 
-   
+   <Scheduling5/>
   );
 }
 

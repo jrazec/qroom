@@ -1,0 +1,93 @@
+/* Container styling */
+.scheduling-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Dashboard title */
+  .dashboard-title {
+    color: #a90000;
+    font-size: 24px;
+  }
+  
+  /* Department dropdown */
+  .department-label {
+    color: #a90000;
+    font-size: 18px;
+  }
+  
+  .department-dropdown .dropdown-toggle {
+    background-color: white;
+    color: #a90000;
+    border: 1px solid #a90000;
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+  
+  .department-dropdown .dropdown-menu {
+    border-radius: 6px;
+    border: 1px solid #a90000;
+  }
+  
+  /* Add button */
+  .add-button {
+    background-color: #a90000;
+    color: white;
+    border-radius: 12px;
+    padding: 6px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-button:hover {
+    background-color: #8e0000;
+  }
+  
+  /* Table styling */
+  .scheduling-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .scheduling-table th,
+  .scheduling-table td {
+    border: 1px solid #a90000;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .scheduling-table th {
+    background-color: #f0f0f0;
+    color: #a90000;
+  }
+  
+  .scheduling-table td {
+    background-color: #ffffff;
+  }
+  
+  .action-icons {
+    text-align: center;
+  }
+  
+  .edit-icon,
+  .delete-icon {
+    cursor: pointer;
+    color: #a90000;
+    font-size: 18px;
+  }
+  
+  .edit-icon:hover {
+    color: #8e0000;
+  }
+  
+  .delete-icon:hover {
+    color: #cc0000;
+  }
+  
