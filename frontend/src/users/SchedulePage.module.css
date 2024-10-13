@@ -1,0 +1,197 @@
+/* General Styling for App */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    position: relative;
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-height: 85%;
+    width: 100%;
+    max-width: 82.4rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/*
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.main-content {
+    background-color: #F5F5F5;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+*/
+
+
+
+/* Remove unnecessary content for mobile */
+/* @media (max-width: 768px) {
+
+    .main-content {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .app {
+        overflow-y: auto;
+        padding-bottom: 60px;
+    }
+} */
+
+/* Social Media Icons */
+.socialIcons {
+    position: absolute;
+    left: 1.3rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.socialIcon {
+    background-color: #520000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.socialIcon:hover {
+    background-color: #850000;
+    color: #ffffff;
+}
+
+/* Apply additional margin in desktop view */
+/* @media (min-width: 769px) {
+    .social-icons {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+} */
+
+/* Mobile Specific Layout */
+/* @media (max-width: 768px) {
+    .social-icons {
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+        flex-direction: row;
+    }
+
+    .social-icon {
+        margin-right: 10px;
+    }
+} */
+
+/* Desktop Specific Layout */
+@media (min-width: 769px) {
+    .app{
+        position: relative;
+    }
+    .socialIcons {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .mainContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px;
+        flex-grow: 1;
+    }
+
+    .socialIcons {
+        position: absolute;
+        left: 0.2rem;
+        bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    
+    
+    .socialIcon:hover {
+        background-color: #850000;
+    }
+    
+}
+
+/* Mobile Specific Layout */
+
+@media (max-width: 768px) {
+    .app{
+        background-color: #F5F5F5;
+    }
+    .mainContent {
+        text-align: center;
+        width: 100vw;
+        max-width: 90%;
+        height: 100vh;
+        max-height: 80%;
+        padding: 20px;
+        flex-grow: 1;
+        background-color: #ffffff;
+        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .social-Icons {
+        /* position: static;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        flex-direction: row; */
+        display: none;
+    }
+
+    .socialIcon {
+        /* margin: 0 10px; */
+        display: none;
+    }
+}
+   
