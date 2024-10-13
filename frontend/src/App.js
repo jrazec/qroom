@@ -72,39 +72,42 @@ const router = createBrowserRouter([
     ]
   }, 
   {
-    path: '/user',
-    element: <LoginUser page={"Main Dashboard"} />,
+    path: '/user/home/:id',
+    element: <HomePage page={"Main Dashboard"} />,
   },
   {
     path: '/user/login',
-    element: <LoginUser page={"Login"}/>,
+    element: <LoginUser />,
   },
   {
-    path: '/user/room-search',
-    element: <LoginUser page={"Room Search"}/>,
+    path: '/user/room-search/:id',
+    element: <RoomPage />,
   },
   {
-    path: '/user/room-search/bldg/:bldgid',
-    element: <LoginUser page={"BLDG Search"}/>,
+    path: '/user/room-search/:id/bldg/:bldgid',
+    element: <RoomPage />,
   },
   {
-    path: '/user/room-search/floor/:floorid',
-    element: <LoginUser page={"FLOOR SEARCH"}/>,
+    path: '/user/room-search/:id/floor/:floorid',
+    element: <RoomPage />,
   },
   {
-    path: '/user/room-search/room/:roomid',
-    element: <LoginUser page={"ROOM SEARCH"}/>,
-  },
-
-  {
-    path: '/user/schedule',
-    element: <LoginUser page={"Schedule"}/>,
+    path: '/user/room-search/:id/room/:roomid',
+    element: <RoomPage />,
   },
   {
-    path: '/user/dashboard',
-    element: <LoginUser page={"DASHBOARD"} />
+    path: '/user/schedule/:id',
+    element: <SchedulePage />,
   },
-   
+  {
+    path: '/user/dashboard/:id',
+    element: <HomePage />
+  },
+  {
+    path: '/user/feedback/:id',
+    element: <FeedbackPage />
+  },
+  
   
 
 ]);

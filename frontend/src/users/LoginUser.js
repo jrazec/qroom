@@ -1,6 +1,7 @@
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import './LoginUser.css';
+import { Outlet, Link } from "react-router-dom";
 
 function LoginUser() {
 
@@ -61,7 +62,7 @@ function LoginUser() {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn btn-primary w-100 login-btn mt-4">LOGIN</button>
+                                <button type="submit" className="btn btn-primary w-100 login-btn mt-4"><a href="http://localhost:3000/user/home/id">LOGIN</a></button> {/* TO BE CHANGED*/}
                             </form>
 
                             <div className="text-center mt-3">

@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './Navbar.module.css';
+import { Outlet, Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -8,10 +9,10 @@ function Navbar() {
       <header className={Nav.header}>
         <div className={Nav.logo}>QRoom</div>
         <nav className={Nav.nav}>
-          <a href="/home" className={`${Nav['nav-item']} ${Nav.active}`}>Home</a>
-          <a href="/schedule" className={Nav['nav-item']}>Schedule</a>
-          <a href="/rooms" className={Nav['nav-item']}>Rooms</a>
-          <a href="/feedback" className={Nav['nav-item']}>Feedback</a>
+          <Link to="/user/home/id" className={`${Nav['nav-item']} ${Nav.active}`}>Home</Link>
+          <Link to="/user/schedule/id" className={Nav['nav-item']}>Schedule</Link>
+          <Link to="/user/room-search/id" className={Nav['nav-item']}>Rooms</Link>
+          <Link to="/user/feedback/id" className={Nav['nav-item']}>Feedback</Link>
         </nav>
       </header>
 
