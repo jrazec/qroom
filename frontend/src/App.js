@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: <Scheduling />
       },
     ]
-  },
+  }, 
   {
     path: '/user',
     element: <LoginUser page={"Main Dashboard"} />,

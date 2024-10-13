@@ -188,7 +188,7 @@ function EditAccount({ existingData, closeEditModal }) {
                 >
                   <option value="" disabled>-- Choose Role --</option>
                   <option value="Student">Student</option>
-                  <option value="Instructor">Instructor</option>
+                  <option value="instructor">Instructor</option>
                 </select>
               </div>
 
