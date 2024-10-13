@@ -70,11 +70,9 @@ function App() {
 
   return (
      
-    // <React.StrictMode>
-    //   <RouterProvider router={router} />
-    // </React.StrictMode>
-
-   <Scheduling5/>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   );
 }
 
