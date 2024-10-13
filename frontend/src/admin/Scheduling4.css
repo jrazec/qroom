@@ -1,0 +1,106 @@
+/* Container styling */
+.scheduling-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Back button style */
+  .back-button {
+    color: #a90000;
+    font-size: 24px;
+  }
+  
+  /* Dashboard title */
+  .dashboard-title {
+    color: #a90000;
+    font-size: 24px;
+  }
+  
+  /* Department label and dropdown */
+  .department-label {
+    color: #a90000;
+    font-size: 18px; /* Smaller and closer to the design */
+  }
+  
+  .department-dropdown .dropdown-toggle {
+    background-color: white;
+    color: #a90000;
+    border: 1px solid #a90000;
+    border-radius: 8px;
+    padding: 8px 16px;
+    box-shadow: none; /* Removed unnecessary shadow */
+    font-size: 16px; /* Adjusted font size */
+  }
+  
+  .department-dropdown .dropdown-menu {
+    border-radius: 6px;
+    border: 1px solid #a90000;
+  }
+  
+  /* White content block */
+  .content-block {
+    background-color: white;
+    height: 120px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow for better contrast */
+    margin-bottom: 30px;
+  }
+  
+  /* Department codes */
+  .department-codes {
+    color: #a90000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  
+  .code-item {
+    margin-right: 20px;
+  }
+  
+  /* Box row style */
+  .box-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .box-item {
+    background-color: white;
+    border-radius: 12px;
+    height: 100px;
+    width: 120px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for boxes */
+    margin-right: 10px;
+  }
+  
+  /* Navigation buttons */
+  .navigation-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .nav-button {
+    background-color: #a90000;
+    border: none;
+    border-radius: 12px; /* Rounded corners for a modern look */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+  }
+  
+  .nav-button i {
+    color: white;
+    font-size: 24px;
+  }
+  

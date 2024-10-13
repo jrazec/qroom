@@ -1,0 +1,290 @@
+/* General Styling for App */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    position: relative;
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-height: 85%;
+    width: 100%;
+    max-width: 82.4rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Header Styling */
+/* .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #520000, #850000);
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+} */
+
+/* Brand Title Styling */
+.brandTitle {
+    font-size: 7rem;
+    font-family: Poppins;
+    font-weight: bold;
+    color: #520000;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    letter-spacing: -1px;
+}
+
+/* Carousel Container */
+.carousel {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    
+}
+
+.optionLabel{
+    font-weight: bold;
+}
+
+/* Carousel Track */
+.carouselTrack {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Carousel Slide */
+.carouselSlide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+/* Room Card Styling */
+.roomCard {
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 30px solid #4b0000;
+    box-shadow: inset 0 0 0 30px #800000,
+                0 9px 20px 0px rgba(0, 0, 0, 0.3);
+    /* background: radial-gradient(circle at top left, #a30000, #520000); */
+    margin: 0;
+    text-decoration: none;
+    transition: transform 0.25s ease-in-out;
+    color: maroon;
+    padding-top: 10px;
+    
+}
+
+.roomCard:hover {
+    transform: scale(1.08);
+    text-decoration: none;
+    color: #4b0000;
+
+}
+
+/* Social Media Icons */
+.socialIcons {
+    position: absolute;
+    left: 1.3rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.socialIcon {
+    background-color: #520000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.socialIcon:hover {
+    background-color: #850000;
+    color: #ffffff;
+}
+
+/* Pagination Dots */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.paginationDot {
+    height: 10px;
+    width: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.paginationDot.active {
+    background-color: #520000;
+}
+
+
+/* Desktop Specific Layout */
+@media (min-width: 769px) {
+    .app{
+        position: relative;
+    }
+    .socialIcons {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .mainContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px;
+        flex-grow: 1;
+    }
+
+    .carouselTrack {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carouselSlide {
+        flex: 0 0 33.33%;
+    }
+
+    /* .roomCard {
+        width: 180px;
+        height: 180px;
+        margin: 0 15px;
+    }
+
+    .roomCard i {
+        font-size: 2.2rem;
+    } */
+
+    /* .brandTitle {
+        font-size: 4rem;
+    } */
+    .socialIcons {
+        position: absolute;
+        left: 0.2rem;
+        bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    
+    
+    .socialIcon:hover {
+        background-color: #850000;
+    }
+    
+}
+
+/* Mobile Specific Layout */
+
+@media (max-width: 768px) {
+    .app{
+        background-color: #F5F5F5;
+    }
+    .mainContent {
+        text-align: center;
+        width: 100vw;
+        max-width: 90%;
+        height: 100vh;
+        max-height: 80%;
+        padding: 20px;
+        flex-grow: 1;
+        background-color: #ffffff;
+        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
+    }
+
+      .brandTitle {
+        font-size: 4.5rem;
+    }
+
+
+    .carousel {
+        height: 100vh;
+        max-height: 50%;
+    }
+
+    .carouselSlide {
+        flex: 0 0 100%;
+    }
+
+    .roomCard {
+        width: 60vw;
+        height: 60vw;
+        border: 20px solid #4b0000;
+        border-radius: 50%;
+        margin: 20px auto;
+    }
+
+    .roomCard i {
+        font-size: 2rem;
+    }
+
+    .pagination {
+        display: block; 
+        margin-top: 10px;
+    }
+
+    .social-Icons {
+        /* position: static;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        flex-direction: row; */
+        display: none;
+    }
+
+    .socialIcon {
+        /* margin: 0 10px; */
+        display: none;
+    }
+}
+   

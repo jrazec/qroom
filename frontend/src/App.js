@@ -10,15 +10,26 @@ import AdminDashboard from './admin/AdminDashboard';
 import Scheduling from './admin/Scheduling';
 import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
+import Scheduling1 from "./admin/Scheduling1";
+import Scheduling2 from "./admin/Scheduling2";
+import Scheduling3 from "./admin/Scheduling3";
+import Scheduling4 from "./admin/Scheduling4";
+import Scheduling5 from "./admin/Scheduling5";
+
 import NotFound from "./NotFound";
 
+import FeedbackPage from "./users/FeedbackPage";
+import HomePage from "./users/HomePage"
+import Navbar from "./users/Navbar";
+import RoomPage from "./users/RoomPage"
+import SchedulePage from "./users/SchedulePage"
 import LoginUser from "./users/LoginUser"
 
 const cur = {}; //current temp holder
 
 const router = createBrowserRouter([
   {
-    path: '/admin',
+    path: '/',
     element: <Layout />,
     errorElement : <NotFound />,
     children : [
@@ -37,6 +48,26 @@ const router = createBrowserRouter([
       {
         path: '/admin/scheduling',
         element: <Scheduling />
+      },
+      {
+        path: '/admin/scheduling/1',
+        element: <Scheduling1 />
+      },
+      {
+        path: '/admin/scheduling/2',
+        element: <Scheduling2 />
+      },
+      {
+        path: '/admin/scheduling/3',
+        element: <Scheduling3 />
+      },
+      {
+        path: '/admin/scheduling/4',
+        element: <Scheduling4 />
+      },
+      {
+        path: '/admin/scheduling/5',
+        element: <Scheduling5 />
       },
     ]
   }, 

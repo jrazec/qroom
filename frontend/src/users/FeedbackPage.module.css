@@ -1,0 +1,246 @@
+/* General Styling for App */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-height: 85%;
+    width: 100%;
+    max-width: 82.4rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: relative;    
+}
+
+.contentWrapper {
+    width: 100%;
+    max-width: 600px; /* Center content */
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Search Bar */
+.searchInput {
+    max-width: 400px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.searchContainer .btn {
+    height: 45px;
+    width: 100px;
+}
+
+/* Image Container */
+.imageContainer img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Password Input and Send Button */
+.passwordContainer .formControl {
+    max-width: 400px;
+    border-radius: 50px;
+    height: 45px;
+}
+
+.passwordContainer .btn {
+    background-color: #520000;
+    border: none;
+    height: 45px;
+    width: 100px;
+}
+
+.passwordContainer .btn:hover {
+    background-color: #850000;
+}
+
+/* Chat Button */
+.chatButton {
+    position: relative;
+    top: 6rem;
+    left: 56rem;
+    width: 0;
+}
+
+.chatButton .btn {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Social Media Icons (Always Visible) */
+.socialIcons {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+/* Social Media Icons */
+.socialIcons {
+    position: absolute;
+    left: 1.3rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.socialIcon {
+    background-color: #520000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.socialIcon:hover {
+    background-color: #850000;
+    color: #ffffff;
+}
+
+/* Chat Bubbles */
+.chatContent {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.chatBubble {
+    background-color: #FFF;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Chat Header */
+.chatHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* Desktop Specific Layout */
+/* @media (min-width: 769px) {
+    .app {
+        position: relative;
+    }
+
+    .mainContent {
+        padding: 40px; 
+    }
+
+    .feedbackSection {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feedbackInput {
+        font-size: 1.2rem; 
+    }
+
+    .submitButton {
+        font-size: 1rem;
+    }
+} */
+
+/* Mobile Specific Layout */
+@media (max-width: 768px) {
+    .app {
+        background-color: #F5F5F5;
+    }
+
+    .mainContent {
+        text-align: center;
+        width: 100vw;
+        max-width: 90%;
+        height: 100vh;
+        max-height: 80%;
+        padding: 20px;
+        flex-grow: 1;
+        background-color: #ffffff;
+        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        top: 4.5rem;
+    }
+
+
+
+    .feedbackSection {
+        padding: 10px; /* Reduced padding for mobile */
+        width: 90vw; /* Full width for mobile */
+    }
+
+    .feedbackInput {
+        font-size: 1rem; /* Smaller input font for mobile */
+    }
+
+    .submitButton {
+        font-size: 0.9rem; /* Smaller button font size for mobile */
+        padding: 8px 15px; /* Smaller button padding for mobile */
+    }
+
+    .social-Icons {
+        /* position: static;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        flex-direction: row; */
+        display: none;
+    }
+
+    .socialIcon {
+        /* margin: 0 10px; */
+        display: none;
+    }
+
+    .chatButton {
+        position: relative;
+        top: 6rem;
+        left: 1rem;
+        width: 0;
+    }
+}
