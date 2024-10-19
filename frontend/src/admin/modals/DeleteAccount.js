@@ -2,7 +2,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';  // Import Bootstrap JS for modal functionality
 import "./AddAccount.css";  // Reuse AddAccount.css for consistent styling
-import { deleteData } from "../api/api";
+import { deleteAccount } from "../../api/api";
 
 function DeleteAccount({ existingData, closeDeleteModal }) {
   const [userName, setUserName] = useState(existingData.user_name || '');
@@ -17,7 +17,7 @@ function DeleteAccount({ existingData, closeDeleteModal }) {
     };
 
     try {
-      await deleteData(dataToSend);
+      await deleteAccount(dataToSend);
       window.location.reload(); // Refresh the page after deletion
     } catch (error) {
       console.error("Error deleting user:", error);

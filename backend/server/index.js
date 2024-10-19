@@ -78,3 +78,24 @@ app.delete("/api/accounts",(req,res)=>{
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on http://0.0.0.0:${PORT}`);
 });
+
+
+app.get("/user/login", (req, res) => {
+  const uName = req.query.user_name;  // Use 'user_name' instead of 'userName'
+  const pass = req.query.password;
+  
+  const queryUsers = `SELECT * FROM Users WHERE user_name=? AND password=?;`;
+  console.log(uName);  // Should now log the correct user_name
+
+  // Execute the query
+  con.query(queryUsers, [uName, pass], (err, result) => {
+      if (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error' });  // Send error response
+      } else {
+          (result.length > 0) 
+              ? res.status(201).json({ uName: result[0].user_name, status: true })
+              : res.status(201).json({ status: false });
+      }
+  });
+});

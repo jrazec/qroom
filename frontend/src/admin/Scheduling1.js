@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Scheduling1.css"; // Updated CSS file for consistent colors
 import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 function Scheduling1() {
   const [selectedDepartment, setSelectedDepartment] = useState("CICS");
   const [professors, setProfessors] = useState(["", "", ""]);
@@ -64,11 +64,12 @@ function Scheduling1() {
       </div>
 
       {/* Proceed Button */}
-      <div className="text-end">
-        <Button variant="danger" size="lg" className="modern-proceed-button">
+      <Link className="text-end" to="/admin/scheduling/4" class="text-white">
+      <Button variant="danger" size="lg" className="modern-proceed-button">
           PROCEED
-        </Button>
-      </div>
+      </Button>
+      </Link>
+
     </div>
   );
 }
