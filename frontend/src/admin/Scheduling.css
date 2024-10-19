@@ -77,3 +77,6 @@
     background-color: #7f0000;
     color: white;
   }
+  #addBtn {
+    text-decoration: none;
+  }

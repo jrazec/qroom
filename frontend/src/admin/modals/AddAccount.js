@@ -2,7 +2,7 @@ import { useState, React, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';  // Import Bootstrap JS for modal functionality
 import "./AddAccount.css";
-import { fetchGroupAccounts, sendData } from "../api/api";
+import { getAccount, createAccount } from "../../api/api";
 
 function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
   const [userName, setUserName] = useState('');
@@ -16,7 +16,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
   const fetchData = async () =>{
     try {
-      const fetchedData = await fetchGroupAccounts();
+      const fetchedData = await getAccount();
       setData(fetchedData);
       setGroupAccounts(fetchedData);
     } catch (error) {
@@ -49,7 +49,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
       password: formData.get("passwordInput"),
     };
 
-    await sendData(dataToSend);
+    await createAccount(dataToSend);
     await fetchData();
     window.location.reload();
   }

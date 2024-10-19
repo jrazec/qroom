@@ -2,7 +2,7 @@ import { useState, React, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';  // Import Bootstrap JS for modal functionality
 import "./AddAccount.css";  // Reuse AddAccount.css for consistent styling
-import { updateData,fetchGroupAccounts } from "../api/api";
+import { updateAccount,getAccount } from "../../api/api";
 import { DataContext } from "../Accounts";
 
 
@@ -18,7 +18,7 @@ function EditAccount({ existingData, closeEditModal }) {
 
   const fetchData = async () =>{
     try {
-      const fetchedData = await fetchGroupAccounts();
+      const fetchedData = await getAccount();
       setData(fetchedData);
       setGroupAccounts(fetchedData);
     } catch (error) {
@@ -40,7 +40,7 @@ function EditAccount({ existingData, closeEditModal }) {
       userName: formData.get("editAccountUserNameInput")
     };
 
-    await updateData(dataToSend);
+    await updateAccount(dataToSend);
     await fetchData();
   }
 

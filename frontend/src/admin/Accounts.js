@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, createContext } from "react";
 import "./Accounts.css";
 import AddAccount from "./modals/AddAccount";
 import EditAccount from "./modals/EditAccount"; // Import EditAccount component
-import { fetchGroupAccounts } from "./api/api";
+import { getAccount } from "../api/api";
 import DeleteAccount from "./modals/DeleteAccount";
 
 export const DataContext = createContext(); // Export context
@@ -22,7 +22,7 @@ function Accounts() {
     // Fetch data on component mount
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchGroupAccounts();
+            const data = await getAccount();
             console.log(data);
             setData(data);
             setGroupAccounts(data); // Set initial groupAccounts to the fetched data

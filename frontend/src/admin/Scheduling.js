@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Scheduling.css";
 import { cur } from "../App";
+import Scheduling1 from "./Scheduling1";
 
 function Scheduling() {
     const [dept, setDept] = useState('');
@@ -40,13 +42,13 @@ function Scheduling() {
           <div className="room-column">CAS</div>
           <div className="room-column">CABE</div>
         </div>
-        <button className="add-button">+ Add</button>
+        <Link to="/admin/scheduling/4" class="text-white" id="addBtn"><button className="add-button">+add</button></Link>
       </div>
 
       <div className="circle-buttons">
-        <button className="circle-btn">Manage Sections</button>
-        <button className="circle-btn">Manage Course</button>
-        <button className="circle-btn">Schedule Class</button>
+      <Link to="/admin/scheduling/3" class="text-white"><button className="circle-btn">Manage Sections</button></Link>
+      <Link to="/admin/scheduling/3" class="text-white"><button className="circle-btn">Manage Course</button></Link>
+      <Link to="/admin/scheduling/1" class="text-white"><button className="circle-btn">Schedule Class</button></Link>
       </div>
     </div>
     </>

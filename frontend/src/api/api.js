@@ -1,14 +1,14 @@
 // api.js
 
 
-export const fetchGroupAccounts = async () => {
+export const getAccount = async () => {
     const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
     return response.json();
 };
-export const updateData = async (dataToChange) =>{
+export const updateAccount = async (dataToChange) =>{
     fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
         method: 'PUT',
         headers: {
@@ -28,7 +28,7 @@ export const updateData = async (dataToChange) =>{
         console.error('Error:', error);
     });
 }
-export const sendData = async (dataToSend) =>{
+export const createAccount = async (dataToSend) =>{
     fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
         method: 'POST',
         headers: {
@@ -50,7 +50,7 @@ export const sendData = async (dataToSend) =>{
     });
 }
 
-export const deleteData = async (dataToChange) =>{
+export const deleteAccount = async (dataToChange) =>{
     fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
         method: 'DELETE',
         headers: {
@@ -70,3 +70,12 @@ export const deleteData = async (dataToChange) =>{
         console.error('Error:', error);
     });
 }
+
+export const checkCreds = async ({ user_name, password }) => {
+    const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/login?user_name=${user_name}&password=${password}`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+};
+
