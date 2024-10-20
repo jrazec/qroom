@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import Navbar from './Navbar';
 import FeedbackCss from './FeedbackPage.module.css'; // Import the CSS module with alias
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useParams } from 'react-router-dom';
 
 function FeedbackPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
-
+  const {id} = useParams();
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
   };
 
   return (
     <div className={`${FeedbackCss.app} ${isChatOpen ? FeedbackCss.chatMode : ''}`}>
-      <Navbar />
+      <Navbar id={id}/>
       <main className={`container text-center py-5 ${FeedbackCss.mainContent}`}>
         <div className={FeedbackCss.contentWrapper}>
           {!isChatOpen ? (
