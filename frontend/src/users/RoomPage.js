@@ -9,8 +9,11 @@ function RoomPage() {
   return (
     <div className={RoomCss.app}>
     <Navbar id={id}/>
-    <main className={RoomCss.mainContent}>
 
+    <main className={RoomCss.mainContent}>
+        <a href="#" className={RoomCss.socialIcon}>
+          <i>sd</i>
+        </a>
         <div className={RoomCss.socialIcons}>
         <a href="#" className={RoomCss.socialIcon}>
           <i className="fa fa-facebook"></i>

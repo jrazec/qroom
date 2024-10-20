@@ -1,0 +1,141 @@
+/* General Styling for App */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center; /* Center content vertically */
+    position: relative;
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: #F5F5F5;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px;
+    flex-grow: 1;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Back Button */
+.backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* Search Bar Styling */
+.searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchInput {
+    width: 70%;
+}
+
+.searchBtn {
+    background-color: #850000;
+    color: white;
+}
+
+/* Room Button Styling */
+.roomBtn {
+    background-color: #520000;
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.roomBtn:hover {
+    background-color: #850000;
+}
+
+/* Social Media Icons */
+.socialIcons {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.socialIcon {
+    background-color: #520000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.socialIcon:hover {
+    background-color: #850000;
+}
+
+.socialIcon i {
+    color: white;
+}
+
+/* Previous Button (Bottom Right) */
+.previousButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Image Styling */
+.imgFluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Flexbox alignment for buttons and grids */
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .mainContent {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .roomBtn {
+        width: 100%;
+    }
+
+    .socialIcons {
+        flex-direction: row;
+    }
+
+    .previousButton {
+        bottom: 10px;
+        right: 10px;
+    }
+}
