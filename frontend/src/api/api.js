@@ -86,3 +86,24 @@ export const checkCreds = async ({ user_name, password }) => {
 };
 
 
+// api.js
+export const getUserSchedule = async (uName) => {
+    try {
+        const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
+            method: 'POST', // Change to POST
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ uName }) // Pass the username in the body
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error in getUserSchedule:', error);
+        throw error; // Propagate error for further handling
+    }
+};
