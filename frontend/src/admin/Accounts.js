@@ -19,15 +19,16 @@ function Accounts() {
 
     const selectRef = useRef(null);
 
-    // Fetch data on component mount
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAccount();
-            console.log(data);
-            setData(data);
-            setGroupAccounts(data); // Set initial groupAccounts to the fetched data
+            if (data.length === 0) { // Ensure it runs only if data is empty
+                console.log("Fetching data...");
+                const fetchedData = await getAccount();
+                setData(fetchedData);
+                setGroupAccounts(fetchedData);
+            }
         };
-
+    
         fetchData();
     }, []);
 
