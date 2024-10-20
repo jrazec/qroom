@@ -72,10 +72,17 @@ export const deleteAccount = async (dataToChange) =>{
 }
 
 export const checkCreds = async ({ user_name, password }) => {
-    const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/login?user_name=${user_name}&password=${password}`);
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+    try {
+        const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_name, password })
+        });
+        return response.json();
+    } catch (error) {
+        console.error('Error in checkCreds:', error);
+        throw error; // Propagate error for further handling
     }
-    return response.json();
 };
+
 
