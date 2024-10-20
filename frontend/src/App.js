@@ -77,7 +77,7 @@ const router = createBrowserRouter([
   }, 
   {
     path: '/user/home/:id',
-    element: <HomePage page={"Main Dashboard"} />,
+    element: <HomePage />,
   },
   {
     path: '/user/login',

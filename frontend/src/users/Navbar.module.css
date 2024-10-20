@@ -9,6 +9,7 @@
     justify-content: space-between;
     align-items: center;
     height: 10vh;
+    min-width: 100vw;
     background: linear-gradient(90deg, #660000, #900000);
     box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
     position: sticky;
