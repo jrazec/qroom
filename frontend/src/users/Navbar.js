@@ -1,9 +1,9 @@
 import React from 'react';
 import Nav from './Navbar.module.css';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link,useParams } from "react-router-dom";
 
-function Navbar({id}) {
-
+function Navbar() {
+  const {id} = useParams();
   return (
        <div id="navbar">
       {/* Top Navbar */}

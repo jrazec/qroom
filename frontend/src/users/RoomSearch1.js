@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import styles from './RoomSearch1.module.css'; // Import the CSS module
 
-function RoomSearch1() {
+function RoomSearch1({}) {
   return (
     <div className={styles.app}>
       <Navbar />
