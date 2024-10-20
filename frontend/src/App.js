@@ -22,8 +22,12 @@ import FeedbackPage from "./users/FeedbackPage";
 import HomePage from "./users/HomePage"
 import Navbar from "./users/Navbar";
 import RoomPage from "./users/RoomPage"
+import RoomSearch from "./users/RoomSearch"
+import RoomSearch1 from "./users/RoomSearch1"
+import RoomSearch2 from "./users/RoomSearch2"
 import SchedulePage from "./users/SchedulePage"
 import LoginUser from "./users/LoginUser"
+
 
 const cur = {}; //current temp holder
 
@@ -81,19 +85,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/user/room-search/:id',
-    element: <RoomPage />,
+    element: <RoomSearch2 />,
   },
   {
     path: '/user/room-search/:id/bldg/:bldgid',
-    element: <RoomPage />,
+    element: <RoomSearch2 />,
   },
   {
     path: '/user/room-search/:id/floor/:floorid',
-    element: <RoomPage />,
+    element: <RoomSearch1 />,
   },
   {
     path: '/user/room-search/:id/room/:roomid',
-    element: <RoomPage />,
+    element: <RoomSearch />,
   },
   {
     path: '/user/schedule/:id',

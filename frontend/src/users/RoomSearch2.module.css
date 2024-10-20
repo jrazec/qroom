@@ -1,0 +1,167 @@
+/* General Styling for App */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: #F5F5F5;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+    padding: 30px;
+    margin: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+/* Search Bar Styling */
+.searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.searchInput {
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid #520000;
+    padding-left: 15px;
+}
+
+.btnSearch {
+    background-color: #850000;
+    color: white;
+    border-radius: 20px;
+    padding: 8px 20px;
+    border: none;
+    font-weight: bold;
+}
+
+/* Carousel Container Styling */
+.carousel {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main Image Styling */
+.mainImage {
+    border-radius: 15px;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* Custom Controls Styling */
+.customControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.customBtn {
+    background-color: #850000;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: bold;
+}
+
+.dotIndicators {
+    display: flex;
+    gap: 5px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    background-color: #520000;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Carousel Title */
+.carouselTitle {
+    text-align: center;
+    color: #850000;
+    font-weight: bold;
+}
+
+/* Social Media Icons */
+.socialIcons {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.socialIcon {
+    background-color: #520000;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.socialIcon:hover {
+    background-color: #850000;
+}
+
+.socialIcon i {
+    color: white;
+}
+
+/* Mobile Specific Layout */
+@media (max-width: 768px) {
+    .mainContent {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .app {
+        overflow-y: auto;
+        padding-bottom: 60px;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .carousel {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .socialIcons {
+        left: 10px;
+        bottom: 10px;
+        flex-direction: row;
+    }
+
+    .socialIcon {
+        margin-right: 10px;
+    }
+}

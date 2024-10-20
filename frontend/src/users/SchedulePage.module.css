@@ -195,3 +195,41 @@
     }
 }
    
+.scheduleContainer {
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+    border: 2px solid #800000;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .days {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #800000;
+    margin-bottom: 20px;
+  }
+  
+  .dayLabel {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .scheduleContent {
+    position: relative;
+    height: 90%;
+    border-top: 1px solid #800000;
+  }
+  
+  .scheduleBlock {
+    position: absolute;
+    width: 12%;
+    background-color: #800000;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
