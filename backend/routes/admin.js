@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require('body-parser');
-
-const getController = require("../controllers/getController");
-const putController = require("../controllers/putController");
-const postController = require("../controllers/postController");
-const deleteController = require("../controllers/deleteController");
+const showAccount = require('./../controllers/showAccount')
+const createAccount = require('./../controllers/createAccount')
+const updateAccount = require('./../controllers/updateAccount')
+const deleteAccount = require('./../controllers/deleteAccount')
 
 // -> Middlewares
 router.use(bodyParser.json())
@@ -13,17 +12,12 @@ router.use(express.urlencoded({ extended: true }));
 router.use(express.static("frontend"));
 
 // Admin Login Page
-router.route("/login")
-    .get((req,res)=>{
-        if(uname === "" || uname === undefined || pass === "" || pass === undefined  ){
-            res.render('App.js');
-        }else {
-            if(uname === "admin" && pass == "12345"){
-                res.redirect('App.js');
-            }
-        }
-    });
-
+router
+    .route("/accounts")
+    .get(showAccount.all)
+    .post(createAccount.single)
+    .put(updateAccount.single)
+    .delete(deleteAccount.single);
 
 module.exports = router;
 
