@@ -34,6 +34,10 @@ const cur = {}; //current temp holder
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <NotFound />,
+  },
+  {
+    path: '/admin',
     element: <Layout />,
     errorElement : <NotFound />,
     children : [
@@ -75,6 +79,10 @@ const router = createBrowserRouter([
       },
     ]
   }, 
+  {
+    path: '/admin/login',
+    element: <LoginUser />,
+  },
   {
     path: '/user/home/:id',
     element: <HomePage />,
