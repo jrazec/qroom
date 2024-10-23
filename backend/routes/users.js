@@ -5,7 +5,11 @@ const showAccount = require('./../controllers/showAccount')
 const createAccount = require('./../controllers/createAccount')
 const updateAccount = require('./../controllers/updateAccount')
 const deleteAccount = require('./../controllers/deleteAccount')
+
 const showUserSchedule = require('./../controllers/showUserSchedule')
+
+
+const showRoom = require('./../controllers/showRoom')
 // -> Middlewares
 router.use(bodyParser.json())
 router.use(express.urlencoded({ extended: true }));
@@ -15,5 +19,8 @@ router.route("/login")
     .post(showAccount.single);
 
 router.route("/schedule/")
-    .post(showUserSchedule.single)
+    .post(showUserSchedule.single);
+
+router.route("/rooms")
+    .get(showRoom.single)
 module.exports = router;
