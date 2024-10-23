@@ -1,29 +1,29 @@
 import React from 'react';
 import Navbar from './Navbar';
-import styles from './RoomSearch1.module.css'; // Import the CSS module
+import roomSearch1 from './RoomSearch1.module.css'; // Import the CSS module
 
 function RoomSearch1({}) {
   return (
-    <div className={styles.app}>
+    <div className={roomSearch1.app}>
       <Navbar />
-      <main className={styles.mainContent}>
+      <main className={roomSearch1.mainContent}>
 
         {/* Back Button (Top Left) */}
-        <div className={styles.backButton}>
+        <div className={roomSearch1.backButton}>
           <button className="btn btn-link text-danger">back</button>
         </div>
 
         {/* Search Bar */}
-        <div className={`${styles.searchBar} mb-5 text-center`}>
-          <input type="text" className={`form-control ${styles.searchInput} d-inline-block`} placeholder="search" />
-          <button className={`btn btn-danger ${styles.searchBtn} d-inline-block ml-2`}>search</button>
+        <div className={`${roomSearch1.searchBar} mb-5 text-center`}>
+          <input type="text" className={`form-control ${roomSearch1.searchInput} d-inline-block`} placeholder="search" />
+          <button className={`btn btn-danger ${roomSearch1.searchBtn} d-inline-block ml-2`}>search</button>
         </div>
 
         {/* Main Section */}
         <div className="row justify-content-center">
           {/* Left Image Section */}
           <div className="col-lg-4 text-center mb-4">
-            <img src="https://picsum.photos/200" alt="Room" className={`${styles.imgFluid} rounded shadow`} />
+            <img src="https://picsum.photos/200" alt="Room" className={`${roomSearch1.imgFluid} rounded shadow`} />
             <h3 className="mt-3">CECS</h3>
           </div>
 
@@ -41,7 +41,7 @@ function RoomSearch1({}) {
             {/* Room buttons */}
             <div className="list-group">
               {[...Array(4)].map((_, idx) => (
-                <button key={idx} className={`list-group-item list-group-item-action text-center ${styles.roomBtn}`}>
+                <button key={idx} className={`list-group-item list-group-item-action text-center ${roomSearch1.roomBtn}`}>
                   CECS ROOM 501
                 </button>
               ))}
@@ -50,20 +50,20 @@ function RoomSearch1({}) {
         </div>
 
         {/* Social Media Icons */}
-        <div className={styles.socialIcons}>
-          <a href="#" className={styles.socialIcon}>
+        <div className={roomSearch1.socialIcons}>
+          <a href="#" className={roomSearch1.socialIcon}>
             <i className="fa fa-facebook"></i>
           </a>
-          <a href="#" className={styles.socialIcon}>
+          <a href="#" className={roomSearch1.socialIcon}>
             <i className="fa fa-envelope"></i>
           </a>
-          <a href="#" className={styles.socialIcon}>
+          <a href="#" className={roomSearch1.socialIcon}>
             <i className="fa fa-twitter"></i>
           </a>
         </div>
 
         {/* Previous Button (Bottom Right) */}
-        <div className={styles.previousButton}>
+        <div className={roomSearch1.previousButton}>
           <button className="btn btn-danger">previous</button>
         </div>
 
