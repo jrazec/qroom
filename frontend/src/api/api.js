@@ -1,6 +1,5 @@
 // api.js
 
-
 export const getAccount = async () => {
     const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`);
     if (!response.ok) {
@@ -86,7 +85,6 @@ export const checkCreds = async ({ user_name, password }) => {
 };
 
 
-// api.js
 export const getUserSchedule = async (uName) => {
     try {
         const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
@@ -95,6 +93,30 @@ export const getUserSchedule = async (uName) => {
                 'Content-Type': 'application/json' 
             },
             body: JSON.stringify({ uName }) // Pass the username in the body
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error in getUserSchedule:', error);
+        throw error; // Propagate error for further handling
+    }
+};
+
+export const getRoom = async (rId) => {
+    try {
+
+        const url = new URL(`http://${process.env.REACT_APP_LOCALHOST}/user/rooms`);
+        url.searchParams.append('roomid', rId);
+
+        const response = await fetch(url, {
+            method: 'GET', // Change to POST
+            headers: { 
+                'Content-Type': 'application/json' 
+            }
         });
 
         if (!response.ok) {
