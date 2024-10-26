@@ -3,7 +3,7 @@ const con = require('../config/db');
 class userTable {
     static getAccounts() {
         return new Promise((resolve, reject) => {
-            let queryUsers = `SELECT * FROM Users;`;
+            let queryUsers = `SELECT * FROM users;`;
     
             con.query(queryUsers, (err, result) => {
                 if (err) {
@@ -17,7 +17,7 @@ class userTable {
     }
     static postAccount(data) {
         return new Promise((resolve, reject) => {
-            const addUsers = `INSERT INTO Users(user_name,first_name,middle_name,last_name,password,role)
+            const addUsers = `INSERT INTO users(user_name,first_name,middle_name,last_name,password,role)
                             VALUES(?,?,?,?,?,?);`;
             const userData = [`${data.userName}`,`${data.firstName}`,`${data.middleName}`,`${data.lastName}`,`${data.password}`,`${data.role}`];
             con.query(addUsers,userData, (err, result) => {
@@ -32,7 +32,7 @@ class userTable {
     }
     static putAccount(data){
         return new Promise((resolve,reject)=>{
-            const editUsers = `UPDATE Users
+            const editUsers = `UPDATE users
                                 SET user_name=?, first_name=?,middle_name=?,last_name=?,password=?,role=?
                                 WHERE user_name=?;`;
             const userData = [`${data.newUserName}`,`${data.firstName}`,`${data.middleName}`,`${data.lastName}`,`${data.password}`,`${data.role}`,`${data.userName}`];
@@ -49,7 +49,7 @@ class userTable {
     }
     static deleteAccount(key){
         return new Promise((resolve,reject)=>{
-            const deleteUsers = `DELETE FROM Users
+            const deleteUsers = `DELETE FROM users
                                  WHERE user_name=?;`;
             const userData = [`${key}`];
             con.query(deleteUsers,userData, (err, result) => {
@@ -67,7 +67,7 @@ class userTable {
             const uName = data.user_name;
             const pass = data.password;
     
-            const queryUser = `SELECT * FROM Users WHERE user_name = ? AND password = ?`;
+            const queryUser = `SELECT * FROM users WHERE user_name = ? AND password = ?`;
             con.query(queryUser, [uName, pass], (err, result) => {
                 if (err) {
                     console.error('Database query error:', err);

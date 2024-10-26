@@ -14,7 +14,7 @@ function RoomSearch() {
   const [userDetails, setUserDetails] = useState([]);
 
   // Map days to their index positions
-  const dayMap = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
+  const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const {roomid} = useParams();
 

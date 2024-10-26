@@ -3,11 +3,11 @@ export const shortenDay = (day)=>{
       case "Monday":
         return "Mon";
       case "Tuesday":
-        return "Tues";
+        return "Tue";
       case "Wednesday":
         return "Wed";
       case "Thursday":
-        return "Thur";
+        return "Thu";
       case "Friday":
         return "Fri";
       case "Saturday":
