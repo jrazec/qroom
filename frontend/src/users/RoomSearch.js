@@ -4,51 +4,24 @@ import roomSearch from './RoomSearch.module.css'; // Import the CSS module
 import { getRoom } from '../api/api';
 import { useParams } from 'react-router-dom';
 
+import {convertTimeToPosition,fetchData} from './sched-bar/schedBarModules';
+
 function RoomSearch() {
   // State to hold dynamic schedule information
-  const [schedule, setSchedule] = useState([
-    { day: 'Mon', time_start: 7, time_end: 19 },
-    { day: 'Tues', time_start: 9, time_end: 12 },
-    { day: 'Wed', time_start: 8, time_end: 10 },
-    { day: 'Thur', time_start: 13, time_end: 15 },
-  ]);
+  const [schedule, setSchedule] = useState([]);
 
   // State for multiple user details
-  const [userDetails, setUserDetails] = useState([
-    { user_name: 'John Doe', program: 'Computer Science', section: 'A1', time_start: '10:00 AM', time_end: '12:00 PM' },
-    { user_name: 'Jane Smith', program: 'Information Technology', section: 'B2', time_start: '1:00 PM', time_end: '3:00 PM' },
-    { user_name: 'Mark Lee', program: 'Electrical Engineering', section: 'C3', time_start: '8:00 AM', time_end: '10:00 AM' }
-  ]);
+  const [userDetails, setUserDetails] = useState([]);
 
   // Map days to their index positions
-  const dayMap = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-  // Convert time (7AM to 7PM) to percentage-based height for the rectangles
-  const convertTimeToHeight = (start, end) => {
-    const totalHours = 12; // 7AM to 7PM is 12 hours
-    const blockStart = ((start - 7) / totalHours) * 100;
-    const blockHeight = ((end - start) / totalHours) * 100;
-    return { blockStart, blockHeight };
-  };
-
-  const convertTimeToPosition = (time) => ((time - 7) / 12) * 100;
+  const dayMap = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
   const {roomid} = useParams();
+
   useEffect(() => {
-    const fetchData = async (roomid) => {
-        try {
-            console.log("Fetching data...");
-            const fetchedData = await getRoom(roomid);
-            console.log(fetchedData)
-            setUserDetails(fetchedData.result)
-            setSchedule(fetchedData.result)
-        } catch (error) {
-            console.error('Error fetching user schedule:', error);
-        }
-    };
 
     if (roomid) { // Ensure roomid is defined before fetching
-        fetchData(roomid);
+        fetchData(roomid,getRoom,setSchedule,setUserDetails);
     }
   }, []); 
 

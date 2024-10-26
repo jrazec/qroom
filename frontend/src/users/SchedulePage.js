@@ -4,64 +4,22 @@ import ScheduleCss from './SchedulePage.module.css';
 import { useParams } from 'react-router-dom';
 import { getUserSchedule } from '../api/api';
 
+import {convertTimeToPosition,fetchData} from './sched-bar/schedBarModules';
 function SchedulePage() {
   const {id} = useParams();
 
     // Define schedule as a state with temporary data
-    const [schedule, setSchedule] = useState([
-      { day: 'Mon', time_start: 7, time_end: 19 },  // Example: Monday 8AM - 10AM
-      { day: 'Tue', time_start: 9, time_end: 12 },  // Tuesday 9AM - 12PM
-      { day: 'Wed', time_start: 8, time_end: 10 },  // Wednesday 11AM - 2PM
-      { day: 'Thu', time_start: 13, time_end: 15 },   // Thursday 3PM - 5PM
-    ]);
+    const [schedule, setSchedule] = useState([]);
   
     // Map days to their index positions
     const dayMap = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
-  // Convert function definition (ensure it's above your setSchedule call)
-  const convertTimeToDecimal = (timeString) => {
-    const [hours, minutes] = timeString.split(':').map(Number); // Split and convert to numbers
-    const decimalHours = hours + (minutes / 60); // Calculate decimal hours
-    return decimalHours.toFixed(2); // Format to two decimal places
-  };
-  const shortenDay = (day) =>{
-    switch (day) {
-      case "Monday":
-        return "Mon";
-      case "Tuesday":
-        return "Tues";
-      case "Wednesday":
-        return "Wed";
-      case "Thursday":
-        return "Thur";
-      case "Friday":
-        return "Fri";
-      case "Saturday":
-        return "Sat";
-    }
-  }
 
-    // Convert time (7AM to 7PM) to percentage-based height for the rectangles
-    const convertTimeToPosition = (time) => ((time - 7) / 12) * 100;
+
     useEffect(() => {
-      const fetchData = async () => {
-          try {
-              console.log("Fetching data...");
-              const fetchedData = await getUserSchedule(id);
-              setSchedule(fetchedData.result.map(item => ({
-                ...item, // Keep existing properties
-                day: shortenDay(item.day),
-                time_start: convertTimeToDecimal(item.time_start), // Convert time_start
-                time_end: convertTimeToDecimal(item.time_end),     // Convert time_end
-            })));
-          } catch (error) {
-              console.error('Error fetching user schedule:', error);
-          }
-      };
-
-      if (id) { // Ensure id is defined before fetching
-          fetchData();
+      if (id) { 
+          fetchData(id,getUserSchedule,setSchedule);
       }
-    }, []); // Add id as a dependency to refetch when it changes
+    }, []); 
   return (
     <div className={ScheduleCss.app}>
       <Navbar id={id}/>
