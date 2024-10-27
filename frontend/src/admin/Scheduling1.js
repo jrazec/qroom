@@ -39,10 +39,21 @@ function Scheduling1() {
           onSelect={handleDepartmentChange}
           className="modern-dropdown"
         >
-          <Dropdown.Item eventKey="CICS">CICS</Dropdown.Item>
-          <Dropdown.Item eventKey="CTE">CTE</Dropdown.Item>
-          <Dropdown.Item eventKey="CAS">CAS</Dropdown.Item>
-          <Dropdown.Item eventKey="CABE">CABE</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Information Technology">Bachelor of Science in Information Technology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Management Accounting">Bachelor of Science in Management Accounting</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Business Administration Major in Human Resource Management">Bachelor of Science in Business Administration Major in Human Resource Management</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Business Administration Major in Operations Management">Bachelor of Science in Business Administration Major in Operations Management</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Business Administration Major in Marketing Management">Bachelor of Science in Business Administration Major in Marketing Management</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Psychology">Bachelor of Science in Psychology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Arts in Communication">Bachelor of Arts in Communication</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Science in Industrial Engineering">Bachelor of Science in Industrial Engineering</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Industrial Technology - Computer Technology">Bachelor of Industrial Technology - Computer Technology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Industrial Technology - Electrical Technology">Bachelor of Industrial Technology - Electrical Technology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Industrial Technology - Electronics Technology">Bachelor of Industrial Technology - Electronics Technology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Industrial Technology - Instrumentation and Control Technology">Bachelor of Industrial Technology - Instrumentation and Control Technology</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Secondary Education Major in English">Bachelor of Secondary Education Major in English</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Secondary Education Major in Mathematics">Bachelor of Secondary Education Major in Mathematics</Dropdown.Item>
+          <Dropdown.Item eventKey="Bachelor of Secondary Education Major in Sciences">Bachelor of Secondary Education Major in Sciences</Dropdown.Item>
         </DropdownButton>
       </Form.Group>
 

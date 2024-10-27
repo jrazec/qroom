@@ -58,8 +58,8 @@ const router = createBrowserRouter([
         element: <Scheduling />
       },
       {
-        path: '/admin/scheduling/1',
-        element: <Scheduling1 />
+        path: '/admin/scheduling/sections',
+        element: <Scheduling5 />
       },
       {
         path: '/admin/scheduling/2',

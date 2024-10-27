@@ -77,7 +77,7 @@ function RoomSearch() {
                   />
                   <div className={roomSearch.userDetails}>
                     <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
-                    <p><strong>Section:</strong> {user.section_id}</p>
+                    <p><strong>Section:</strong> {user.section_name}</p>
                     <p><strong>Time:</strong> {user.time_start} - {user.time_end}</p>
                   </div>
                 </div>
