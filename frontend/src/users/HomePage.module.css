@@ -231,6 +231,10 @@
         background-color: #F5F5F5;
     }
     .mainContent {
+        position: fixed;          
+        top: 50%;             
+        left: 50%;               
+        transform: translate(-50%, -50%);
         text-align: center;
         width: 100vw;
         max-width: 90%;
@@ -249,7 +253,7 @@
 
     .carousel {
         height: 100vh;
-        max-height: 50%;
+        max-height: 60%;
     }
 
     .carouselSlide {
