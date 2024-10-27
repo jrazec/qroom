@@ -221,6 +221,11 @@
     .socialIcon:hover {
         background-color: #850000;
     }
+
+    .pagination {
+        display: none;
+    }
+
     
 }
 
