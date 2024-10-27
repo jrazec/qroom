@@ -23,7 +23,7 @@
     color: white;
     font-weight: bold;
     position: relative;
-    left: 6.1rem;
+    left: 8rem;
 }
 
 /* Top Navbar */
@@ -32,7 +32,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    right: 5.1rem;
+    left: 22.3rem;
     width: 100vw;
 }
 
@@ -139,7 +139,9 @@
     .nav {
         display: none; /* Hide the top navbar on mobile */
     }
-
+    .header{
+        width: 100vw;
+    }
     .logo {
         position: relative;
         left: 20px;
