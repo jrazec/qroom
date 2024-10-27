@@ -4,6 +4,7 @@ import AddAccount from "./modals/AddAccount";
 import EditAccount from "./modals/EditAccount"; // Import EditAccount component
 import { getAccount } from "../api/api";
 import DeleteAccount from "./modals/DeleteAccount";
+import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Icons for edit and delete
 
 export const DataContext = createContext(); // Export context
 
@@ -103,24 +104,19 @@ function Accounts() {
             <td>{account.last_name}</td>
             <td>{account.middle_name}</td>
             <td className="text-center">
-                <button 
-                    className="btn btn-green btn-success edit-btn"
-                    onClick={() => handleEditClick(account)} // Show Edit modal on click
-                >
-                    <i className="fas fa-edit"></i>
-                </button>
-                <button 
-                    className="btn btn-danger delete-btn"
-                    onClick={() => handleDeleteClick(account)} // Attach delete click event here
-                >
-                    <i className="fas fa-trash"></i>
-                </button>
+                <FaEdit className="edit-icon" 
+                        onClick={() => handleEditClick(account)} // Show Edit modal on click
+                />
+                <FaTrashAlt className="delete-icon ms-3" 
+                            onClick={() => handleDeleteClick(account)} // Attach delete click event here
+                />
             </td>
         </tr>
     ));
 
     return (
         <DataContext.Provider value={[ data, setData, groupAccounts, setGroupAccounts ]}>
+        <div className="mother-div">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <h1 className="h2 text-danger font-weight-bold">Dashboard <small className="text-muted">Manage Accounts</small></h1>
             </div>
@@ -150,16 +146,16 @@ function Accounts() {
             </div>
 
             {/* Table */}
-            <div className="table-responsive">
-                <table className="table table-bordered table-hover custom-table">
+            <div className="table-responsive" id="acct-tbl">
+                <table className="table-bordered table-hover">
                     <thead>
                         <tr className="text-center">
-                            <th>Role</th>
-                            <th>User Name</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Middle Name</th>
-                            <th>Actions</th>
+                            <th style={{ color: "white" }}>Role</th>
+                            <th style={{ color: "white" }}>User Name</th>
+                            <th style={{ color: "white" }}>First Name</th>
+                            <th style={{ color: "white" }}>Last Name</th>
+                            <th style={{ color: "white" }}>Middle Name</th>
+                            <th style={{ color: "white" }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -176,6 +172,7 @@ function Accounts() {
 
             {/* Delete Account Modal */}
             {showDeleteModal && <DeleteAccount existingData={selectedAccount} closeDeleteModal={closeDeleteModal} />}
+        </div>
         </DataContext.Provider>
     );
 }

@@ -12,7 +12,7 @@ function SchedulePage() {
     const [schedule, setSchedule] = useState([]);
   
     // Map days to their index positions
-    const dayMap = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+    const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 
     useEffect(() => {
