@@ -103,6 +103,7 @@
     color: #ffffff;
 }
 
+
 /* Apply additional margin in desktop view */
 /* @media (min-width: 769px) {
     .social-icons {
@@ -168,6 +169,10 @@
         background-color: #F5F5F5;
     }
     .mainContent {
+        position: fixed;          
+        top: 50%;             
+        left: 50%;               
+        transform: translate(-50%, -50%);
         text-align: center;
         width: 100vw;
         max-width: 90%;
@@ -177,6 +182,7 @@
         flex-grow: 1;
         background-color: #ffffff;
         box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
+     
     }
 
 
@@ -193,6 +199,19 @@
         /* margin: 0 10px; */
         display: none;
     }
+
+    .scheduleContainer {
+        width: 100%;
+        height: 100vh;
+        max-height: 98%;
+        padding: 20px;
+        border: 2px solid #800000;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        top: 2%;
+      }
 }
    
 .scheduleContainer {
