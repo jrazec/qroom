@@ -139,8 +139,15 @@
     /* Hide Top Navbar on Mobile */
     .nav {
         display: none; /* Hide the top navbar on mobile */
+        
     }
-
+    .header{
+        width: 100vw;
+        position: fixed; 
+        top: 6%;                   
+        left: 50%;               
+        transform: translate(-50%, -50%);
+    }
     .logo {
         position: relative;
         left: 20px;
