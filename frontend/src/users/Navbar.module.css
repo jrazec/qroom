@@ -9,7 +9,6 @@
     justify-content: space-between;
     align-items: center;
     height: 10vh;
-    min-width: 100vw;
     background: linear-gradient(90deg, #660000, #900000);
     box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
     position: sticky;
@@ -24,7 +23,7 @@
     color: white;
     font-weight: bold;
     position: relative;
-    left: 6.1rem;
+    left: 8rem;
 }
 
 /* Top Navbar */
@@ -33,7 +32,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    right: 5.1rem;
+    left: 22.3rem;
     width: 100vw;
 }
 
