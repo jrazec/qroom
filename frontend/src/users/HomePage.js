@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import HomeCss from './HomePage.module.css';
 import { useParams } from 'react-router-dom';
+import { getUserSchedule } from '../api/api';
+import { fetchData } from './sched-bar/schedBarModules';
 
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { id } = useParams(); // This should retrieve the id from the URL
   const [role, setRole] = useState('instructor'); // Change this to 'instructor' for testing
+  useEffect(() => {
 
+    if (id) { // Ensure roomid is defined before fetching
+      fetchData(false,false,false,false,getUserSchedule,setRole,id);
+    }
+  }, []); 
   // Debugging: Log the id and role
   console.log('User ID:', id);
   console.log('User Role:', role);
@@ -23,7 +30,7 @@ function HomePage() {
           <h2 className={HomeCss.optionLabel}>SEARCH</h2>
         </a>,
         <a href={`/user/dashboard/${id}`} className={HomeCss.roomCard} key={4}>
-          <h2 className={HomeCss.optionLabel}>CHECK</h2>
+          <h2 className={HomeCss.optionLabel}>ROOMS</h2>
         </a>
       ]
     : [
@@ -34,7 +41,7 @@ function HomePage() {
           <h2 className={HomeCss.optionLabel}>SEARCH</h2>
         </a>,
         <a href={`/user/feedback/${id}`} className={HomeCss.roomCard} key={3}>
-          <h2 className={HomeCss.optionLabel}>FEEDBACK</h2>
+          <h2 className={HomeCss.optionLabel}>REPORT</h2>
         </a>
       ];
 

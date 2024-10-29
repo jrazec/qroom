@@ -28,21 +28,25 @@ export const convertTimeToPosition = (time)=>{
   return ((time - 7) / 12) * 100;
 }
 
-export const fetchData = async (roomid,getData,setSchedule,setUserDetails=false,getRole,setUserRole=false,userid=false) => {
+export const fetchData = async (roomid=false,getData=false,setSchedule=false,setUserDetails=false,getRole,setUserRole=false,userid=false) => {
   try {
       console.log("Fetching data...");
-      const fetchedData = await getData(roomid);
-      const result = fetchedData.result;
-      console.log(fetchedData)
-      setSchedule(result.map(item => ({
-        ...item, // Keep existing properties
-        day: shortenDay(item.day),
-        time_start: convertTimeToDecimal(item.time_start), // Convert time_start
-        time_end: convertTimeToDecimal(item.time_end),     // Convert time_end
-    })));
-      if(setUserDetails){
-        setUserDetails(result);
+      if(roomid){
+        const fetchedData = await getData(roomid);
+        const result = fetchedData.result;
+        console.log(fetchedData)
+        setSchedule(result.map(item => ({
+          ...item, // Keep existing properties
+          day: shortenDay(item.day),
+          time_start: convertTimeToDecimal(item.time_start), // Convert time_start
+          time_end: convertTimeToDecimal(item.time_end),     // Convert time_end
+
+        })));
+        if(setUserDetails){
+          setUserDetails(result);
+        }
       }
+
       if(getRole && setUserRole && userid){
         const userSched = await getRole(userid)
         setUserRole(userSched.result[0].role)
