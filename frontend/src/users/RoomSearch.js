@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import roomSearch from './RoomSearch.module.css'; // Import the CSS module
 import { getRoom } from '../api/api';
 import { useParams } from 'react-router-dom';
+import { getUserSchedule } from '../api/api';
 
 import {convertTimeToPosition,fetchData} from './sched-bar/schedBarModules';
 
@@ -14,26 +15,27 @@ function RoomSearch() {
   const [userDetails, setUserDetails] = useState([]);
 
   const [roomOccupied, setRoomOccupied] = useState(false); // <-- Added: State for room occupancy
-  const [userRole, setUserRole] = useState('student'); // <-- Added: State for user role, default to 'student'
+  const [userRole, setUserRole] = useState(''); // <-- Added: State for user role, default to 'student'
 
   // Map days to their index positions
   const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const {roomid} = useParams();
-
+  const {id} = useParams();
   useEffect(() => {
 
     if (roomid) { // Ensure roomid is defined before fetching
-        fetchData(roomid,getRoom,setSchedule,setUserDetails);
+        fetchData(roomid,getRoom,setSchedule,setUserDetails,getUserSchedule,setUserRole,id);
         // Mocking user role fetch. Replace this with actual role-checking logic.
-        setUserRole('student'); // <-- Added: Set user role (replace with actual authentication data)
+
     }
   }, []); 
 
-  const handleToggleOccupancy = () => {
-    if (userRole === 'faculty') {
+  const handleToggleOccupancy = (e) => {
+    if (userRole === 'instructor') {
       setRoomOccupied((prevOccupied) => !prevOccupied); // Toggle room occupancy
     }
+
   };
 
   return (
@@ -72,9 +74,9 @@ function RoomSearch() {
               <p className={roomSearch.roomOccupied}>{roomOccupied ? 'OCCUPIED' : 'AVAILABLE'}</p> {/* <-- Added: Display room status */}
               
               <button
-                className={`btn mt-2 ${userRole === 'student' ? 'btn-secondary' : 'btn-primary'}`} 
+                className={`btn mt-2 ${userRole === 'Student' ? 'btn-secondary' : 'btn-primary'}`} 
                 onClick={handleToggleOccupancy}
-                disabled={userRole === 'student'} // Disable button for students
+                disabled={userRole === 'Student'} // Disable button for students
               >
                 {roomOccupied ? 'Unoccupy Room' : 'Occupy Room'} {/* Toggle button text */}
               </button>

@@ -28,10 +28,10 @@ export const convertTimeToPosition = (time)=>{
   return ((time - 7) / 12) * 100;
 }
 
-export const fetchData = async (id,getData,setSchedule,setUserDetails=false) => {
+export const fetchData = async (roomid,getData,setSchedule,setUserDetails=false,getRole,setUserRole=false,userid=false) => {
   try {
       console.log("Fetching data...");
-      const fetchedData = await getData(id);
+      const fetchedData = await getData(roomid);
       const result = fetchedData.result;
       console.log(fetchedData)
       setSchedule(result.map(item => ({
@@ -42,6 +42,10 @@ export const fetchData = async (id,getData,setSchedule,setUserDetails=false) => 
     })));
       if(setUserDetails){
         setUserDetails(result);
+      }
+      if(getRole && setUserRole && userid){
+        const userSched = await getRole(userid)
+        setUserRole(userSched.result[0].role)
       }
   } catch (error) {
       console.error('Error fetching user schedule:', error);
