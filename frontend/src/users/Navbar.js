@@ -1,11 +1,12 @@
 import React from 'react';
 import Nav from './Navbar.module.css';
-import { Outlet, Link,useParams } from "react-router-dom";
+import { Outlet, Link, useParams } from "react-router-dom";
 
 function Navbar() {
-  const {id} = useParams();
+  const { id } = useParams();
+
   return (
-       <div id="navbar">
+    <div id="navbar">
       {/* Top Navbar */}
       <header className={Nav.header}>
         <div className={Nav.logo}>QRoom</div>
@@ -14,6 +15,7 @@ function Navbar() {
           <Link to={`/user/schedule/${id}`} className={Nav['nav-item']}>Schedule</Link>
           <Link to={`/user/room-search/${id}`} className={Nav['nav-item']}>Rooms</Link>
           <Link to={`/user/feedback/${id}`} className={Nav['nav-item']}>Feedback</Link>
+          <Link to={`/user/settings/${id}`} className={Nav['nav-item']}>Settings</Link> {/* New Settings Link */}
         </nav>
       </header>
 
@@ -23,6 +25,7 @@ function Navbar() {
         <a href={`/user/room-search/${id}`}><i className="fa fa-search"></i></a>
         <a href={`/user/schedule/${id}`}><i className="fa fa-calendar"></i></a>
         <a href={`/user/feedback/${id}`}><i className="fa fa-envelope"></i></a>
+        <a href={`/user/settings/${id}`}><i className="fa fa-cog"></i></a> {/* Settings Icon */}
       </nav>
     </div>
   );
