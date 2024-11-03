@@ -1,18 +1,21 @@
 // frontend/users/Settings.js
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import ProfilePicture from "./ProfilePicture";
 import ChangePassword from "./ChangePassword";
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FaUserCircle, FaKey, FaSignOutAlt } from "react-icons/fa"; // Icons for clarity
 
 function Settings() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = () => {
-    navigate("/");
+    // Close the modal and navigate to the home or login page
+    setShowLogoutModal(false);
+    navigate("/user/login");
   };
 
   return (
@@ -48,7 +51,11 @@ function Settings() {
             {/* Logout Section */}
             <Card className="shadow-sm">
               <Card.Body className="text-center">
-                <Button onClick={handleLogout} variant="danger" className="d-flex align-items-center justify-content-center">
+                <Button
+                  onClick={() => setShowLogoutModal(true)}
+                  variant="danger"
+                  className="d-flex align-items-center justify-content-center"
+                >
                   <FaSignOutAlt className="me-2" size={18} />
                   Logout
                 </Button>
@@ -57,6 +64,22 @@ function Settings() {
           </Col>
         </Row>
       </Container>
+
+      {/* Logout Confirmation Modal */}
+      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to log out?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleLogout}>
+            Yes, Log Out
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
