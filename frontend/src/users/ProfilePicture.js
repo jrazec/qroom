@@ -1,9 +1,9 @@
 // frontend/users/ProfilePicture.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Modal, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Modal, Button } from "react-bootstrap";
 
-function ProfilePicture({ userId }) {
+function ProfilePicture({ user_name }) {
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
@@ -11,21 +11,24 @@ function ProfilePicture({ userId }) {
   useEffect(() => {
     const fetchProfilePicture = async () => {
       try {
-        const response = await axios.get(`/user/${userId}/profile-picture`);
+        const response = await axios.get(`/user/${user_name}/profile-picture`);
         setProfilePic(response.data.imageUrl);
+        console.log("Fetched Profile Picture URL:", `http://localhost:3001${response.data.imageUrl}`);
       } catch (error) {
         console.error("Error fetching profile picture:", error);
+        alert("Error fetching profile picture. Please check the console for details.");
       }
     };
+
     fetchProfilePicture();
-  }, [userId]);
+  }, [user_name]);
 
   const handlePictureChange = async () => {
     if (!file) return alert("Please select a picture to upload.");
 
     const formData = new FormData();
     formData.append("picture", file);
-    formData.append("user_name", userId);
+    formData.append("user_name", user_name);
 
     try {
       const response = await axios.post("/user/picture/upload", formData);
@@ -33,6 +36,7 @@ function ProfilePicture({ userId }) {
       setProfilePic(response.data.imageUrl);
       setShowModal(false);
     } catch (error) {
+      console.error("Error uploading picture:", error);
       alert("Error uploading picture.");
     }
   };
@@ -41,12 +45,12 @@ function ProfilePicture({ userId }) {
     <div>
       <h5>Profile Picture</h5>
       <img
-        src={profilePic || "https://via.placeholder.com/150"}
+        src={profilePic ? `http://localhost:3001${profilePic}` : "https://via.placeholder.com/150"}
         alt="Profile"
         className="img-thumbnail"
-        style={{ width: "150px", height: "150px" }}
+        style={{ width: "150px", height: "150px", objectFit: "cover" }}
       />
-      <Button onClick={() => setShowModal(true)}>Change Picture</Button>
+      <Button onClick={() => setShowModal(true)} className="btn btn-danger">Change Picture</Button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Change Picture</Modal.Title>
@@ -55,7 +59,7 @@ function ProfilePicture({ userId }) {
           <input type="file" onChange={(e) => setFile(e.target.files[0])} className="form-control" />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handlePictureChange}>Upload</Button>
+          <Button onClick={handlePictureChange} className="btn btn-danger">Upload</Button>
           <Button onClick={() => setShowModal(false)}>Cancel</Button>
         </Modal.Footer>
       </Modal>
