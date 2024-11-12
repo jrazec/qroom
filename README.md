@@ -9,6 +9,7 @@
 - npm i mysql2 (Backend)
 - npm i cors (Backend)
 - npm i env-cmd (Frontend)
+- npm i multer (Backend)
 
 # How to cheack each packages installed in the front/backend
 npm list --/dev0
@@ -44,6 +45,9 @@ npm list --/dev0
 -PORT = 3001
 
 -HOST = localhost
+
 -USER = usernamenyusaMYSQL # Not being read
+
 -PASSWORD = passwordnyusaMYSQL
+
 -DATABASE = qroom
