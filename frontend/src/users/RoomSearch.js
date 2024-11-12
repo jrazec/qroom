@@ -93,8 +93,9 @@ function RoomSearch() {
                : userDetails.map((user, index) => (
                 <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
                   <img
-                    src={`https://picsum.photos/150/150?random=${index}`}
+                    src={user.image}
                     alt="User"
+                    style={{ objectFit: "cover" }}
                     className={`${roomSearch.userImage} img-fluid`}
                   />
                   <div className={roomSearch.userDetails}>
