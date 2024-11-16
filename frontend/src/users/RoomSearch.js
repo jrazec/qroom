@@ -144,9 +144,9 @@ function RoomSearch() {
             </div>
 
             {/* Previous Button */}
-            <div className={roomSearch.previousButton}>
+            {/* <div className={roomSearch.previousButton}>
               <button className="btn btn-outline-dark">Previous</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>

@@ -1,14 +1,14 @@
 // api.js
 
 export const getAccount = async () => {
-    const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`);
+    const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
     return response.json();
 };
 export const updateAccount = async (dataToChange) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
+    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const updateAccount = async (dataToChange) =>{
     });
 }
 export const createAccount = async (dataToSend) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
+    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const createAccount = async (dataToSend) =>{
 }
 
 export const deleteAccount = async (dataToChange) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/api/accounts`, {
+    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
