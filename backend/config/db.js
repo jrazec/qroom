@@ -6,11 +6,12 @@ dotenv.config()
 
 // MYSQL CONNECTION
 
-const con = mysql.createConnection({ // VALUES CAN BE STORED IN ENVIRONMENT VARIABLE
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+const con = mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
 });
 
 console.log("DB Connected!")
