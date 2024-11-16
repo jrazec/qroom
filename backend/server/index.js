@@ -5,6 +5,7 @@ const con = require("../config/db");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoute = require("../routes/users");
+const adminRoute = require("../routes/admin")
 const path = require("path");
 
 dotenv.config();
@@ -21,6 +22,7 @@ console.log("Serving static files from:", path.join(__dirname, "../uploads")); /
 
 // User routes
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on http://0.0.0.0:${PORT}`);
