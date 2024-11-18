@@ -42,7 +42,6 @@
 - npm i cors (Backend)
 - npm i env-cmd (Frontend)
 - npm i multer (Backend)
-
 ## How to cheack each packages installed in the front/backend
 npm list --/dev0
 
