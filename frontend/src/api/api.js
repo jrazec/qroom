@@ -1,14 +1,14 @@
 // api.js
 
 export const getAccount = async () => {
-    const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`);
+    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
     return response.json();
 };
 export const updateAccount = async (dataToChange) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
+    fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const updateAccount = async (dataToChange) =>{
     });
 }
 export const createAccount = async (dataToSend) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
+    fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const createAccount = async (dataToSend) =>{
 }
 
 export const deleteAccount = async (dataToChange) =>{
-    fetch(`http://${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
+    fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export const deleteAccount = async (dataToChange) =>{
 
 export const checkCreds = async ({ user_name, password }) => {
     try {
-        const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/login`, {
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user_name, password })
@@ -87,7 +87,7 @@ export const checkCreds = async ({ user_name, password }) => {
 
 export const getUserSchedule = async (uName) => {
     try {
-        const response = await fetch(`http://${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
             method: 'POST', // Change to POST
             headers: { 
                 'Content-Type': 'application/json' 
@@ -109,7 +109,7 @@ export const getUserSchedule = async (uName) => {
 export const getRoom = async (rId) => {
     try {
 
-        const url = new URL(`http://${process.env.REACT_APP_LOCALHOST}/user/rooms`);
+        const url = new URL(`${process.env.REACT_APP_LOCALHOST}/user/rooms`);
         url.searchParams.append('roomid', rId);
 
         const response = await fetch(url, {

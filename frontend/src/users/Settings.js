@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import ProfilePicture from "./ProfilePicture";
 import ChangePassword from "./ChangePassword";
+import roomSearch from "./RoomSearch.module.css"
 import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FaUserCircle, FaKey, FaSignOutAlt } from "react-icons/fa"; // Icons for clarity
 
@@ -19,7 +20,7 @@ function Settings() {
   };
 
   return (
-    <div>
+    <div className={roomSearch.app}>
       <Navbar />
       <Container className="mt-5">
         <h1 className="text-center mb-4">Settings</h1>

@@ -13,7 +13,7 @@ function ProfilePicture({ user_name }) {
       try {
         const response = await axios.get(`/user/${user_name}/profile-picture`);
         setProfilePic(response.data.imageUrl);
-        console.log("Fetched Profile Picture URL:", `http://${process.env.REACT_APP_LOCALHOST}${response.data.imageUrl}`);
+        console.log("Fetched Profile Picture URL:", `${process.env.REACT_APP_LOCALHOST}${response.data.imageUrl}`);
       } catch (error) {
         console.error("Error fetching profile picture:", error);
       }
@@ -44,7 +44,7 @@ function ProfilePicture({ user_name }) {
     <div>
       <h5>Profile Picture</h5>
       <img
-        src={profilePic ? `http://${process.env.REACT_APP_LOCALHOST}${profilePic}` : "https://via.placeholder.com/150"}
+        src={profilePic ? `${process.env.REACT_APP_LOCALHOST}${profilePic}` : "https://via.placeholder.com/150"}
         alt="Profile"
         className="img-thumbnail"
         style={{ width: "150px", height: "150px", objectFit: "cover" }}
