@@ -91,3 +91,8 @@
     color: #cc0000;
   }
   
+  .dropdown-menu {
+    max-height: 200px;
+    max-width: 70px;
+    overflow-y: scroll;
+}
