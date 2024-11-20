@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         element: <Scheduling5 />,
       },
       {
-        path: '/admin/scheduling/2',
+        path: '/admin/scheduling/class',
         element: <Scheduling2 />,
       },
       {
@@ -67,10 +67,6 @@ const router = createBrowserRouter([
       {
         path: '/admin/scheduling/4',
         element: <Scheduling4 />,
-      },
-      {
-        path: '/admin/scheduling/5',
-        element: <Scheduling5 />,
       },
     ],
   },

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   DropdownButton,
@@ -10,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 import "./Scheduling5.css";
-
+import { FaArrowLeft } from 'react-icons/fa';
 function Scheduling5() {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
@@ -31,6 +32,12 @@ function Scheduling5() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(`/admin/scheduling`);
+  };
 
   const departmentSections = {
     CICS: ["BSIT 1101", "BSIT 1102", "BSIT 1103","BSIT 1104", "BSIT 1105", "BSIT 1106","BSIT 1107", "BSIT 1108", "BSIT 2101","BSIT 2102", "BSIT 2103", "BSIT 2104", "BSIT 2105","BSIT BA 3101","BSIT BA 3102","BSIT NT 3101","BSIT SM 3101","BSIT SM 3102","BSIT BA 4101","BSIT BA 4102","BSIT SM 4101","BSIT NT 4101","BSIT NT 4102"],
@@ -134,13 +141,14 @@ function Scheduling5() {
   return (
     <div className="container scheduling-container">
       {/* Dashboard Heading */}
-      <div className="d-flex align-items-center mb-3">
-        <button className="btn btn-link p-0 me-3 back-button">
-          <i className="bi bi-arrow-left"></i>
+      <div className="d-flex align-items-center mb-3" style={{cursor: "pointer"}} onClick={handleBack}>
+        <button className="btn  me-3 back-button" style={{backgroundColor:"whitesmoke"}}>
+          <FaArrowLeft style={{width:"0.8rem"}}/> <span >Back</span>
         </button>
-        <h2 className="dashboard-title">
+        <h2 className="dashboard-title" >
           Dashboard <span className="fw-light">Scheduling</span>
         </h2>
+        
       </div>
 
       {/* Department and Section Dropdowns */}
@@ -301,7 +309,6 @@ function Scheduling5() {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   );
 }

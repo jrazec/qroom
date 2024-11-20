@@ -1,76 +1,216 @@
-import React, { useState } from "react";
-import "./Scheduling1.css"; // Updated CSS file for consistent colors
-import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import styles from './AssignProfessor.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-function Scheduling2() {
-  const [selectedDepartment, setSelectedDepartment] = useState("CICS");
-  const [professors, setProfessors] = useState(["", "", ""]);
+const AssignProfessor = () => {
+  const navigate = useNavigate();
 
-  // Handle department change
-  const handleDepartmentChange = (department) => {
+  const departments = ['CICS', 'CTE', 'CAS', 'CABE'];
+  const professors = [
+    { user_name: 'prof001', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 1, course_name: 'DSA' }, { id: 2, course_name: 'Linear Algebra' },{ id: 4, course_name: 'Calculus' },{ id: 5, course_name: 'ssssss' },{ id: 3, course_name: 'Calculus' }] },
+    { user_name: 'prof002', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
+    { user_name: 'prof003', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
+    { user_name: 'prof004', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
+    { user_name: 'prof0020', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
+    { user_name: 'prof003', department: 'CTE', name: 'Prof. Michael White', subjects: [{ id: 1, course_name: 'Physics' }] },
+    { user_name: 'prof004', department: 'CAS', name: 'Prof. Sarah Black', subjects: [{ id: 2, course_name: 'Chemistry' }] },
+    { user_name: 'prof005', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 3, course_name: 'Calculus' }] },
+    { user_name: 'prof006', department: 'CICS', name: 'Dr. John Smith', subjects: [] },
+    { user_name: 'prof007', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 4, course_name: 'Advanced Mathematics' }] },
+  ];
+
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [filteredProfessors, setFilteredProfessors] = useState([]);
+  const [selectedProfessor, setSelectedProfessor] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [showSubjectPopup, setShowSubjectPopup] = useState(false);
+  const [showNoProfessorsWarning, setShowNoProfessorsWarning] = useState(false);
+
+  const handleDepartmentChange = (e) => {
+    const department = e.target.value;
     setSelectedDepartment(department);
+    const filtered = professors.filter((prof) => prof.department === department);
+    setFilteredProfessors(filtered);
+    setSelectedProfessor(null); // Reset selection when changing department
+    setSelectedSubject(null);
+    setShowNoProfessorsWarning(filtered.length === 0);
   };
 
-  // Handle input change for professor names
-  const handleProfessorChange = (index, event) => {
-    const newProfessors = [...professors];
-    newProfessors[index] = event.target.value;
-    setProfessors(newProfessors);
+  const handleProfessorSelect = (professor) => {
+    if (selectedProfessor?.user_name === professor.user_name) {
+      setSelectedProfessor(null); // Deselect if already selected
+      setShowSubjectPopup(false);
+      setFilteredProfessors((prev) =>
+        prev.map((prof) =>
+          prof.user_name === selectedProfessor.user_name
+            ? { ...prof, selectedSubject: null }
+            : prof
+        )
+      );
+    } else {
+      setSelectedProfessor(professor); // Select new professor
+      setSelectedSubject(null); // Reset subject selection on new professor
+      setShowSubjectPopup(true);
+    }
+  };
+
+  const handleSubjectSelect = (subject) => {
+    if (selectedSubject?.id === subject.id) {
+      setSelectedSubject(null); // Deselect if already selected
+    } else {
+      setSelectedSubject(subject); // Select new subject
+    }
+  };
+
+  const handleChooseSubject = () => {
+    if (selectedSubject) {
+      setFilteredProfessors((prev) =>
+        prev.map((prof) =>
+          prof.user_name === selectedProfessor.user_name
+            ? { ...prof, selectedSubject: selectedSubject.course_name }
+            : prof
+        )
+      );
+      setShowSubjectPopup(false);
+    } else {
+      alert('Please choose a subject before proceeding.');
+    }
+  };
+
+  const handleProceed = () => {
+    if (!selectedProfessor || !selectedSubject) {
+      alert('Please choose a professor and subject before proceeding.');
+    } else {
+      const userSectionSched = {
+        user_name: selectedProfessor.user_name,
+        subject_id: selectedSubject?.id,
+      };
+      console.log('Selected Professor and Subject:', userSectionSched);
+      navigate('/admin/scheduling/course');
+    }
   };
 
   return (
-    <div className="container mt-5 modern-container">
-      {/* Dashboard Heading */}
-      <div className="d-flex align-items-center mb-4">
-        <button className="btn btn-link p-0 me-3 modern-back-button">
-          <i className="bi bi-arrow-left"></i>
-        </button>
-        <h2 className="dashboard-title">
-          Dashboard <span className="fw-light">Scheduling</span>
-        </h2>
+    <div className={`container ${styles.assignProfessorContainer}`}>
+      <div className={`${styles.headerContainer} mt-4`}>
+        <h1 className={styles.dashboardHeader}>
+          Dashboard <span className={styles.subHeader}>Scheduling</span>
+        </h1>
       </div>
 
-      {/* Department Dropdown */}
-      <Form.Group className="mb-4">
-        <Form.Label className="fs-5 fw-bold" style={{ color: "#a90000" }}>Department</Form.Label>
-        <DropdownButton
-          id="department-dropdown"
-          title={selectedDepartment}
-          onSelect={handleDepartmentChange}
-          className="modern-dropdown"
+      <div className={`mt-4 ${styles.departmentSelect}`}>
+        <label htmlFor="departmentSelect" className={`form-label ${styles.label}`}>
+          Select Department
+        </label>
+        <select
+          id="departmentSelect"
+          className={`form-select ${styles.departmentDropdown}`}
+          value={selectedDepartment}
+          onChange={handleDepartmentChange}
         >
-          <Dropdown.Item eventKey="CICS">CICS</Dropdown.Item>
-          <Dropdown.Item eventKey="CTE">CTE</Dropdown.Item>
-          <Dropdown.Item eventKey="CAS">CAS</Dropdown.Item>
-          <Dropdown.Item eventKey="CABE">CABE</Dropdown.Item>
-        </DropdownButton>
-      </Form.Group>
-
-      {/* Professor Assignment Section */}
-      <div className="professor-assign-container p-4 mb-4">
-        <h4 className="fw-bold text-white mb-3">Select Course</h4>
-        <div className="professor-list">
-          {professors.map((professor, index) => (
-            <Form.Control
-              key={index}
-              type="text"
-              placeholder="Course Names"
-              value={professor}
-              onChange={(e) => handleProfessorChange(index, e)}
-              className="professor-input mb-3"
-            />
+          <option value="" disabled>
+            Choose Department
+          </option>
+          {departments.map((dept) => (
+            <option key={dept} value={dept}>
+              {dept}
+            </option>
           ))}
-        </div>
+        </select>
       </div>
 
-      {/* Proceed Button */}
-      <div className="text-end">
-        <Button variant="danger" size="lg" className="modern-proceed-button">
+      <div className={`mt-4 ${styles.assignProfessor}`}>
+        <h3 className={styles.sectionHeader}>Assign Professor</h3>
+        {showNoProfessorsWarning ? (
+          <div className={`alert alert-warning ${styles.noProfessorsWarning}`}>
+            No instructors added. Please choose another department or add a professor to the department.
+          </div>
+        ) : (
+      <div className={styles.professorList}>
+        {filteredProfessors.map((prof) => (
+          <div
+            key={prof.user_name}
+            onClick={() => handleProfessorSelect(prof)}
+            className={`${styles.professorRow} ${
+              selectedProfessor?.user_name === prof.user_name ? styles.selectedRow : ''
+            }`}
+          >
+            <div className={`${styles.professorCell} ${styles.professorId}`} style={{ width: '30%' }}>
+              {prof.user_name}
+            </div>
+            <div className={`${styles.professorCell} ${styles.professorName}`} style={{ width: '35%' }}>
+              {prof.name}
+            </div>
+            <div className={`${styles.professorCell} ${styles.professorSubject}`} style={{ width: '35%' }}>
+              {prof.selectedSubject ? `Subject: ${prof.selectedSubject}` : ''}
+            </div>
+          </div>
+        ))}
+      </div>
+
+        )}
+      </div>
+
+      {showSubjectPopup && (
+        <div
+          className={styles.subjectPopup}
+          style={{
+            position: 'fixed',
+            top: '30%',
+            left: '50%',
+            width: '300px',
+            height: '250px',
+            backgroundColor: '#fff',
+            border: '1px solid #ddd',
+            borderRadius: '5px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            padding: '10px',
+            overflowY: 'auto',
+            zIndex: 1000,
+          }}
+        >
+          <h5>Select Subject</h5>
+          {selectedProfessor?.subjects.length > 0 ? (
+            selectedProfessor.subjects.map((subject) => (
+              <div
+                key={subject.id}
+                onClick={() => handleSubjectSelect(subject)}
+                className={`${styles.subjectRow} ${
+                  selectedSubject?.id === subject.id ? styles.selectedRow : ''
+                }`}
+              >
+                {subject.course_name}
+              </div>
+            ))
+          ) : (
+            <div className={`alert alert-warning ${styles.noSubjectsWarning}`}>
+              Go back to the scheduling and assign subjects to the professor first.
+            </div>
+          )}
+          <div className="d-flex justify-content-between mt-3">
+            <Button variant="secondary" onClick={() => setShowSubjectPopup(false)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleChooseSubject}>
+              Choose
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className={`d-flex justify-content-end`}>
+        <Button
+          variant="danger"
+          className={`mt-4 ${styles.proceedButton}`}
+          onClick={handleProceed}
+        >
           PROCEED
         </Button>
       </div>
     </div>
   );
-}
+};
 
-export default Scheduling2;
+export default AssignProfessor;
