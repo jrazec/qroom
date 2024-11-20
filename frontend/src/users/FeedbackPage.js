@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import FeedbackCss from './FeedbackPage.module.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
 
 function FeedbackPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  
   const [image, setImage] = useState(null);
   const [warning, setWarning] = useState('');
   const [result, setResult] = useState('');
   const API_KEY = process.env.REACT_APP_GEMINI_API_KEY; // Replace with your actual API key
   console.log(API_KEY)
+  
   // Toggle Chat Mode
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
@@ -71,7 +74,7 @@ function FeedbackPage() {
             {
               text: `Classify this image. 
                       Determine if the image depicts a classroom. 
-                      If it does not, respond with 'Not a classroom, try again.'
+                      If it does not, respond with 'Not a classroom, try again.' 
                       If the image is a classroom, assess its cleanliness:
                         If the classroom appears clean, respond with 'Clean.'
                         If the classroom appears dirty, respond with 'Dirty.'
@@ -113,6 +116,25 @@ function FeedbackPage() {
       setWarning('An error occurred during submission. Please try again.');
     }
   };
+
+  useEffect(() => {
+    // Check if the user is authenticated by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate('/user/login');
+      return;
+    }
+
+    // If the user is trying to access another user's page
+    if (id !== loggedInUser) {
+      alert("Access forbidden");
+      navigate('/not-found'); // Redirect to the homepage or NotFound page
+      return;
+    }
+  }, [id, navigate]);
 
   return (
     <div className={`${FeedbackCss.app} ${isChatOpen ? FeedbackCss.chatMode : ''}`}>

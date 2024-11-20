@@ -1,46 +1,54 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import roomSearch from './RoomSearch.module.css'; // Import the CSS module
 import { getRoom } from '../api/api';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getUserSchedule } from '../api/api';
-
-import {convertTimeToPosition,fetchData} from './sched-bar/schedBarModules';
+import { convertTimeToPosition, fetchData } from './sched-bar/schedBarModules';
 
 function RoomSearch() {
-  // State to hold dynamic schedule information
-  const [schedule, setSchedule] = useState([]);
+  const [schedule, setSchedule] = useState([]); // State to hold dynamic schedule information
+  const [userDetails, setUserDetails] = useState([]); // State for multiple user details
+  const [roomOccupied, setRoomOccupied] = useState(false); // State for room occupancy
+  const [userRole, setUserRole] = useState(''); // State for user role, default to 'student'
 
-  // State for multiple user details
-  const [userDetails, setUserDetails] = useState([]);
+  const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']; // Map days to their index positions
 
-  const [roomOccupied, setRoomOccupied] = useState(false); // <-- Added: State for room occupancy
-  const [userRole, setUserRole] = useState(''); // <-- Added: State for user role, default to 'student'
+  const { roomid, id } = useParams();
+  const navigate = useNavigate();
 
-  // Map days to their index positions
-  const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-  const {roomid} = useParams();
-  const {id} = useParams();
   useEffect(() => {
+    // Check if the user is authenticated by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate('/user/login');
+      return;
+    }
+
+    // If the user is trying to access another user's page
+    if (id !== loggedInUser) {
+      alert("Access forbidden");
+      navigate('/not-found'); // Redirect to the homepage or NotFound page
+      return;
+    }
 
     if (roomid) { // Ensure roomid is defined before fetching
-        fetchData(roomid,getRoom,setSchedule,setUserDetails,getUserSchedule,setUserRole,id);
-        // Mocking user role fetch. Replace this with actual role-checking logic.
-
+      fetchData(roomid, getRoom, setSchedule, setUserDetails, getUserSchedule, setUserRole, id);
     }
-  }, []); 
+  }, [roomid, id, navigate]);
 
   const handleToggleOccupancy = (e) => {
     if (userRole === 'instructor') {
       setRoomOccupied((prevOccupied) => !prevOccupied); // Toggle room occupancy
     }
-
   };
 
   return (
     <div className={roomSearch.app}>
-      <Navbar />
+      <Navbar id={id} />
 
       <main className={roomSearch.mainContent}>
         <div className={roomSearch.socialIcons}>
@@ -71,8 +79,7 @@ function RoomSearch() {
                 className={`${roomSearch.roomImage} img-fluid`}
               />
               <h2 className="mt-3">cecs 501</h2>
-              <p className={roomSearch.roomOccupied}>{roomOccupied ? 'OCCUPIED' : 'AVAILABLE'}</p> {/* <-- Added: Display room status */}
-              
+              <p className={roomSearch.roomOccupied}>{roomOccupied ? 'OCCUPIED' : 'AVAILABLE'}</p>
               <button
                 className={`btn mt-2 ${userRole === 'Student' ? 'btn-secondary' : 'btn-primary'}`} 
                 onClick={handleToggleOccupancy}
@@ -80,7 +87,6 @@ function RoomSearch() {
               >
                 {roomOccupied ? 'Unoccupy Room' : 'Occupy Room'} {/* Toggle button text */}
               </button>
-              
             </div>
           </div>
 
@@ -88,23 +94,25 @@ function RoomSearch() {
           <div className={`col-md-6 ${roomSearch.rightSection} mx-4`}>
             <div className={roomSearch.scheduleWrapper}>
               {/* Multiple User Details */}
-              {(userDetails === undefined) ?
-                 <p>No Schedule Yet</p>
-               : userDetails.map((user, index) => (
-                <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
-                  <img
-                    src={user.image}
-                    alt="User"
-                    style={{ objectFit: "cover" }}
-                    className={`${roomSearch.userImage} img-fluid`}
-                  />
-                  <div className={roomSearch.userDetails}>
-                    <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
-                    <p><strong>Section:</strong> {user.section_name}</p>
-                    <p><strong>Time:</strong> {user.time_start} - {user.time_end}</p>
+              {userDetails === undefined ? (
+                <p>No Schedule Yet</p>
+              ) : (
+                userDetails.map((user, index) => (
+                  <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
+                    <img
+                      src={user.image}
+                      alt="User"
+                      style={{ objectFit: 'cover' }}
+                      className={`${roomSearch.userImage} img-fluid`}
+                    />
+                    <div className={roomSearch.userDetails}>
+                      <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
+                      <p><strong>Section:</strong> {user.section_name}</p>
+                      <p><strong>Time:</strong> {user.time_start} - {user.time_end}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
 
               <div className={roomSearch.scheduleContainer}>
                 <div className={`${roomSearch.days} d-flex justify-content-between`}>

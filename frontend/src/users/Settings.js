@@ -1,33 +1,41 @@
-// frontend/users/Settings.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import ProfilePicture from "./ProfilePicture";
 import ChangePassword from "./ChangePassword";
-import roomSearch from "./RoomSearch.module.css"
 import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
-import { FaUserCircle, FaKey, FaSignOutAlt } from "react-icons/fa"; // Icons for clarity
+import { FaUserCircle, FaKey, FaSignOutAlt } from "react-icons/fa";
 
 function Settings() {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the id from the URL (this is your user_name)
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  useEffect(() => {
+    const loggedInUserName = localStorage.getItem("user_name"); // Get user_name from localStorage
+    
+    // Compare id from the URL with the logged-in user_name from localStorage
+    if (!loggedInUserName || loggedInUserName === "undefined" || loggedInUserName !== id) {
+      alert("Access forbidden");
+      navigate("/not-found"); // Redirect to the correct page if the user does not match
+    }
+  }, [id, navigate]); // Run this effect whenever the `id` or `navigate` changes
+
   const handleLogout = () => {
-    // Close the modal and navigate to the home or login page
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_name");  // Remove user_name (not userId, since you're using user_name as ID)
     setShowLogoutModal(false);
     navigate("/user/login");
   };
 
   return (
-    <div className={roomSearch.app}>
+    <div>
       <Navbar />
       <Container className="mt-5">
         <h1 className="text-center mb-4">Settings</h1>
 
         <Row className="justify-content-center">
           <Col md={8} lg={6}>
-            {/* Profile Picture Section */}
             <Card className="mb-4 shadow-sm">
               <Card.Header className="d-flex align-items-center">
                 <FaUserCircle className="me-2" size={24} />
@@ -38,7 +46,6 @@ function Settings() {
               </Card.Body>
             </Card>
 
-            {/* Change Password Section */}
             <Card className="mb-4 shadow-sm">
               <Card.Header className="d-flex align-items-center">
                 <FaKey className="me-2" size={24} />
@@ -49,7 +56,6 @@ function Settings() {
               </Card.Body>
             </Card>
 
-            {/* Logout Section */}
             <Card className="shadow-sm">
               <Card.Body className="text-center">
                 <Button
@@ -66,7 +72,6 @@ function Settings() {
         </Row>
       </Container>
 
-      {/* Logout Confirmation Modal */}
       <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Logout</Modal.Title>

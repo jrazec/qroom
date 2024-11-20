@@ -22,61 +22,41 @@ import RoomSearch1 from "./users/RoomSearch1";
 import RoomSearch2 from "./users/RoomSearch2";
 import SchedulePage from "./users/SchedulePage";
 import LoginUser from "./users/LoginUser";
-import Settings from "./users/Settings"; // Import Settings
+import Settings from "./users/Settings";
+import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute correctly
 
-const cur = {}; //current temp holder
+const cur = {}; // Current temporary holder
 
 const router = createBrowserRouter([
+  // Public Route
   {
     path: '/',
     element: <NotFound />,
   },
+  // Admin Routes - No ProtectedRoute for now
   {
     path: '/admin',
     element: <Layout />,
     errorElement: <NotFound />,
     children: [
-      {
-        path: '/admin',
-        element: <AdminDashboard />,
-      },
-      {
-        path: '/admin/accounts',
-        element: <Accounts />,
-      },
-      {
-        path: '/admin/feedback',
-        element: <Feedback />,
-      },
-      {
-        path: '/admin/scheduling',
-        element: <Scheduling />,
-      },
-      {
-        path: '/admin/scheduling/sections',
-        element: <Scheduling5 />,
-      },
-      {
-        path: '/admin/scheduling/class',
-        element: <Scheduling2 />,
-      },
-      {
-        path: '/admin/scheduling/3',
-        element: <Scheduling3 />,
-      },
-      {
-        path: '/admin/scheduling/4',
-        element: <Scheduling4 />,
-      },
-    ],
+      { path: '/admin', element: <AdminDashboard /> },
+      { path: '/admin/accounts', element: <Accounts /> },
+      { path: '/admin/feedback', element: <Feedback /> },
+      { path: '/admin/scheduling', element: <Scheduling /> },
+      { path: '/admin/scheduling/sections', element: <Scheduling5 /> },
+      { path: '/admin/scheduling/class', element: <Scheduling2 /> },
+      { path: '/admin/scheduling/3', element: <Scheduling3 /> },
+      { path: '/admin/scheduling/4', element: <Scheduling4 /> },
+    ] // Removed ProtectedRoute from admin routes
   },
   {
     path: '/admin/login',
     element: <LoginUser />,
   },
+  // User Routes
   {
     path: '/user/home/:id',
-    element: <HomePage />,
+    element: <ProtectedRoute><HomePage /></ProtectedRoute>,
   },
   {
     path: '/user/login',
@@ -84,38 +64,37 @@ const router = createBrowserRouter([
   },
   {
     path: '/user/room-search/:id',
-    element: <RoomSearch2 />,
+    element: <ProtectedRoute><RoomSearch2 /></ProtectedRoute>,
   },
   {
     path: '/user/room-search/:id/bldg/:bldgid',
-    element: <RoomSearch2 />,
+    element: <ProtectedRoute><RoomSearch2 /></ProtectedRoute>,
   },
   {
     path: '/user/room-search/:id/floor/:floorid',
-    element: <RoomSearch1 />,
+    element: <ProtectedRoute><RoomSearch1 /></ProtectedRoute>,
   },
   {
     path: '/user/room-search/:id/room/:roomid',
-    element: <RoomSearch />,
+    element: <ProtectedRoute><RoomSearch /></ProtectedRoute>,
   },
   {
     path: '/user/schedule/:id',
-    element: <SchedulePage />,
+    element: <ProtectedRoute><SchedulePage /></ProtectedRoute>,
   },
   {
     path: '/user/dashboard/:id',
-    element: <HomePage />,
+    element: <ProtectedRoute><HomePage /></ProtectedRoute>,
   },
   {
     path: '/user/feedback/:id',
-    element: <FeedbackPage />,
+    element: <ProtectedRoute><FeedbackPage /></ProtectedRoute>,
   },
   {
-    path: '/user/settings/:id', // Add this route for Settings
-    element: <Settings />,
+    path: '/user/settings/:id',
+    element: <ProtectedRoute><Settings /></ProtectedRoute>,
   },
 ]);
-
 
 function App() {
   return (

@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import roomSearch1 from './RoomSearch1.module.css'; // Import the CSS module
+import { useParams, useNavigate } from 'react-router-dom';
 
-function RoomSearch1({}) {
+function RoomSearch1() {
+  const { id } = useParams();
+  const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    // Check if the user is authenticated by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate('/user/login');
+      return;
+    }
+
+    // If the user is trying to access another user's page
+    if (id !== loggedInUser) {
+      alert("Access forbidden");
+      navigate('/not-found'); // Redirect to the homepage or NotFound page
+      return;
+    }
+  }, [id, navigate]);
+
   return (
     <div className={roomSearch1.app}>
-      <Navbar />
-      <main className={roomSearch1.mainContent}>
+      <Navbar id={id} />
 
+      <main className={roomSearch1.mainContent}>
         {/* Back Button (Top Left) */}
         <div className={roomSearch1.backButton}>
           <button className="btn btn-link text-danger">back</button>
@@ -22,7 +45,7 @@ function RoomSearch1({}) {
         {/* Main Section */}
         <div className="row justify-content-center">
           {/* Left Image Section */}
-          <div className="col-lg-4 text-center mb-4">
+          <div className={`col-lg-4 text-center mb-4`}>
             <img src="https://picsum.photos/200" alt="Room" className={`${roomSearch1.imgFluid} rounded shadow`} />
             <h3 className="mt-3">CECS</h3>
           </div>

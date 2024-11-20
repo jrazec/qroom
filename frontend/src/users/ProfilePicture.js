@@ -1,4 +1,3 @@
-// frontend/users/ProfilePicture.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
@@ -9,11 +8,20 @@ function ProfilePicture({ user_name }) {
   const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
+    // Clear the profile picture in localStorage when the user logs in
+    localStorage.removeItem("profilePic");
+
     const fetchProfilePicture = async () => {
       try {
+        // Fetch the user's profile picture from the server
         const response = await axios.get(`/user/${user_name}/profile-picture`);
-        setProfilePic(response.data.imageUrl);
-        console.log("Fetched Profile Picture URL:", `${process.env.REACT_APP_LOCALHOST}${response.data.imageUrl}`);
+        const imageUrl = response.data.imageUrl;
+
+        if (imageUrl) {
+          // Set the profile picture for the current user
+          const fullImageUrl = `${process.env.REACT_APP_LOCALHOST}${imageUrl}`;
+          setProfilePic(fullImageUrl);
+        }
       } catch (error) {
         console.error("Error fetching profile picture:", error);
       }
@@ -30,13 +38,18 @@ function ProfilePicture({ user_name }) {
     formData.append("user_name", user_name);
 
     try {
+      // Upload the profile picture to the server
       const response = await axios.post("/user/picture/upload", formData);
-      alert(response.data.message);
-      setProfilePic(response.data.imageUrl);
-      setShowModal(false);
+      const imageUrl = response.data.imageUrl;
+
+      if (imageUrl) {
+        const fullImageUrl = `${process.env.REACT_APP_LOCALHOST}${imageUrl}`;
+        setProfilePic(fullImageUrl); // Update the state with the new profile picture
+        alert(response.data.message);
+        setShowModal(false);
+      }
     } catch (error) {
-      console.error("Error uploading picture:", error);
-      alert("Error uploading picture.");
+      alert("Error uploading picture. Please try again.");
     }
   };
 
@@ -44,12 +57,14 @@ function ProfilePicture({ user_name }) {
     <div>
       <h5>Profile Picture</h5>
       <img
-        src={profilePic ? `${process.env.REACT_APP_LOCALHOST}${profilePic}` : "https://via.placeholder.com/150"}
+        src={profilePic || "https://via.placeholder.com/150"}
         alt="Profile"
         className="img-thumbnail"
         style={{ width: "150px", height: "150px", objectFit: "cover" }}
       />
-      <Button onClick={() => setShowModal(true)} className="btn btn-danger">Change Picture</Button>
+      <Button onClick={() => setShowModal(true)} className="btn btn-danger">
+        Change Picture
+      </Button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Change Picture</Modal.Title>
@@ -58,7 +73,9 @@ function ProfilePicture({ user_name }) {
           <input type="file" onChange={(e) => setFile(e.target.files[0])} className="form-control" />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handlePictureChange} className="btn btn-danger">Upload</Button>
+          <Button onClick={handlePictureChange} className="btn btn-danger">
+            Upload
+          </Button>
           <Button onClick={() => setShowModal(false)}>Cancel</Button>
         </Modal.Footer>
       </Modal>
