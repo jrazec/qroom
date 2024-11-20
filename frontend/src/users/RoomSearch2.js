@@ -1,11 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import roomSearch2 from './RoomSearch2.module.css';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function RoomSearch2() {
+  const { id } = useParams();
+  const navigate = useNavigate(); // Hook for navigation
   const carouselRef = useRef(null);
+
+  // Check for authentication
+  useEffect(() => {
+    // Check if the user is authenticated by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate('/user/login');
+      return;
+    }
+
+    // If the user is trying to access another user's page
+    if (id !== loggedInUser) {
+      alert("Access forbidden");
+      navigate('/not-found'); // Redirect to the homepage or NotFound page
+      return;
+    }
+  }, [id, navigate]);
 
   const goToNextSlide = () => {
     if (carouselRef.current) {
@@ -26,6 +49,7 @@ function RoomSearch2() {
   return (
     <div className={roomSearch2.app}>
       <Navbar />
+
       <main className={roomSearch2.mainContent}>
         {/* Search Bar */}
         <div className={roomSearch2.searchBar}>

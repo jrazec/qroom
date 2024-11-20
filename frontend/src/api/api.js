@@ -1,12 +1,24 @@
 // api.js
+import axios from "axios";
 
+// Example of an API call with the token included
 export const getAccount = async () => {
-    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
+      headers: {
+        'Authorization': `Bearer ${token}`, // Check if the token is correctly added
+        'Content-Type': 'application/json'
+      }
+    });
     if (!response.ok) {
-        throw new Error('Network response was not ok');
+      throw new Error('Network response was not ok');
     }
     return response.json();
-};
+  };
+  
+  
+  // Update other API calls in a similar way to include the token
+  
 export const updateAccount = async (dataToChange) =>{
     fetch(`${process.env.REACT_APP_LOCALHOST}/admin/accounts`, {
         method: 'PUT',
@@ -72,39 +84,40 @@ export const deleteAccount = async (dataToChange) =>{
 
 export const checkCreds = async ({ user_name, password }) => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user_name, password })
-        });
-        return response.json();
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_name, password })
+      });
+      const data = await response.json();
+      return data;  // Ensure 'data' contains user ID and token
     } catch (error) {
-        console.error('Error in checkCreds:', error);
-        throw error; // Propagate error for further handling
+      console.error('Error in checkCreds:', error);
+      throw error;
     }
-};
+  };
 
 
-export const getUserSchedule = async (uName) => {
-    try {
-        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
-            method: 'POST', // Change to POST
-            headers: { 
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify({ uName }) // Pass the username in the body
-        });
+// export const getUserSchedule = async (uName) => {
+//     try {
+//         const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
+//             method: 'POST', // Change to POST
+//             headers: { 
+//                 'Content-Type': 'application/json' 
+//             },
+//             body: JSON.stringify({ uName }) // Pass the username in the body
+//         });
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
 
-        return response.json();
-    } catch (error) {
-        console.error('Error in getUserSchedule:', error);
-        throw error; // Propagate error for further handling
-    }
-};
+//         return response.json();
+//     } catch (error) {
+//         console.error('Error in getUserSchedule:', error);
+//         throw error; // Propagate error for further handling
+//     }
+// };
 
 export const getRoom = async (rId) => {
     try {
@@ -129,3 +142,30 @@ export const getRoom = async (rId) => {
         throw error; // Propagate error for further handling
     }
 };
+
+// Example function to get a user's schedule
+export const getUserSchedule = async (userId) => {
+    try {
+      const response = await axios.get(`/user/schedule/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user schedule:", error);
+      throw error;
+    }
+  };
+  
+  // Function to change the user's password
+  export const changePassword = async (user_name, oldPassword, newPassword) => {
+    try {
+      const response = await axios.post("/user/change-password", {
+        user_name,
+        oldpass: oldPassword,
+        newpass: newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error changing password:", error);
+      throw error;
+    }
+  };
+

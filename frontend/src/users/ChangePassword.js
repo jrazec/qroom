@@ -1,4 +1,3 @@
-// frontend/users/ChangePassword.js
 import React, { useState } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
@@ -8,30 +7,50 @@ function ChangePassword({ user_name }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state for better UX
 
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
+      alert("New password and confirmation do not match");
       return;
     }
 
+    setLoading(true); // Show loading indicator
     try {
+      // Log the data being sent for debugging purposes
+      console.log("Sending password change request:", { user_name, oldPassword, newPassword });
+
+      // Ensure that the URL is correct (you may need to use a full URL or set the base URL correctly in axios)
       const response = await axios.post("/user/change-password", {
-        user_name: user_name,
+        user_name,
         oldpass: oldPassword,
-        newpass: newPassword
+        newpass: newPassword,
       });
-      alert(response.data.message);
-      setShowModal(false);
+
+      console.log("Password change response:", response.data);
+
+      if (response.data.success) {
+        alert(response.data.message || "Password changed successfully");
+        setShowModal(false);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        alert(response.data.message || "Failed to change password");
+      }
     } catch (error) {
       console.error("Error changing password:", error);
-      alert("Error changing password. Please check the console for details.");
+      alert("Error changing password. Please try again later.");
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
   };
 
   return (
     <div>
-      <Button onClick={() => setShowModal(true)} className="btn btn-danger">Change Password</Button>
+      <Button onClick={() => setShowModal(true)} className="btn btn-danger">
+        Change Password
+      </Button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Change Password</Modal.Title>
@@ -60,8 +79,12 @@ function ChangePassword({ user_name }) {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handlePasswordChange} className="btn btn-danger">Change Password</Button>
-          <Button onClick={() => setShowModal(false)}>Cancel</Button>
+          <Button onClick={handlePasswordChange} className="btn btn-danger" disabled={loading}>
+            {loading ? "Changing..." : "Change Password"}
+          </Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

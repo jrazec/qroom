@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import HomeCss from './HomePage.module.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getUserSchedule } from '../api/api';
 import { fetchData } from './sched-bar/schedBarModules';
 
@@ -10,12 +10,31 @@ function HomePage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { id } = useParams(); // This should retrieve the id from the URL
   const [role, setRole] = useState('instructor'); // Change this to 'instructor' for testing
+  const navigate = useNavigate();
+
   useEffect(() => {
+    // Check if the user is logged in by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate('/user/login');
+      return;
+    }
+
+    // If the user is trying to access another user's page
+    if (id !== loggedInUser) {
+      alert("Access forbidden");
+      navigate("/not-found");
+      return;
+    }
 
     if (id) { // Ensure roomid is defined before fetching
-      fetchData(false,false,false,false,getUserSchedule,setRole,id);
+      fetchData(false, false, false, false, getUserSchedule, setRole, id);
     }
-  }, []); 
+  }, [id, navigate]);
+
   // Debugging: Log the id and role
   console.log('User ID:', id);
   console.log('User Role:', role);
