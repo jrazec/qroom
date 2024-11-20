@@ -22,8 +22,10 @@ function Accounts() {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("Component mounted");
             if (data.length === 0) { // Ensure it runs only if data is empty
                 console.log("Fetching data...");
+                
                 const fetchedData = await getAccount();
                 setData(fetchedData);
                 setGroupAccounts(fetchedData);
