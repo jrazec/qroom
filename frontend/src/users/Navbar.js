@@ -15,7 +15,9 @@ function Navbar() {
 
   const showBackButton = [
     `/user/schedule/${id}`,
-    `/user/room-search/${id}`
+    `/user/room-search/${id}`,
+    `/user/room-search/${id}/floor/${id}`,
+    `/user/room-search/${id}/room/${id}`
   ].includes(location.pathname);
 
   return (

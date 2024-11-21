@@ -10,6 +10,9 @@ const showUserSchedule = require('./../controllers/showUserSchedule');
 const showRoom = require('./../controllers/showRoom');
 const updatePassword = require("../controllers/updatePassword").updatePassword;
 const { uploadPicture, deleteProfilePicture, getProfilePicture } = require("../controllers/uploadPicture");
+const { getRoomsByBuilding } = require("../controllers/roomList");
+const { getRoomsByFloor } = require("../controllers/roomsByFloor");
+const { getBuildings } = require("../controllers/roomList");
 
 const router = express.Router();
 
@@ -30,5 +33,9 @@ router.post("/change-password", updatePassword);
 router.post("/picture/upload", multer({ storage: require('../config/multerConfig') }).single("picture"), uploadPicture); // Separate multer config file
 router.delete("/picture/delete", deleteProfilePicture);
 router.get("/:user_name/profile-picture", getProfilePicture);
+
+router.get("/rooms/building", getRoomsByBuilding);
+router.get("/rooms/floor", getRoomsByFloor);
+router.get("/buildings", getBuildings); // Route to get all distinct buildings
 
 module.exports = router;
