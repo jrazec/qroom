@@ -74,6 +74,17 @@ function Navbar() {
         <a href={`/user/feedback/${id}`}><i className="fa fa-envelope"></i></a>
         <a href={`/user/settings/${id}`}><i className="fa fa-cog"></i></a>
       </nav>
+      <div className={Nav.socialIcons}>
+          <a href="#" className={Nav.socialIcon}>
+            <i className="fa fa-brands fa-facebook"></i>
+          </a>
+          <a href="#" className={Nav.socialIcon}>
+            <i className="fa fa-envelope"></i>
+          </a>
+          <a href="#" className={Nav.socialIcon}>
+            <i className="fa-brands fa-github"></i>
+          </a>
+        </div>
     </div>
   );
 }

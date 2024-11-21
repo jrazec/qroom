@@ -90,17 +90,6 @@ function HomePage() {
       <main className={HomeCss.mainContent}>
         <h1 className={HomeCss.brandTitle}>QRoom</h1>
 
-        <div className={HomeCss.socialIcons}>
-          <a href="#" className={HomeCss.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={HomeCss.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={HomeCss.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
 
         <div className={HomeCss.carousel}>
           <div

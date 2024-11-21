@@ -72,18 +72,6 @@ function RoomSearch1() {
           </div>
         </div>
 
-        {/* Social Media Icons */}
-        <div className={roomSearch1.socialIcons}>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
 
         {/* Previous Button (Bottom Right) */}
         <div className={roomSearch1.previousButton}>

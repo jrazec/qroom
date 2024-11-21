@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import FeedbackCss from "./FeedbackPage.module.css"
 import ProfilePicture from "./ProfilePicture";
 import ChangePassword from "./ChangePassword";
 import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
@@ -29,10 +30,11 @@ function Settings() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <Container className="mt-5">
-        <h1 className="text-center mb-4">Settings</h1>
+    <div className={`${FeedbackCss.app}`}>
+      <Navbar id={id} />
+      <main className={`container text-center py-5 ${FeedbackCss.mainContent}`}>
+      <Container >
+
 
         <Row className="justify-content-center">
           <Col md={8} lg={6}>
@@ -71,7 +73,8 @@ function Settings() {
           </Col>
         </Row>
       </Container>
-
+      </main>
+    
       <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Logout</Modal.Title>
@@ -86,6 +89,7 @@ function Settings() {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </div>
   );
 }

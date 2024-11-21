@@ -91,18 +91,6 @@ function RoomSearch2() {
 
         <h3 className={`carousel-title mt-2 ${roomSearch2.carouselTitle}`}>CECS</h3>
 
-        {/* Social Media Icons */}
-        <div className={`social-icons mt-5 ${roomSearch2.socialIcons}`}>
-          <a href="#" className={roomSearch2.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={roomSearch2.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={roomSearch2.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
       </main>
     </div>
   );

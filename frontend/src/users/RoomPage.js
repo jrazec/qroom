@@ -34,17 +34,6 @@ function RoomPage() {
         <a href="#" className={RoomCss.socialIcon}>
           <i>sd</i>
         </a>
-        <div className={RoomCss.socialIcons}>
-          <a href="#" className={RoomCss.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={RoomCss.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={RoomCss.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
       </main>
     </div>
   );

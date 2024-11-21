@@ -12,23 +12,18 @@
     position: relative;
   }
   
-  /* Main Content Area */
-  .mainContent {
+/* Main Content Area */
+.mainContent {
     background-color: white;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    max-height: 85%;
+    max-height: 100%;
     width: 100%;
     max-width: 82.4rem;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     overflow-y: auto;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-  }
+}
 
 /* Search Bar Styling */
 .searchBar {
@@ -144,21 +139,6 @@
         background-color: #F5F5F5;
     }
 
-    .mainContent {
-        position: fixed;          
-        top: 50%;             
-        left: 50%;               
-        transform: translate(-50%, -50%);
-        text-align: center;
-        width: 100vw;
-        max-width: 90%;
-        height: 100vh;
-        max-height: 77%;
-        padding: 20px;
-        flex-grow: 1;
-        background-color: #ffffff;
-        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
-    }
 
     .searchInput {
         width: 100%;
