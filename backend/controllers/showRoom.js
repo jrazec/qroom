@@ -1,5 +1,5 @@
 const scheduleTable = require('./../models/Schedule');
-
+const roomTable = require("./../models/Room")
 
 exports.single = async (req,res) =>{
     try {
@@ -11,3 +11,19 @@ exports.single = async (req,res) =>{
         res.status(500).json({ error: 'Error' });  // Send error response
     }
 }
+
+exports.labAndClass = async (req,res) =>{
+    try {
+        const results = await roomTable.getLabAndRoom()
+        console.log(results.results[0].room_name,"sss")
+        const rooms = results.results.map(room => ({
+        code: `https://shnc77kq-3000.asse.devtunnels.ms/user/room/${room.room_id}`,
+        name: room.room_name,
+        room_id : room.room_id
+        }));
+        res.status(200).json(rooms);  
+    } catch (error) {
+        res.status(500).json({ error: 'Error' });  // Send error response
+    }
+
+  }

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Scheduling.css";
 import { cur } from "../App";
 import Scheduling1 from "./Scheduling1";
+import RoomPDFEditor from "./RoomPDFEditor"
 
 function Scheduling() {
     const [dept, setDept] = useState('');
@@ -51,6 +52,7 @@ function Scheduling() {
       <Link to="/admin/scheduling/class" class="text-white"><button className="circle-btn">Schedule Class</button></Link>
       </div>
     </div>
+    <RoomPDFEditor />
     </>
 
 
