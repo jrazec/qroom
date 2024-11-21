@@ -1,6 +1,6 @@
 /* Header Styling */
 #navbar{
-    width: 100vw;
+    width: 100%;
     max-width: 100%;
 }
 
@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10vh;
+    min-height: 50px;
     background: linear-gradient(90deg, #660000, #900000);
     box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.3);
     position: sticky;
@@ -28,13 +28,14 @@
 
 /* Top Navbar */
 .nav {
-    position: fixed;
-    display: flex;
-    justify-content: center;
     position: relative;
-    left: 22.3rem;
+    display: flex;
+    justify-content:end;
     width: 100vw;
+    right: 10%;
+    padding: 0 1rem; /* Adds padding to the left and right */
 }
+
 
 .nav-item {
     color: white;
@@ -45,29 +46,12 @@
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 500;
+    margin-top: 3.5%;
    /* transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;*/
-    position: relative;
-    top: 1.1rem;
     overflow: hidden;
     transition: 0.6s ease-in-out;
 }
-/*
-.nav-item::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 0%;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.2);
-    z-index: -1;
-    transition: height 0.3s ease;
-}*/
 
-/*.nav-item:hover::before {
-    height: 100%;
-}
-*/
 .nav-item:hover {
     color: #800000;
     background-color: white;
@@ -81,6 +65,11 @@
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     
+}
+.nav-item.active {
+    background-color: white;
+    color: maroon;
+    font-weight: bold;
 }
 /*
 .nav-item.active::before {

@@ -98,26 +98,26 @@ export const checkCreds = async ({ user_name, password }) => {
   };
 
 
-// export const getUserSchedule = async (uName) => {
-//     try {
-//         const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
-//             method: 'POST', // Change to POST
-//             headers: { 
-//                 'Content-Type': 'application/json' 
-//             },
-//             body: JSON.stringify({ uName }) // Pass the username in the body
-//         });
+export const getUserSchedule = async (uName) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
+            method: 'POST', // Change to POST
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ uName }) // Pass the username in the body
+        });
 
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-//         return response.json();
-//     } catch (error) {
-//         console.error('Error in getUserSchedule:', error);
-//         throw error; // Propagate error for further handling
-//     }
-// };
+        return response.json();
+    } catch (error) {
+        console.error('Error in getUserSchedule:', error);
+        throw error; // Propagate error for further handling
+    }
+};
 
 export const getRoom = async (rId) => {
     try {
@@ -143,16 +143,16 @@ export const getRoom = async (rId) => {
     }
 };
 
-// Example function to get a user's schedule
-export const getUserSchedule = async (userId) => {
-    try {
-      const response = await axios.get(`/user/schedule/${userId}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching user schedule:", error);
-      throw error;
-    }
-  };
+// // Example function to get a user's schedule
+// export const getUserSchedule = async (userId) => {
+//     try {
+//       const response = await axios.get(`/user/schedule/${userId}`);
+//       return response.data;
+//     } catch (error) {
+//       console.error("Error fetching user schedule:", error);
+//       throw error;
+//     }
+//   };
   
   // Function to change the user's password
   export const changePassword = async (user_name, oldPassword, newPassword) => {
