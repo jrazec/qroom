@@ -51,17 +51,6 @@ function RoomSearch() {
       <Navbar id={id} />
 
       <main className={roomSearch.mainContent}>
-        <div className={roomSearch.socialIcons}>
-          <a href="#" className={roomSearch.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={roomSearch.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={roomSearch.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
 
         <div className={roomSearch.backButton}>
           <button className="btn btn-link">

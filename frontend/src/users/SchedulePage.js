@@ -71,18 +71,6 @@ function SchedulePage() {
             ))}
           </div>
         </div>
-
-        <div className={ScheduleCss.socialIcons}>
-          <a href="#" className={ScheduleCss.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={ScheduleCss.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={ScheduleCss.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
       </main>
     </div>
   );

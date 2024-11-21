@@ -182,8 +182,17 @@ function FeedbackPage() {
                 <button onClick={handleSubmit} className={`btn btn-danger rounded-pill ${FeedbackCss.sendButton}`}>
                   SUBMIT
                 </button>
+
               </div>
+              {/* Chat Button */}
+              <div className={FeedbackCss.chatButton}>
+                <button className={`btn btn-danger rounded-circle ${FeedbackCss.chatIcon}`} onClick={handleChatToggle}>
+                  <i className="fa fa-comments"></i>
+                </button>
+              </div>
+
             </>
+            
           ) : (
             <>
               <div className={`mb-4 d-flex justify-content-between align-items-center ${FeedbackCss.chatHeader}`}>
@@ -200,17 +209,6 @@ function FeedbackPage() {
           )}
         </div>
 
-        <div className={`position-fixed start-0 bottom-0 ms-3 mb-3 ${FeedbackCss.socialIcons}`}>
-          <a href="#" className={`btn btn-danger mb-2 rounded-circle ${FeedbackCss.socialIcon}`}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={`btn btn-danger mb-2 rounded-circle ${FeedbackCss.socialIcon}`}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={`btn btn-danger rounded-circle ${FeedbackCss.socialIcon}`}>
-            <i className="fa fa-twitter"></i>
-          </a>
-        </div>
       </main>
     </div>
   );
