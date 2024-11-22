@@ -80,3 +80,59 @@
   #addBtn {
     text-decoration: none;
   }
+
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination-btn {
+    background-color: white;
+    color: #7f0000;
+    border: 1px solid #7f0000;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-btn:hover {
+    background-color: #7f0000;
+    color: white;
+}
+
+.pagination-btn.active {
+    background-color: #7f0000;
+    color: white;
+    font-weight: bold;
+}
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-btn {
+  background-color: white;
+  color: #7f0000;
+  border: 1px solid #7f0000;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-btn:hover {
+  background-color: #7f0000;
+  color: white;
+}
+
+.pagination-btn.active {
+  background-color: #7f0000;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
