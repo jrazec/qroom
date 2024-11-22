@@ -149,3 +149,29 @@
     padding: 8px;
   }
 }
+
+.captcha-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  position: relative; /* Helps in proper alignment */
+  width: 100%;
+}
+
+.recaptcha {
+  transform: scale(0.9); /* Adjust scale for responsiveness */
+  transform-origin: center;
+}
+
+@media (max-width: 768px) {
+  .recaptcha {
+    transform: scale(0.8); /* Further scaling for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .recaptcha {
+    transform: scale(0.7); /* Smallest scaling */
+  }
+}

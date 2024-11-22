@@ -3,38 +3,48 @@ import './LoginUser.css';
 import { checkCreds } from "../api/api"; // Ensure this is correctly implemented for your backend API
 import { useNavigate } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
-// import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA component (commented out for now)
+import ReCAPTCHA from "react-google-recaptcha";
 
 function LoginUser() {
   const [stat, setStatus] = useState(null); // Login status, set initial state to null
   const [userName, setUserName] = useState(''); // Username input
   const [password, setPassword] = useState(''); // Password input
+  const [captchaToken, setCaptchaToken] = useState(null); // reCAPTCHA token
   const [showModal, setShowModal] = useState(false); // Modal visibility state for wrong credentials
 
   const navigate = useNavigate(); // Initialize the navigate function
 
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token); // Save the CAPTCHA token
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!captchaToken) {
+      alert("Please complete the CAPTCHA.");
+      return;
+    }
+
     try {
-        // Call the API to check credentials
-        const data = await checkCreds({ user_name: userName, password });
-        if (data.status) {
-          // Store token and user_name in localStorage
-          localStorage.setItem('token', data.token); // Store the token
-          localStorage.setItem('user_name', data.user.user_name); // Store user_name, not id
-    
-          // Navigate to user's home page
-          setStatus(true); // Set login status to true
-          navigate(`/user/home/${data.user.user_name}`); // Use user_name in the URL
-        } else {
-          setStatus(false); // Set login status to false
-          setShowModal(true); // Show the modal for wrong credentials
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Error logging in. Please try again.');
+      // Call the API to check credentials
+      const data = await checkCreds({ user_name: userName, password, captcha: captchaToken });
+      if (data.status) {
+        // Store token and user_name in localStorage
+        localStorage.setItem('token', data.token); // Store the token
+        localStorage.setItem('user_name', data.user.user_name); // Store user_name, not id
+
+        // Navigate to user's home page
+        setStatus(true); // Set login status to true
+        navigate(`/user/home/${data.user.user_name}`); // Use user_name in the URL
+      } else {
+        setStatus(false); // Set login status to false
+        setShowModal(true); // Show the modal for wrong credentials
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Error logging in. Please try again.');
+    }
   };
 
   return (
@@ -86,13 +96,13 @@ function LoginUser() {
                   Password is case sensitive
                 </small>
 
-                {/* CAPTCHA Section (commented out for now) */}
-                {/* <div className="captcha-container mb-3">
+                {/* CAPTCHA Section */}
+                <div className="captcha-container recaptcha">
                   <ReCAPTCHA
-                    sitekey="your-site-key-here" // Replace with your actual site key
+                    sitekey="6Lde_oYqAAAAABxcx2fY6LFkbn6t1Yl7ONQfmN8n" // reCAPTCHA site key
                     onChange={handleCaptchaChange}
                   />
-                </div> */}
+                </div>
 
                 <button type="submit" className="btn btn-primary w-100 login-btn mt-4">
                   LOGIN
