@@ -8,12 +8,13 @@ import Scheduling from './admin/Scheduling';
 import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
 import Scheduling1 from "./admin/Scheduling1";
-import SchedProf from "./admin/SchedProf";
 import Scheduling3 from "./admin/Scheduling3";
 import Scheduling4 from "./admin/Scheduling4";
 import Scheduling5 from "./admin/Scheduling5";
+import SchedProf from "./admin/SchedProf";
 import SchedSection from "./admin/SchedSection";
 import SchedCalendar from "./admin/SchedCalendar";
+import SchedRoom from "./admin/SchedRoom";
 import NotFound from "./NotFound";
 import FeedbackPage from "./users/FeedbackPage";
 import HomePage from "./users/HomePage";
@@ -46,11 +47,12 @@ const router = createBrowserRouter([
       { path: '/admin/feedback', element: <Feedback /> },
       { path: '/admin/scheduling', element: <Scheduling /> },
       { path: '/admin/scheduling/sections', element: <Scheduling5 /> },
-      { path: '/admin/scheduling/profselect', element: <SchedProf /> },
       { path: '/admin/scheduling/3', element: <Scheduling3 /> },
       { path: '/admin/scheduling/4', element: <Scheduling4 /> },
+      { path: '/admin/scheduling/profselect', element: <SchedProf /> },
       { path: '/admin/scheduling/sectionselect', element: <SchedSection /> },
-      { path: '/admin/scheduling/calendar', element: <SchedCalendar /> }
+      { path: '/admin/scheduling/calendar', element: <SchedCalendar /> },
+      { path: '/admin/scheduling/roomselect', element: <SchedRoom /> },
     ] // Removed ProtectedRoute from admin routes
   },
   {

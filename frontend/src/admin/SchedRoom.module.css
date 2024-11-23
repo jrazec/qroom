@@ -1,0 +1,272 @@
+/* Container styles */
+.assignProfessorContainer {
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .headerContainer {
+    text-align: left; /* Align text to the left */
+    padding-bottom: 20px;
+    border-bottom: 2px solid #800000;
+  }
+  
+  .dashboardHeader {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #800000; /* Dark red */
+    margin-bottom: 10px;
+  }
+  
+  .subHeader {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #a9a9a9; /* Gray to differentiate 'Scheduling' */
+  }
+  
+  .departmentSelect {
+    max-width: 400px;
+    margin: 0;
+    text-align: left; /* Align the select department to the left */
+  }
+  
+  .label {
+    font-size: 1.2rem;
+    color: #800000;
+    font-weight: 500;
+  }
+  
+  .departmentDropdown {
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+  
+  /* Professor styles */
+  .assignProfessor {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    height: auto;
+  }
+  
+  .sectionHeader {
+    color: #800000;
+    font-weight: bold;
+    text-align: left; /* Align Assign Professor to the left */
+  }
+  
+  .noProfessorsWarning {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .professorList {
+    margin-top: 20px;
+    max-height: 350px; /* Adjusted height for scrolling */
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .professorRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between columns for layout */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    text-align: center;
+  }
+  
+  .professorRow:hover {
+    background-color: #ffcccc; /* Light red when hovered */
+    transform: translateY(-2px); /* Lift effect on hover */
+  }
+  
+  .selectedRow {
+    background-color: #800000 !important; /* Maroon when selected */
+    color: #fff !important; /* White text for contrast */
+  }
+  
+  .professorCell {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+  }
+  
+  .professorId {
+    flex: 1; /* Width adjustment to match columns evenly */
+  }
+  
+  .professorName {
+    flex: 2; /* Width adjustment for more space */
+  }
+  
+  .professorSubject {
+    flex: 2; /* Width adjustment for more space */
+    font-size: 0.9rem;
+    color: #ffcccc;
+    text-align: left; /* Align text left in the subject column */
+  }
+  
+  /* Popup styles */
+  .subjectPopup {
+    position: fixed;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 300px;
+    height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  
+  .subjectRow {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .subjectRow:hover {
+    background-color: #ffcccc; /* Light red when hovered */
+  }
+  
+  .selectedSubject {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Proceed button */
+  .proceedButton {
+    background-color: #800000;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    border: none;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .proceedButton:hover {
+    background-color: #a50000;
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+  
+  .proceedButton:active {
+    background-color: #590000;
+  }
+  
+  /* Optional responsive styles */
+  @media (max-width: 768px) {
+    .assignProfessorContainer {
+      padding: 20px;
+    }
+  
+    .dashboardHeader {
+      font-size: 2rem;
+    }
+  
+    .subHeader {
+      font-size: 1.25rem;
+    }
+  
+    .departmentSelect {
+      max-width: 100%;
+    }
+  
+    .assignProfessor {
+      padding: 15px;
+    }
+  
+    .proceedButton {
+      width: 100%;
+      padding: 15px;
+    }
+  }
+
+  .roomSelectContainer {
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .buildingSelect {
+    margin-top: 20px;
+  }
+  
+  .buildingDropdown {
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .roomSelection {
+    margin-top: 20px;
+  }
+  
+  .noRoomsWarning {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .roomList {
+    margin-top: 20px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .roomRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    text-align: center;
+  }
+  
+  .roomRow:hover {
+    background-color: #ffcccc;
+    transform: translateY(-2px);
+  }
+  
+  .selectedRoom {
+    background-color: #800000 !important;
+    color: #fff !important;
+  }
+  
+  .roomCell {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+  }
+  
+  .roomId {
+    flex: 1;
+  }
+  
+  .buildingName {
+    flex: 2;
+  }
