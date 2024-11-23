@@ -3,8 +3,10 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import styles from './SchedCalendar.module.css';
+import { useNavigate} from 'react-router-dom';
 
 const WeeklySchedule = () => {
+    const navigate = useNavigate();
     const [events, setEvents] = useState([]);
 
     const handleDateSelect = (selectInfo) => {
@@ -32,6 +34,13 @@ const WeeklySchedule = () => {
         console.log('Event Details:', eventDetails);
     };
 
+    const handleProceedClick = () => {
+        alert('Proceeding to the next step')
+        console.log('Proceed clicked.',);
+        // You can navigate to the next page here if needed
+        navigate('/admin/scheduling/roomselect');
+    };
+
     const calendarConfig = {
         plugins: [timeGridPlugin, interactionPlugin],
         initialView: "timeGridWeek",
@@ -43,6 +52,7 @@ const WeeklySchedule = () => {
             <div style={{ 
                 color: 'white', 
                 fontWeight: 'bold',
+                textDecorationLine: 'none',
                 textDecoration: 'none',
                 borderBottom: 'none',
                 pointerEvents: 'none'
@@ -72,7 +82,7 @@ const WeeklySchedule = () => {
             <div className={styles.headerContainer}>
                 <button 
                     style={{ marginRight: '10px' }} 
-                    onClick={() => window.history.back()}
+                    onClick={() => navigate('/admin/scheduling/sectionselect')}
                 >
                     {'<--'}
                 </button>
@@ -82,7 +92,7 @@ const WeeklySchedule = () => {
                 <FullCalendar {...calendarConfig} />
             </div>
             <div className={styles.proceedButton}> 
-                <button onClick={() => alert('Proceeding to the next step')}>
+                <button onClick={() => handleProceedClick}>
                     Proceed
                 </button>
             </div>
