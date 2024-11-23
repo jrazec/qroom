@@ -49,7 +49,7 @@ function Scheduling() {
       <div className="circle-buttons">
       <Link to="/admin/scheduling/sections" class="text-white"><button className="circle-btn">Manage Sections</button></Link>
       <Link to="/admin/scheduling/courses" class="text-white"><button className="circle-btn">Manage Course</button></Link>
-      <Link to="/admin/scheduling/selectclass" class="text-white"><button className="circle-btn">Schedule Class</button></Link>
+      <Link to="/admin/scheduling/profselect" class="text-white"><button className="circle-btn">Schedule Class</button></Link>
       </div>
     </div>
     <RoomPDFEditor />

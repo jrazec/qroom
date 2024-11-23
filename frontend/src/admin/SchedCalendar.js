@@ -1,55 +1,92 @@
 import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import styles from './SchedCalendar.module.css';
 
 const WeeklySchedule = () => {
     const [events, setEvents] = useState([]);
 
-    // Handle event creation with start and end time selection
     const handleDateSelect = (selectInfo) => {
-        let title = prompt('Enter Event Title');
-        let calendarApi = selectInfo.view.calendar;
-        calendarApi.unselect(); // Clear date selection
+        const title = prompt('Enter Event Title');
+        const calendarApi = selectInfo.view.calendar;
+        calendarApi.unselect();
 
-        if (title) {
-            let newEvent = {
-                id: String(events.length + 1),
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay,
-            };
-            setEvents([...events, newEvent]);
+        if (!title) return;
 
-            // Create object with Day, Time Start, Time End
-            const eventDetails = {
-                day: selectInfo.startStr.split('T')[0],
-                timeStart: selectInfo.startStr.split('T')[1],
-                timeEnd: selectInfo.endStr.split('T')[1],
-            };
-            console.log('Event Details:', eventDetails); // Log the event details
-        }
+        const newEvent = {
+            id: String(events.length + 1),
+            title,
+            start: selectInfo.startStr,
+            end: selectInfo.endStr,
+            allDay: selectInfo.allDay,
+        };
+
+        const eventDetails = {
+            day: selectInfo.startStr.split('T')[0],
+            timeStart: selectInfo.startStr.split('T')[1],
+            timeEnd: selectInfo.endStr.split('T')[1],
+        };
+
+        setEvents([...events, newEvent]);
+        console.log('Event Details:', eventDetails);
+    };
+
+    const calendarConfig = {
+        plugins: [timeGridPlugin, interactionPlugin],
+        initialView: "timeGridWeek",
+        headerToolbar: false,
+        dayHeaders: true,
+        hiddenDays: [],
+        dayHeaderFormat: { weekday: 'short' },
+        dayHeaderContent: (arg) => (
+            <div style={{ 
+                color: 'white', 
+                fontWeight: 'bold',
+                textDecoration: 'none',
+                borderBottom: 'none',
+                pointerEvents: 'none'
+            }}>
+                {arg.text}
+            </div>
+        ),
+        firstDay: 1,
+        slotMinTime: "07:00:00",
+        slotMaxTime: "19:00:00",
+        allDaySlot: false,
+        selectable: true,
+        selectMirror: true,
+        selectOverlap: () => true,
+        selectAllow: () => true,
+        selectConstraint: null,
+        eventBackgroundColor: "#800000",
+        eventBorderColor: "#800000",
+        select: handleDateSelect,
+        events: events,
+        editable: true,
+        eventClick: (info) => alert(`Event: ${info.event.title}`),
     };
 
     return (
-        <FullCalendar
-            plugins={[timeGridPlugin, interactionPlugin]}
-            initialView="timeGridWeek"
-            headerToolbar={true} // Hide header to make it look like a fixed schedule
-            dayHeaders={true} // Display day names
-            firstDay={1} // Set the first day to Sunday
-            slotMinTime="07:00:00" // Show from 7 AM
-            slotMaxTime="19:00:00" // Up to 7 PM
-            allDaySlot={false} // Disable all-day events slot
-            selectable={true}
-            selectMirror={true}
-            select={handleDateSelect} // Call when user selects time range
-            events={events} // Display events on calendar
-            editable={true}
-            eventClick={(info) => alert(`Event: ${info.event.title}`)} // Optional: handle clicks on events
-        />
+        <div className={styles.calendarWrapper}>
+            <div className={styles.headerContainer}>
+                <button 
+                    style={{ marginRight: '10px' }} 
+                    onClick={() => window.history.back()}
+                >
+                    {'<--'}
+                </button>
+                <h2>Department and Section</h2>
+            </div>
+            <div className={styles.calendarContainer}>
+                <FullCalendar {...calendarConfig} />
+            </div>
+            <div className={styles.proceedButton}> 
+                <button onClick={() => alert('Proceeding to the next step')}>
+                    Proceed
+                </button>
+            </div>
+        </div>
     );
 };
 

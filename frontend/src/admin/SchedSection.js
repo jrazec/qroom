@@ -25,7 +25,7 @@ const SelectSection = () => {
         alert(`Proceed with section: ${selectedSection}`);
         console.log('Proceed clicked. Selected Section Details:', selectedSectionDetails);
         // You can navigate to the next page here if needed
-        // navigate('/next-page');
+        navigate('/admin/scheduling/calendar');
     };
 
     const handleBackClick = () => {
