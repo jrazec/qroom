@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import styles from './SchedSection.module.css';
 
 const SelectSection = () => {
     const [selectedSection, setSelectedSection] = useState(null);
     const [selectedSectionDetails, setSelectedSectionDetails] = useState({});
-    const sections = ['Section Names', 'Section Names', 'Section Names'];
+    const sections = ['Section A', 'Section B', 'Section C'];
     const navigate = useNavigate();
+    const location = useLocation();
+    const { selectedDepartment } = location.state || { selectedDepartment: '' };
 
     const handleSectionClick = (section) => {
-        console.log('Section clicked:', section);
-        setSelectedSection(section);
-        setSelectedSectionDetails({ sectionName: section });
-        console.log('Selected Section Details updated:', { sectionName: section });
+        if (selectedSection !== section) {
+            console.log('Section clicked:', section);
+            setSelectedSection(section);
+            setSelectedSectionDetails({ sectionName: section });
+            console.log('Selected Section Details updated:', { sectionName: section });
+        }
     };
 
     const handleProceedClick = () => {
@@ -29,7 +33,7 @@ const SelectSection = () => {
             if (window.confirm('You have already selected a section. Are you sure you want to go back?')) {
                 console.log('Back confirmed with section selected:', selectedSection);
                 // Placeholder for navigation to the previous page
-                // navigate('/previous-page');
+                navigate('/admin/scheduling/profselect');
             } else {
                 console.log('Back cancelled by user');
             }
@@ -42,10 +46,11 @@ const SelectSection = () => {
 
     return (
         <div className={`${styles.selectSectionContainer} container mt-4`}>
-            <div className={`d-flex align-items-center mb-3 ${styles.selectSectionHeader}`}>
+            <div className="d-flex align-items-center mb-3">
                 <span className={`${styles.backIcon} me-3`} onClick={handleBackClick}>&larr;</span>
-                <h2 className={styles.selectSectionTitle}>Select Section</h2>
+                <h2 className={styles.selectSectionTitle}>Department: {selectedDepartment}</h2>
             </div>
+            <h3 className={styles.selectSectionTitle}>Select Section</h3>
             <div className={`list-group ${styles.selectSectionList}`}>
                 {sections.map((section, index) => (
                     <button
