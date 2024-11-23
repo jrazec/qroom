@@ -156,6 +156,9 @@
         margin-bottom: 0;
         margin-right: 10px; /* Add spacing between icons on mobile */
     }
+    .socialIcons, .socialIcon {
+        visibility: hidden;
+    }
 }
 
 /* Bottom Navigation for Mobile */
@@ -169,7 +172,7 @@
     box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
     justify-content: space-around;
     align-items: center;
-    z-index: 100;
+    z-index: 1;
 }
 
 .bottom-nav a {

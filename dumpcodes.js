@@ -1,157 +1,68 @@
-<div className="qroom-container">
-      {/* Navbar Section */}
-      <nav className="navbar">
-        <div className="logo">QRoom</div>
-        <ul className="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#schedule">Schedule</a></li>
-          <li><a href="#rooms">Rooms</a></li>
-          <li><a href="#feedback">Feedback</a></li>
-        </ul>
-      </nav>
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-      {/* Main Section */}
-      <div className="main-content">
-        <h1 className="main-title">
-          <span className="title-light">QRoom</span>
-          <span className="title-bold">QRoom</span>
-        </h1>
-
-        <div className="button-section">
-          <div className="room-button">
-            <img src="path-to-your-image" alt="Calculator Icon" className="button-icon" />
-          </div>
-          <div className="room-button">
-            <img src="path-to-your-image" alt="Calculator Icon" className="button-icon" />
-          </div>
-          <div className="room-button">
-            <img src="path-to-your-image" alt="Calculator Icon" className="button-icon" />
-          </div>
-        </div>
+const QRCodeGrid = ({ qrCodes }) => {
+  return (
+    <Container fluid style={{ padding: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "90vh",
+        }}
+      >
+        <Row style={{ maxWidth: "800px" }}>
+          {qrCodes.map((qrCode, index) => (
+            <Col
+              key={index}
+              xs={4}
+              className="d-flex justify-content-center align-items-center"
+              style={{
+                border: "1px solid black",
+                padding: "10px",
+                height: "200px",
+              }}
+            >
+              <div style={{ textAlign: "center" }}>
+                <img src={qrCode.image} alt={`QR code ${index + 1}`} width="100" />
+                <p style={{ marginTop: "10px" }}>{qrCode.label}</p>
+              </div>
+            </Col>
+          ))}
+        </Row>
       </div>
+    </Container>
+  );
+};
 
-      {/* Social Icons Section */}
-      <div className="social-icons">
-        <a href="#facebook"><i className="fa fa-facebook"></i></a>
-        <a href="#email"><i className="fa fa-envelope"></i></a>
-        <a href="#twitter"><i className="fa fa-twitter"></i></a>
-      </div>
-    </div>
+export default QRCodeGrid;
 
-//     /* General Layout */
-// .qroom-container {
-//     font-family: 'Arial', sans-serif;
-//     background-color: white;
-//     padding-bottom: 50px;
-//   }
-  
-//   .navbar {
-//     display: flex;
-//     justify-content: space-between;
-//     background-color: #8C1D20;
-//     padding: 20px;
-//     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-//   }
-  
-//   .logo {
-//     font-size: 30px;
-//     color: white;
-//     font-weight: bold;
-//   }
-  
-//   .nav-links {
-//     list-style: none;
-//     display: flex;
-//     gap: 30px;
-//   }
-  
-//   .nav-links li a {
-//     color: white;
-//     text-decoration: none;
-//     font-size: 20px;
-//     transition: color 0.3s ease;
-//   }
-  
-//   /* Hover Effect for Navbar Links */
-//   .nav-links li a:hover {
-//     color: #ffcccb;
-//   }
-  
-//   /* Main Title Styling */
-//   .main-content {
-//     text-align: center;
-//     margin-top: 50px;
-//   }
-  
-//   .main-title {
-//     display: inline-block;
-//     text-align: center;
-//   }
-  
-//   .title-light {
-//     font-size: 70px;
-//     font-weight: 300;
-//     color: rgba(140, 29, 32, 0.5);
-//   }
-  
-//   .title-bold {
-//     font-size: 70px;
-//     font-weight: 900;
-//     color: #8C1D20;
-//     position: absolute;
-//     top: 50px;
-//   }
-  
-//   /* Button Section Styling */
-//   .button-section {
-//     display: flex;
-//     justify-content: center;
-//     margin-top: 30px;
-//   }
-  
-//   .room-button {
-//     background-color: white;
-//     border: 5px solid #8C1D20;
-//     border-radius: 50%;
-//     width: 150px;
-//     height: 150px;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     margin: 0 20px;
-//     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-//     transition: transform 0.3s ease, box-shadow 0.3s ease;
-//     cursor: pointer;
-//   }
-  
-//   .room-button:hover {
-//     transform: scale(1.1);
-//     box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
-//   }
-  
-//   .button-icon {
-//     width: 50px;
-//     height: 50px;
-//   }
-  
-//   /* Social Icons Styling */
-//   .social-icons {
-//     position: fixed;
-//     left: 10px;
-//     bottom: 50px;
-//     display: flex;
-//     flex-direction: column;
-//     gap: 20px;
-//   }
-  
-//   .social-icons a {
-//     color: #8C1D20;
-//     font-size: 28px;
-//     text-decoration: none;
-//     transition: color 0.3s ease;
-//   }
-  
-//   .social-icons a:hover {
-//     color: #000;
-//   }
-  
+// Sample usage example for App.js:
+// import React from "react";
+// import QRCodeGrid from "./QRCodeGrid";
+//
+// const qrCodes = [
+//   { image: "path/to/qr1.png", label: "Computer Laboratory 1" },
+//   { image: "path/to/qr2.png", label: "Computer Laboratory 2" },
+//   { image: "path/to/qr3.png", label: "VMB 304" },
+//   { image: "path/to/qr4.png", label: "Computer Laboratory 4" },
+//   { image: "path/to/qr5.png", label: "Computer Laboratory 5" },
+//   { image: "path/to/qr6.png", label: "VMB 300/ SSC Office/ Publication" },
+//   { image: "path/to/qr7.png", label: "Computer Laboratory 9" },
+//   { image: "path/to/qr8.png", label: "Computer Laboratory 6" },
+//   { image: "path/to/qr9.png", label: "VMB 400/ SSC Office/" },
+// ];
+//
+// function App() {
+//   return (
+//     <div className="App">
+//       <QRCodeGrid qrCodes={qrCodes} />
+//     </div>
+//   );
+// }
+//
+// export default App;
+
+// This code uses React and Bootstrap to create a 3x3 grid for QR codes, fitting well into A4/letter paper size for printing purposes. Adjust QR image sizes and styles to your liking if needed.
