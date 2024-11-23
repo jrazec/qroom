@@ -88,7 +88,7 @@ const AssignProfessor = () => {
         subject_id: selectedSubject?.id,
       };
       console.log('Selected Professor and Subject:', userSectionSched);
-      navigate('/admin/scheduling/course');
+      navigate('/admin/scheduling/sectionselect');
     }
   };
 

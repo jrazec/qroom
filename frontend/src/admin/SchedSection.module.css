@@ -1,0 +1,41 @@
+.selectSectionContainer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.backIcon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #800000;
+}
+
+.selectSectionTitle {
+    font-weight: bold;
+    color: #800000;
+}
+
+.selectSectionList {
+    margin-top: 20px;
+}
+
+.list-group-item {
+    border: 1px solid #800000;
+    color: #800000;
+}
+
+.list-group-item.active {
+    background-color: #800000;
+    color: #ffffff;
+    border-color: #800000;
+}
+
+.proceedButton {
+    background-color: #800000;
+    border-color: #800000;
+}
+
+.proceedButton:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+}
