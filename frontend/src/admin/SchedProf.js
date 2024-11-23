@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './AssignProfessor.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
@@ -9,16 +9,16 @@ const AssignProfessor = () => {
 
   const departments = ['CICS', 'CTE', 'CAS', 'CABE'];
   const professors = [
-    { user_name: 'prof001', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 1, course_name: 'DSA' }, { id: 2, course_name: 'Linear Algebra' },{ id: 4, course_name: 'Calculus' },{ id: 5, course_name: 'ssssss' },{ id: 3, course_name: 'Calculus' }] },
-    { user_name: 'prof002', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
-    { user_name: 'prof003', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
-    { user_name: 'prof004', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
-    { user_name: 'prof0020', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
-    { user_name: 'prof003', department: 'CTE', name: 'Prof. Michael White', subjects: [{ id: 1, course_name: 'Physics' }] },
-    { user_name: 'prof004', department: 'CAS', name: 'Prof. Sarah Black', subjects: [{ id: 2, course_name: 'Chemistry' }] },
-    { user_name: 'prof005', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 3, course_name: 'Calculus' }] },
-    { user_name: 'prof006', department: 'CICS', name: 'Dr. John Smith', subjects: [] },
-    { user_name: 'prof007', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 4, course_name: 'Advanced Mathematics' }] },
+    { user_name: 'prof001', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 1, course_name: 'DSA' }, { id: 2, course_name: 'Linear Algebra' }, { id: 4, course_name: 'Calculus' }, { id: 5, course_name: 'ssssss' }, { id: 3, course_name: 'Calculus' }] },
+  { user_name: 'prof002', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
+  { user_name: 'prof003', department: 'CTE', name: 'Prof. Michael White', subjects: [{ id: 1, course_name: 'Physics' }] },
+  { user_name: 'prof004', department: 'CAS', name: 'Prof. Sarah Black', subjects: [{ id: 2, course_name: 'Chemistry' }] },
+  { user_name: 'prof005', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 3, course_name: 'Calculus' }] },
+  { user_name: 'prof006', department: 'CICS', name: 'Dr. John Smith', subjects: [] },
+  { user_name: 'prof007', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 4, course_name: 'Advanced Mathematics' }] },
+  { user_name: 'prof008', department: 'CTE', name: 'Prof. Alex Green', subjects: [{ id: 5, course_name: 'Introduction to Education' }] },
+  { user_name: 'prof009', department: 'CAS', name: 'Dr. Emma Blue', subjects: [{ id: 6, course_name: 'Organic Chemistry' }, { id: 7, course_name: 'Biology' }] },
+  { user_name: 'prof010', department: 'CABE', name: 'Prof. Alan Gray', subjects: [{ id: 8, course_name: 'Engineering Mechanics' }] },
   ];
 
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -26,6 +26,7 @@ const AssignProfessor = () => {
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [showSubjectPopup, setShowSubjectPopup] = useState(false);
+  const [isSubjectConfirmed, setIsSubjectConfirmed] = useState(false);
   const [showNoProfessorsWarning, setShowNoProfessorsWarning] = useState(false);
 
   const handleDepartmentChange = (e) => {
@@ -36,23 +37,19 @@ const AssignProfessor = () => {
     setSelectedProfessor(null); // Reset selection when changing department
     setSelectedSubject(null);
     setShowNoProfessorsWarning(filtered.length === 0);
+    setIsSubjectConfirmed(false); // Reset confirmation on department change
   };
 
   const handleProfessorSelect = (professor) => {
     if (selectedProfessor?.user_name === professor.user_name) {
       setSelectedProfessor(null); // Deselect if already selected
       setShowSubjectPopup(false);
-      setFilteredProfessors((prev) =>
-        prev.map((prof) =>
-          prof.user_name === selectedProfessor.user_name
-            ? { ...prof, selectedSubject: null }
-            : prof
-        )
-      );
+      setIsSubjectConfirmed(false); // Reset subject confirmation
     } else {
       setSelectedProfessor(professor); // Select new professor
       setSelectedSubject(null); // Reset subject selection on new professor
       setShowSubjectPopup(true);
+      setIsSubjectConfirmed(false); // Reset subject confirmation
     }
   };
 
@@ -74,6 +71,7 @@ const AssignProfessor = () => {
         )
       );
       setShowSubjectPopup(false);
+      setIsSubjectConfirmed(true); // Mark subject as confirmed
     } else {
       alert('Please choose a subject before proceeding.');
     }
@@ -92,11 +90,25 @@ const AssignProfessor = () => {
     }
   };
 
+  const handleBackClick = () => {
+    if (selectedDepartment || selectedProfessor || selectedSubject) {
+      const confirmBack = window.confirm('You have already made a selection. Are you sure you want to go back?');
+      if (confirmBack) {
+        navigate('/admin/scheduling/');
+      }
+    } else {
+      navigate('/admin/scheduling/');
+    }
+  };
+
   return (
     <div className={`container ${styles.assignProfessorContainer}`}>
-      <div className={`${styles.headerContainer} mt-4`}>
+      <div className={`${styles.headerContainer} mt-4 d-flex align-items-center`}>
+        <span className={styles.backIcon} onClick={handleBackClick}>
+          &larr;
+        </span>
         <h1 className={styles.dashboardHeader}>
-          Dashboard <span className={styles.subHeader}>Scheduling</span>
+          Department <span className={styles.subHeader}>Scheduling</span>
         </h1>
       </div>
 
@@ -128,28 +140,27 @@ const AssignProfessor = () => {
             No instructors added. Please choose another department or add a professor to the department.
           </div>
         ) : (
-      <div className={styles.professorList}>
-        {filteredProfessors.map((prof) => (
-          <div
-            key={prof.user_name}
-            onClick={() => handleProfessorSelect(prof)}
-            className={`${styles.professorRow} ${
-              selectedProfessor?.user_name === prof.user_name ? styles.selectedRow : ''
-            }`}
-          >
-            <div className={`${styles.professorCell} ${styles.professorId}`} style={{ width: '30%' }}>
-              {prof.user_name}
-            </div>
-            <div className={`${styles.professorCell} ${styles.professorName}`} style={{ width: '35%' }}>
-              {prof.name}
-            </div>
-            <div className={`${styles.professorCell} ${styles.professorSubject}`} style={{ width: '35%' }}>
-              {prof.selectedSubject ? `Subject: ${prof.selectedSubject}` : ''}
-            </div>
+          <div className={styles.professorList}>
+            {filteredProfessors.map((prof) => (
+              <div
+                key={prof.user_name}
+                onClick={() => handleProfessorSelect(prof)}
+                className={`${styles.professorRow} ${
+                  selectedProfessor?.user_name === prof.user_name ? styles.selectedRow : ''
+                }`}
+              >
+                <div className={`${styles.professorCell} ${styles.professorId}`} style={{ width: '30%' }}>
+                  {prof.user_name}
+                </div>
+                <div className={`${styles.professorCell} ${styles.professorName}`} style={{ width: '35%' }}>
+                  {prof.name}
+                </div>
+                <div className={`${styles.professorCell} ${styles.professorSubject}`} style={{ width: '35%' }}>
+                  {prof.selectedSubject ? `Subject: ${prof.selectedSubject}` : ''}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
         )}
       </div>
 
@@ -193,7 +204,7 @@ const AssignProfessor = () => {
             <Button variant="secondary" onClick={() => setShowSubjectPopup(false)}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleChooseSubject}>
+            <Button variant="primary" className={styles.proceedButton}onClick={handleChooseSubject} disabled={!selectedSubject}>
               Choose
             </Button>
           </div>
@@ -205,6 +216,7 @@ const AssignProfessor = () => {
           variant="danger"
           className={`mt-4 ${styles.proceedButton}`}
           onClick={handleProceed}
+          disabled={!selectedProfessor || !selectedSubject || !isSubjectConfirmed}
         >
           PROCEED
         </Button>

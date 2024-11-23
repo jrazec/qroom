@@ -74,15 +74,31 @@ const RoomSelect = () => {
     navigate('/admin/scheduling/summary', { state: { scheduleDetails } });
   };
 
+  const handleBackClick = () => {
+    if (selectedRoom) {
+      if (window.confirm('You have already selected a room. Are you sure you want to go back?')) {
+        navigate('/admin/scheduling/calendar');
+      }
+    } else {
+      navigate('/admin/scheduling/calendar');
+    }
+  };
+
   return (
-    <div className={`container ${styles.assignProfessorContainer}`}>
-      <div className={`mt-4 ${styles.departmentSelect}`}>
+    <div className={`container ${styles.roomSelectContainer}`}>
+      <div className="d-flex align-items-center mb-3">
+        <span className={`${styles.backIcon} me-3`} onClick={handleBackClick}>
+          &larr;
+        </span>
+        <h2 className={styles.selectRoomTitle}>Select Room</h2>
+      </div>
+      <div className={`mt-4 ${styles.buildingSelect}`}>
         <label htmlFor="buildingSelect" className={`form-label ${styles.label}`}>
           Select Building
         </label>
         <select
           id="buildingSelect"
-          className={`form-select ${styles.departmentDropdown}`}
+          className={`form-select ${styles.buildingDropdown}`}
           value={selectedBuilding}
           onChange={handleBuildingChange}
         >
@@ -93,24 +109,24 @@ const RoomSelect = () => {
         </select>
       </div>
 
-      <div className={`mt-4 ${styles.assignProfessor}`}>
+      <div className={`mt-4 ${styles.roomSelection}`}>
         <h3 className={styles.sectionHeader}>Select Room</h3>
         {showNoRoomsWarning ? (
-          <div className={`alert alert-warning ${styles.noProfessorsWarning}`}>
+          <div className={`alert alert-warning ${styles.noRoomsWarning}`}>
             No rooms available in this building. Please choose another building.
           </div>
         ) : (
-          <div className={styles.professorList}>
+          <div className={styles.roomList}>
             {filteredRooms.map(room => (
               <div
                 key={room.room_name}
                 onClick={() => handleRoomSelect(room)}
-                className={`${styles.professorRow} ${selectedRoom?.room_name === room.room_name ? styles.selectedRow : ''}`}
+                className={`${styles.roomRow} ${selectedRoom?.room_name === room.room_name ? styles.selectedRoom : ''}`}
               >
-                <div className={`${styles.professorCell} ${styles.professorId}`} style={{ width: '30%' }}>
+                <div className={`${styles.roomCell} ${styles.roomId}`} style={{ width: '30%' }}>
                   {room.room_name}
                 </div>
-                <div className={`${styles.professorCell} ${styles.professorName}`} style={{ width: '35%' }}>
+                <div className={`${styles.roomCell} ${styles.buildingName}`} style={{ width: '35%' }}>
                   {room.building}
                 </div>
               </div>
@@ -124,6 +140,7 @@ const RoomSelect = () => {
           variant="danger"
           className={`mt-4 ${styles.proceedButton}`}
           onClick={handleProceed}
+          disabled={!selectedRoom}
         >
           PROCEED
         </Button>

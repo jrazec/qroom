@@ -65,8 +65,16 @@ const WeeklySchedule = () => {
     
         navigate('/admin/scheduling/roomselect', { state: { selectedDepartment, selectedSection, events } });
     };
-    
-    
+
+    const handleBackClick = () => {
+        if (events.length > 0) {
+            if (window.confirm('You have already created events. Are you sure you want to go back?')) {
+                navigate('/admin/scheduling/sectionselect');
+            }
+        } else {
+            navigate('/admin/scheduling/sectionselect');
+        }
+    };
 
     const calendarConfig = {
         plugins: [timeGridPlugin, interactionPlugin],
@@ -106,13 +114,18 @@ const WeeklySchedule = () => {
 
     return (
         <div className={styles.calendarWrapper}>
-            <div className={styles.headerContainer}>
-                <button 
-                    style={{ marginRight: '10px' }} 
-                    onClick={() => navigate('/admin/scheduling/sectionselect')}
+            <div className={`${styles.headerContainer} d-flex align-items-center mb-3`}>
+                <span 
+                    className={`${styles.backIcon} me-3`} 
+                    onClick={handleBackClick}
+                    style={{
+                        cursor: 'pointer',
+                        fontSize: '1.5rem',
+                        color: '#800000',
+                    }}
                 >
-                    {'<--'}
-                </button>
+                    &larr;
+                </span>
                 <h2>Department: {selectedDepartment}, Section: {selectedSection}</h2>
             </div>
             <div className={styles.calendarContainer}>
