@@ -16,7 +16,9 @@ function Navbar() {
   // Define the routes where you want to show the back button
   const showBackButton = [
     `/user/schedule/${id}`,
-    `/user/room-search/${id}`
+    `/user/room-search/${id}`,
+    `/user/room-search/${id}/floor/${id}`,
+    `/user/room-search/${id}/room/${id}`
   ].includes(location.pathname);
 
   // Get the current path

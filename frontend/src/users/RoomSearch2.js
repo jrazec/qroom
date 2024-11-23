@@ -1,95 +1,172 @@
-import React, { useEffect, useRef } from 'react';
+// RoomSearch2.js
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from './Navbar';
 import roomSearch2 from './RoomSearch2.module.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import axios from "axios";
 
 function RoomSearch2() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
   const carouselRef = useRef(null);
+  const [filteredBuildings, setFilteredBuildings] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Check for authentication
+  // Define a mapping for building IDs to building names and floor numbers
+  const buildingMap = {
+    1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] },
+    2: { name: "VALERIO MALABANAN BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
+    3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
+    4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
+  };
+
   useEffect(() => {
-    // Check if the user is authenticated by looking for a token in localStorage
+    // Authentication check
     const token = localStorage.getItem('token');
-    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
-
+    const loggedInUser = localStorage.getItem('user_name');
     if (!token) {
-      // If no token, redirect to login page
       navigate('/user/login');
       return;
     }
-
-    // If the user is trying to access another user's page
     if (id !== loggedInUser) {
       alert("Access forbidden");
-      navigate('/not-found'); // Redirect to the homepage or NotFound page
+      navigate('/not-found');
       return;
     }
+
+    // Set building information from buildingMap
+    const buildings = Object.entries(buildingMap).map(([key, value]) => ({
+      id: key,
+      name: value.name,
+      floors: value.floors
+    }));
+    setFilteredBuildings(buildings);
   }, [id, navigate]);
 
+  // Handle search term change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value.trim() === "") {
+      setFilteredBuildings(Object.entries(buildingMap).map(([key, value]) => ({
+        id: key,
+        name: value.name,
+        floors: value.floors
+      })));
+    } else {
+      const filtered = Object.entries(buildingMap).filter(([, building]) =>
+        building.name.toLowerCase().includes(value.toLowerCase())
+      ).map(([key, value]) => ({
+        id: key,
+        name: value.name,
+        floors: value.floors
+      }));
+      setFilteredBuildings(filtered);
+    }
+    setShowSuggestions(true);
+  };
+
+  // Handle building click to navigate to a specific building
+  const handleBuildingClick = (building) => {
+    navigate(`/user/room-search/${id}/floor/${building.id}`);
+  };
+
+  // Carousel controls
   const goToNextSlide = () => {
     if (carouselRef.current) {
-      const carousel = carouselRef.current;
-      const bsCarousel = new window.bootstrap.Carousel(carousel);
-      bsCarousel.next();
+      const carousel = new window.bootstrap.Carousel(carouselRef.current);
+      carousel.next();
     }
   };
 
   const goToPreviousSlide = () => {
     if (carouselRef.current) {
-      const carousel = carouselRef.current;
-      const bsCarousel = new window.bootstrap.Carousel(carousel);
-      bsCarousel.prev();
+      const carousel = new window.bootstrap.Carousel(carouselRef.current);
+      carousel.prev();
     }
   };
 
   return (
     <div className={roomSearch2.app}>
-      <Navbar />
+      <Navbar id={id} />
 
       <main className={roomSearch2.mainContent}>
         {/* Search Bar */}
-        <div className={roomSearch2.searchBar}>
-          <input type="text" className={`form-control ${roomSearch2.searchInput}`} placeholder="search" />
-          <button className={`btn ${roomSearch2.btnSearch}`}>Search</button>
+        <div className={`${roomSearch2.searchBar} mb-5 text-center position-relative`}>
+          <div className="d-flex justify-content-center align-items-center">
+            <input
+              type="text"
+              className={`form-control ${roomSearch2.searchInput} d-inline-block`}
+              placeholder="Search by building name"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            />
+            <button
+              className={`btn btn-danger ${roomSearch2.btnSearch} d-inline-block ml-2`}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowSuggestions(false);
+              }}
+            >
+              Search
+            </button>
+          </div>
+          {showSuggestions && searchTerm.trim() !== "" && (
+            <ul className={`${roomSearch2.suggestions} list-group position-absolute w-100`} style={{ top: '100%', zIndex: '1000' }}>
+              {filteredBuildings.map((building) => (
+                <li
+                  key={building.id}
+                  className="list-group-item list-group-item-action"
+                  onClick={() => handleBuildingClick(building)}
+                >
+                  {building.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        {/* Carousel */}
-        <div id="carouselExampleIndicators" ref={carouselRef} className={`carousel slide mt-5 ${roomSearch2.carousel}`} data-bs-ride="carousel">
-          <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        {/* Building Carousel */}
+        {filteredBuildings.length > 0 && (
+          <div id="carouselExampleIndicators" ref={carouselRef} className={`carousel slide mt-5 ${roomSearch2.carousel}`} data-bs-ride="carousel">
+            <div className="carousel-inner">
+              {filteredBuildings.map((building, index) => (
+                <div
+                  className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                  key={building.id}
+                  onClick={() => handleBuildingClick(building)}
+                >
+                  <img
+                    src={`https://picsum.photos/500/300?random=${building.id}`}
+                    className={`d-block w-100 ${roomSearch2.mainImage}`}
+                    alt={building.name}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <div className="carousel-caption">
+                    <h5>{building.name}</h5>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Custom controls linked to the carousel */}
+            <div className={`custom-controls mt-4 ${roomSearch2.customControls}`}>
+              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToPreviousSlide}>Previous</button>
+              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToNextSlide}>Next</button>
+            </div>
           </div>
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img src="https://picsum.photos/500/300?random=1" className={`d-block w-100 ${roomSearch2.mainImage}`} alt="Slide 1" />
-            </div>
-            <div className="carousel-item">
-              <img src="https://picsum.photos/500/300?random=2" className={`d-block w-100 ${roomSearch2.mainImage}`} alt="Slide 2" />
-            </div>
-            <div className="carousel-item">
-              <img src="https://picsum.photos/500/300?random=3" className={`d-block w-100 ${roomSearch2.mainImage}`} alt="Slide 3" />
-            </div>
-          </div>
-        </div>
+        )}
 
-        {/* Custom controls linked to the carousel */}
-        <div className={`custom-controls mt-4 ${roomSearch2.customControls}`}>
-          <button className={`btn ${roomSearch2.customBtn}`} onClick={goToPreviousSlide}>previous</button>
-          <div className={roomSearch2.dotIndicators}>
-            <span className={roomSearch2.dot}></span>
-            <span className={roomSearch2.dot}></span>
-            <span className={roomSearch2.dot}></span>
-            <span className={roomSearch2.dot}></span>
-          </div>
-          <button className={`btn ${roomSearch2.customBtn}`} onClick={goToNextSlide}>next</button>
-        </div>
+        {/* Conditional rendering to hide message when filteredBuildings has results or during active search */}
+        {filteredBuildings.length === 0 && searchTerm.trim() !== "" && (
+          <p className="text-center mt-5">No buildings available or matching the search criteria.</p>
+        )}
 
-        <h3 className={`carousel-title mt-2 ${roomSearch2.carouselTitle}`}>CECS</h3>
+        <h3 className={`carousel-title mt-5 ${roomSearch2.carouselTitle}`}>Buildings Available</h3>
 
       </main>
     </div>
