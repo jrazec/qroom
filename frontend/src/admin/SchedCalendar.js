@@ -49,15 +49,21 @@ const WeeklySchedule = () => {
     };
     
     const handleProceedClick = () => {
+        if (!selectedDepartment || !selectedSection) {
+            alert('Department and Section information are missing.');
+            return;
+        }
+    
         // Extracting day name instead of specific date for a better alert message
         const eventsDetails = events.map(event => {
-            const dayName = getDayName(event.start); // Get day of the week
+            const dayName = new Date(event.start).toLocaleString('en-us', { weekday: 'long' });
             return `Title: ${event.title}, Day: ${dayName}, Start Time: ${new Date(event.start).toLocaleTimeString()}, End Time: ${new Date(event.end).toLocaleTimeString()}`;
         }).join('\n');
-    
+        
         alert(`Proceed with schedule:\n${eventsDetails}`);
         console.log('Proceed clicked.');
-        navigate('/admin/scheduling/roomselect', { state: { events } });
+    
+        navigate('/admin/scheduling/roomselect', { state: { selectedDepartment, selectedSection, events } });
     };
     
     
