@@ -1,5 +1,6 @@
 table, td {
     background-color: #ffffff9b;
+    
 }
 th a{
     text-decoration: none;
@@ -7,7 +8,7 @@ th a{
  th {
     border: 100px solid rgb(96, 31, 31);
  }
- 
+
 .calendarContainer {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -15,18 +16,15 @@ th a{
     background-color: #ffffff;
     width: 90%;
     max-width: 800px;
-    height: 600px;
     margin: 0 auto;
     overflow: hidden;
 }
 
 .calendarWrapper {
-    height: auto;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     padding: 1rem;
 }
 
@@ -45,5 +43,14 @@ th a{
     bottom: 20px;
     right: 20px;
     z-index: 1;
+}
+.proceedButton {
+    background-color: #800000;
+    border-color: #800000;
+}
+
+.proceedButton:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
 }
 

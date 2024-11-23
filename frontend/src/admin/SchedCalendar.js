@@ -3,14 +3,22 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import styles from './SchedCalendar.module.css';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const WeeklySchedule = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Extract selectedDepartment and selectedSection from location.state
+    const { selectedDepartment, selectedSection } = location.state || {};
+
     const [events, setEvents] = useState([]);
+    console.log(events);
 
     const handleDateSelect = (selectInfo) => {
-        const title = prompt('Enter Event Title');
+        // Automatically set the title using selectedDepartment and selectedSection
+        const title = `${selectedDepartment}, ${selectedSection}`;
         const calendarApi = selectInfo.view.calendar;
         calendarApi.unselect();
 
@@ -34,12 +42,25 @@ const WeeklySchedule = () => {
         console.log('Event Details:', eventDetails);
     };
 
-    const handleProceedClick = () => {
-        alert('Proceeding to the next step')
-        console.log('Proceed clicked.',);
-        // You can navigate to the next page here if needed
-        navigate('/admin/scheduling/roomselect');
+    const getDayName = (dateString) => {
+        const date = new Date(dateString);
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        return days[date.getDay()];
     };
+    
+    const handleProceedClick = () => {
+        // Extracting day name instead of specific date for a better alert message
+        const eventsDetails = events.map(event => {
+            const dayName = getDayName(event.start); // Get day of the week
+            return `Title: ${event.title}, Day: ${dayName}, Start Time: ${new Date(event.start).toLocaleTimeString()}, End Time: ${new Date(event.end).toLocaleTimeString()}`;
+        }).join('\n');
+    
+        alert(`Proceed with schedule:\n${eventsDetails}`);
+        console.log('Proceed clicked.');
+        navigate('/admin/scheduling/roomselect', { state: { events } });
+    };
+    
+    
 
     const calendarConfig = {
         plugins: [timeGridPlugin, interactionPlugin],
@@ -86,16 +107,19 @@ const WeeklySchedule = () => {
                 >
                     {'<--'}
                 </button>
-                <h2>Department and Section</h2>
+                <h2>Department: {selectedDepartment}, Section: {selectedSection}</h2>
             </div>
             <div className={styles.calendarContainer}>
                 <FullCalendar {...calendarConfig} />
             </div>
-            <div className={styles.proceedButton}> 
-                <button onClick={() => handleProceedClick}>
-                    Proceed
-                </button>
-            </div>
+            <Button 
+                variant="primary" 
+                className={`${styles.proceedButton} mt-4 d-block mx-auto`} 
+                onClick={handleProceedClick}
+                disabled={events.length === 0}
+            >
+                PROCEED
+            </Button>
         </div>
     );
 };

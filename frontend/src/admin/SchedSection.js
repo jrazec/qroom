@@ -1,45 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import styles from './SchedSection.module.css';
 
 const SelectSection = () => {
-    const [selectedSection, setSelectedSection] = useState(null);
-    const [selectedSectionDetails, setSelectedSectionDetails] = useState({});
-    const sections = ['Section A', 'Section B', 'Section C'];
     const navigate = useNavigate();
     const location = useLocation();
-    const { selectedDepartment } = location.state || { selectedDepartment: '' };
+
+    // Get the selected department from location.state
+    const { selectedDepartment } = location.state || {};
+
+    const [selectedSection, setSelectedSection] = useState(null);
+    const sections = ['1101', '1102', '1103'];
+
+    console.log('Department:', selectedDepartment);
 
     const handleSectionClick = (section) => {
         if (selectedSection !== section) {
             console.log('Section clicked:', section);
             setSelectedSection(section);
-            setSelectedSectionDetails({ sectionName: section });
-            console.log('Selected Section Details updated:', { sectionName: section });
+            // Corrected the alert syntax
+            alert(`Selected Section: ${section}`);
         }
     };
 
     const handleProceedClick = () => {
-        alert(`Proceed with section: ${selectedSection}`);
-        console.log('Proceed clicked. Selected Section Details:', selectedSectionDetails);
-        // You can navigate to the next page here if needed
-        navigate('/admin/scheduling/calendar');
+        if (selectedDepartment && selectedSection) {
+            // Corrected the alert syntax
+            alert(`Proceeding with Department: ${selectedDepartment}, Section: ${selectedSection}`);
+            navigate('/admin/scheduling/calendar', {
+                state: { selectedDepartment, selectedSection }
+            });
+        } else {
+            alert('Please select a section');
+        }
     };
 
     const handleBackClick = () => {
         if (selectedSection) {
             if (window.confirm('You have already selected a section. Are you sure you want to go back?')) {
                 console.log('Back confirmed with section selected:', selectedSection);
-                // Placeholder for navigation to the previous page
                 navigate('/admin/scheduling/profselect');
             } else {
                 console.log('Back cancelled by user');
             }
         } else {
             console.log('Back clicked with no section selected');
-            // Placeholder for navigation to the previous page
             navigate('/admin/scheduling/profselect');
         }
     };
