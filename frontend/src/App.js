@@ -12,6 +12,7 @@ import Scheduling2 from "./admin/Scheduling2";
 import Scheduling3 from "./admin/Scheduling3";
 import Scheduling4 from "./admin/Scheduling4";
 import Scheduling5 from "./admin/Scheduling5";
+import Calendar from "./admin/Calendar";
 import NotFound from "./NotFound";
 import FeedbackPage from "./users/FeedbackPage";
 import HomePage from "./users/HomePage";
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       { path: '/admin/scheduling/class', element: <Scheduling2 /> },
       { path: '/admin/scheduling/3', element: <Scheduling3 /> },
       { path: '/admin/scheduling/4', element: <Scheduling4 /> },
+      { path: '/admin/scheduling/calendar', element: <Calendar /> }
     ] // Removed ProtectedRoute from admin routes
   },
   {
