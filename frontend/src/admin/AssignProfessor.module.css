@@ -1,9 +1,12 @@
 /* Container styles */
 .assignProfessorContainer {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
+    margin: 2rem auto;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    max-height: 95vh;
+    overflow: hidden;
   }
   
   .headerContainer {
@@ -49,7 +52,7 @@
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
     margin-top: 20px;
-    height: auto;
+
   }
   
   .sectionHeader {
@@ -65,7 +68,7 @@
   
   .professorList {
     margin-top: 20px;
-    max-height: 350px; /* Adjusted height for scrolling */
+    max-height: 11.5rem; /* Adjusted height for scrolling */
     overflow-y: auto;
     padding-right: 10px;
     display: flex;

@@ -74,14 +74,16 @@ const SelectSection = () => {
           </button>
         ))}
       </div>
-      <Button
-        variant="primary"
-        className={`${styles.proceedButton} mt-4 d-block mx-auto`}
-        onClick={handleProceedClick}
-        disabled={!selectedSection}
-      >
-        PROCEED
-      </Button>
+      <div className="d-flex justify-content-end">
+        <Button
+          variant="primary"
+          className={`${styles.proceedButton} mt-4`}
+          onClick={handleProceedClick}
+          disabled={!selectedSection}
+        >
+          PROCEED
+        </Button>
+      </div>
     </div>
   );
 };
