@@ -9,6 +9,7 @@ const adminRoute = require("../routes/admin")
 const path = require("path");
 const connectDB = require("../config/mongodb");
 const roomReportRoute = require("../routes/roomReports");
+const reportsRoute = require('../routes/reports');
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use("/user", userRoute);
 app.use("/admin", adminRoute);
 
 app.use("/room-reports", roomReportRoute);
+
+app.use('/reports', reportsRoute);
 
 connectDB();
 

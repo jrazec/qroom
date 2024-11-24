@@ -28,7 +28,15 @@ function FeedbackPage() {
   const [selectedRoom, setSelectedRoom] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState(''); // State for displaying feedback
   const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
-
+  useEffect(() => {
+    const loggedInUserName = localStorage.getItem("user_name"); // Get user_name from localStorage
+    
+    // Compare id from the URL with the logged-in user_name from localStorage
+    if (!loggedInUserName || loggedInUserName === "undefined" || loggedInUserName !== id) {
+      alert("Access forbidden");
+      navigate("/not-found"); // Redirect to the correct page if the user does not match
+    }
+  }, [id, navigate]);
   // Initialize buildings
   useEffect(() => {
     setBuildings(Object.entries(buildingMap).map(([id, { name }]) => ({ id, name })));
@@ -272,6 +280,16 @@ function FeedbackPage() {
                   Submit Feedback
                 </button>
               </div>
+
+              {/* Navigate to ChatReport Button */}
+            <div className="mb-4 mt-5 pt-5">
+              <button
+                onClick={() => navigate(`/chat-report/${id}`)} // Replace `/chat-report/${id}` with the actual route path to ChatReport
+                className="btn btn-primary rounded-pill"
+              >
+                Go to Chat Report
+              </button>
+            </div>
 
               {/* Display Feedback Message */}
               {feedbackMessage && (

@@ -67,6 +67,5 @@ const deleteOneReport = async (req, res) => {
     }
   };
   
-
 module.exports = { createRoomReport,  getAllReports,  deleteOneReport,
     deleteAllReports };
