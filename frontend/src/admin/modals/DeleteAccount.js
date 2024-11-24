@@ -15,10 +15,12 @@ function DeleteAccount({ existingData, closeDeleteModal }) {
     const dataToSend = {
       userName: userName, // Passing the username for deletion
     };
-
+    
     try {
       await deleteAccount(dataToSend);
-      window.location.reload(); // Refresh the page after deletion
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after deletion
+      }, 500);
     } catch (error) {
       console.error("Error deleting user:", error);
     }

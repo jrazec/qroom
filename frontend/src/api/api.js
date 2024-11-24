@@ -169,3 +169,54 @@ export const getRoom = async (rId) => {
     }
   };
 
+
+  // API Calls (in api/api.js)
+export const createOccupation = async (occupationData) => {
+    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/occupation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(occupationData),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to create occupation');
+    }
+    return response.json();
+  };
+  
+  export const updateOccupationStatus = async (occupationData) => {
+    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/occupation`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(occupationData),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to update occupation status');
+    }
+    return response.json();
+  };
+  
+  export const getOccupations = async (roomId) => {
+    const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/occupations?room_id=${roomId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch occupations');
+    }
+    return response.json();
+  };
+  
+    export const getRoomSpecific = async (roomId, setSched) => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/validate-schedule/${roomId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch room schedule');
+        }
+        const data = await response.json();
+        setSched(data.schedule);
+      } catch (error) {
+        console.error('Error fetching room schedule:', error);
+        throw error;
+      }
+    };

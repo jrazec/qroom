@@ -3,18 +3,27 @@ import './LoginUser.css';
 import { checkCreds } from "../api/api"; // Ensure this is correctly implemented for your backend API
 import { useNavigate } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
-// import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA component (commented out for now)
+import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA component (commented out for now)
 
 function LoginUser() {
   const [stat, setStatus] = useState(null); // Login status, set initial state to null
   const [userName, setUserName] = useState(''); // Username input
   const [password, setPassword] = useState(''); // Password input
   const [showModal, setShowModal] = useState(false); // Modal visibility state for wrong credentials
+  const [captchaToken, setCaptchaToken] = useState(null); // reCAPTCHA token
 
   const navigate = useNavigate(); // Initialize the navigate function
 
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token); // Save the CAPTCHA token
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      alert("Please complete the CAPTCHA.");
+      return;
+    }
 
     try {
         // Call the API to check credentials
@@ -87,12 +96,13 @@ function LoginUser() {
                 </small>
 
                 {/* CAPTCHA Section (commented out for now) */}
-                {/* <div className="captcha-container mb-3">
+                <div className="captcha-container mb-3">
                   <ReCAPTCHA
-                    sitekey="your-site-key-here" // Replace with your actual site key
+                    sitekey={"6LfT84cqAAAAAL8yzip2W08lSkixpwTpL2nytHny"} // Replace with your actual site key
                     onChange={handleCaptchaChange}
+                    
                   />
-                </div> */}
+                </div>
 
                 <button type="submit" className="btn btn-primary w-100 login-btn mt-4">
                   LOGIN

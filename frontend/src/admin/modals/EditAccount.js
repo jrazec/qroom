@@ -54,7 +54,7 @@ function EditAccount({ existingData, closeEditModal }) {
 
     for (const [index, data] of fData.entries()) {
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
-          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Role", "Password"][index]}. ${data}`);
+          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Role"][index]}. ${data}`);
           return; // Return early if validation fails
       }
     }
@@ -71,7 +71,9 @@ function EditAccount({ existingData, closeEditModal }) {
     const formData = new FormData(e.target); // Get form data
     validateInput(formData); // Validate input data
     closeEditModal(); // Close modal after saving changes
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload(); // Reload the page after deletion
+    }, 500);
   };
 
   const togglePasswordVisibility = () => {
@@ -159,9 +161,8 @@ function EditAccount({ existingData, closeEditModal }) {
                   type={showPassword ? "text" : "password"} // Show password based on toggle
                   className="form-control"
                   name="editAccountPasswordInput"
-                  placeholder="Enter your value"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter new password..."
+                  onChange={(e) => (e.target.value==="") ? setPassword(existingData.password) :setPassword(e.target.value)}
                 />
                 <div className="form-check">
                   <input

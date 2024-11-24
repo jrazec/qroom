@@ -17,12 +17,13 @@ function RoomSearch1() {
 
   // Define a mapping for building IDs to building names and floor numbers
   const buildingMap = {
-    1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] },
+    1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
     2: { name: "VALERIO MALABANAN BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
     3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
     4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
   };
 
+  const bldgImg = "/assets/floor.png"
   useEffect(() => {
     // Check if the user is authenticated
     const token = localStorage.getItem('token');
@@ -160,7 +161,7 @@ function RoomSearch1() {
           {floors.map((floor, index) => (
             <div key={index} className="floor-image-container" onClick={() => handleFloorChange(floor)}>
               <img
-                src={`https://picsum.photos/200?random=${index + 1}`}
+                src={`${bldgImg}`}
                 alt={floor}
                 className={`${roomSearch1.floorImage} img-fluid rounded shadow`}
               />
