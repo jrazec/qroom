@@ -26,6 +26,7 @@ function FeedbackPage() {
   const [selectedBuilding, setSelectedBuilding] = useState('');
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState(''); // State for displaying feedback
   const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
 
   // Initialize buildings
@@ -40,9 +41,6 @@ function FeedbackPage() {
       const buildingName = building.name;
       const floor = building.floors ? building.floors[0] : undefined; // Default to the first floor if floors exist
 
-      console.log("Received building:", buildingName);
-      console.log("Received floor:", floor);
-
       try {
         const response = await axios.get('/user/rooms/floor', {
           params: {
@@ -52,10 +50,8 @@ function FeedbackPage() {
         });
 
         if (response.data && response.data.rooms) {
-          console.log("Query result:", response.data.rooms);
           setRooms(response.data.rooms);
         } else {
-          console.warn("No rooms found for this building.");
           setRooms([]);
         }
       } catch (error) {
@@ -63,7 +59,6 @@ function FeedbackPage() {
         setRooms([]); // Clear rooms on error
       }
     } else {
-      console.warn("Invalid building selected.");
       setRooms([]); // Clear rooms if the building is invalid
     }
   };
@@ -152,36 +147,46 @@ function FeedbackPage() {
 
   const handleSubmitFeedback = async () => {
     if (!selectedRoom) {
-      alert('Please select a room before submitting.');
+      setFeedbackMessage("Please select a room before submitting.");
       return;
     }
-
-    console.log("Selected Room ID:", selectedRoom);
-    console.log("Rooms Array:", rooms);
-
+  
     const roomDetails = rooms.find((room) => String(room.room_id) === String(selectedRoom));
-    console.log("Matched Room Details:", roomDetails);
-
     const roomReportId = `room_report_${selectedRoom}_${Date.now()}`;
-    const roomName = roomDetails?.room_name || 'Unknown';
-    const roomPurpose = roomDetails?.room_purpose || 'Unknown';
-
+    const roomName = roomDetails?.room_name || "Unknown";
+    const roomPurpose = roomDetails?.room_purpose || "Unknown";
+  
+    // Classify the image (clean, dirty, or unsure)
     const classification = await classifyImageWithGemini();
     setResult(`Classroom is ${classification}.`);
-
-    const feedbackMessage = `Room Report ID: ${roomReportId}\nRoom: ${roomName}\nPurpose: ${roomPurpose}\nStatus: ${classification}\nThank you for submitting your feedback!`;
-
-    alert(feedbackMessage);
-    console.log({
-      room_report_id: roomReportId,
-      room_id: selectedRoom,
-      room_name: roomName,
-      room_purpose: roomPurpose,
-      status: classification,
-      image: image || 'No image uploaded',
-      approval: 'not yet',
-    });
-  };
+  
+    // Set approval based on the classification result
+    const approval = classification === "clean" ? "approved" : "not yet";
+  
+    // Create FormData and log it
+    const formData = new FormData();
+    formData.append("room_report_id", roomReportId);
+    formData.append("room_id", selectedRoom);
+    formData.append("room_name", roomName);
+    formData.append("room_purpose", roomPurpose);
+    formData.append("status", classification);
+    formData.append("image", document.getElementById("imageUpload").files[0]); // Append actual file
+    formData.append("approval", approval); // Dynamically set approval based on classification
+  
+    try {
+      await axios.post("http://localhost:3001/room-reports/submit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      // Show the classification result and thank-you message
+      setFeedbackMessage(`The classroom is ${classification}. Thank you for your feedback!`);
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      setFeedbackMessage("An error occurred while submitting feedback. Please try again.");
+    }
+  };  
 
   return (
     <div className={`${FeedbackCss.app} ${isChatOpen ? FeedbackCss.chatMode : ''}`}>
@@ -267,6 +272,13 @@ function FeedbackPage() {
                   Submit Feedback
                 </button>
               </div>
+
+              {/* Display Feedback Message */}
+              {feedbackMessage && (
+                <div className="mt-4 alert alert-info" role="alert">
+                  {feedbackMessage}
+                </div>
+              )}
             </>
           ) : (
             <>
