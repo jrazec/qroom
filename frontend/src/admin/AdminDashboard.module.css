@@ -1,0 +1,99 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+}
+
+
+.header {
+  margin-bottom: 0.5rem;
+}
+
+.header h1 {
+  color: #800000;
+  font-weight: bold;
+  text-align: left;
+  height: 10%;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 2rem;
+  font-weight: regular;
+}
+
+.main-content {
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.row1, .row2 {
+  display: flex;
+}
+
+.row1 {
+  height: 45%;
+  margin-bottom: 1rem;
+}
+
+.row2 {
+  gap: 1rem;
+}
+
+.chartContainer {
+  
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.301);
+  border-radius: 1.5rem;
+}
+
+.summaryContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  
+  border: 5px brown dotted;
+}
+
+.chartCard {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+
+.chartTitle {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.summaryCard {
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 50%;
+  border: 1px solid #dee2e6;
+  border-radius: 1.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.301);
+}
+
+.summaryValue {
+  color: #800000;
+  font-weight: bold;
+}
+
+.filterButtonContainer {
+  align-self: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filterButton {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
