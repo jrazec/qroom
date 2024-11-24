@@ -63,3 +63,72 @@
     border-bottom: 1px solid #7f0000;
   }
   
+  /* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.report-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.table-scrollable {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  margin-bottom: 15px; /* Adds spacing below the table */
+  border: 2px solid #b80000; /* Matches the button's red color */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+.table-scrollable table {
+  min-width: 100%; /* Ensures the table stretches horizontally */
+}
+
+.table-scrollable::-webkit-scrollbar {
+  height: 10px; /* Sets the scrollbar height */
+}
+
+.table-scrollable::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounds the edges of the scrollbar */
+}
+
+.table-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Changes color when hovered */
+}
