@@ -4,6 +4,7 @@ import BarChart from './charts/BarChart'; // Ensure this component is responsive
 import LineChart from './charts/LineChart'; // Additional chart example
 import PieChart from './charts/PieChart'; // Additional chart example
 import styles from './AdminDashboard.module.css';
+import { Dropdown } from 'react-bootstrap';
 
 const AdminDashboard = () => {
   const [usageFilter, setUsageFilter] = useState("Most Utilized Room");
@@ -65,9 +66,15 @@ const AdminDashboard = () => {
           
           <div className={styles.chartContainer} style={{ width: "50%" }}>
             <div className={styles.filterButtonContainer}>
-              <button className={styles.filterButton}>
-                {usageFilter}
-              </button>
+              <Dropdown >
+                <Dropdown.Toggle variant="danger" id="dropdown-basic" style={{ borderTopRightRadius: '1.5rem', borderBottomLeftRadius: '1.5rem' }}>
+                  {usageFilter}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setUsageFilter('Most Utilized Room')}>Most Utilized</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setUsageFilter('Least Utilized Room')}>Least Utilized</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
             </div>
             <div className={styles.chartCard} >
               <BarChart filter={usageFilter} />
