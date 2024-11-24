@@ -50,11 +50,13 @@ const SelectSection = () => {
 
   return (
     <div className={`${styles.selectSectionContainer} container mt-4`}>
-      <div className="d-flex align-items-center mb-3">
-        <span className={`${styles.backIcon} me-3`} onClick={handleBackClick}>
+      <div className={`${styles.headerContainer} mt-4 d-flex align-items-center`}>
+        <span className={styles.backIcon} onClick={handleBackClick}>
           &larr;
         </span>
-        <h2 className={styles.selectSectionTitle}>Department: {selectedDepartment}</h2>
+        <h2 className={styles.dashboardHeader}>
+          Schedule Class
+        </h2>
       </div>
       <h3 className={styles.selectSectionTitle}>Select Section</h3>
       <div className={`list-group ${styles.selectSectionList}`}>

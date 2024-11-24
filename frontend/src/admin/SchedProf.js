@@ -107,9 +107,9 @@ const AssignProfessor = () => {
         <span className={styles.backIcon} onClick={handleBackClick}>
           &larr;
         </span>
-        <h1 className={styles.dashboardHeader}>
-          Department <span className={styles.subHeader}>Scheduling</span>
-        </h1>
+        <h3 className={styles.dashboardHeader}>
+          Schedule Class
+        </h3>
       </div>
 
       <div className={`mt-4 ${styles.departmentSelect}`}>

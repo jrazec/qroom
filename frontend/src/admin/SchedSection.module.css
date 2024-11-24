@@ -1,7 +1,18 @@
 .selectSectionContainer {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
+}
+
+.headerContainer {
+    text-align: left; /* Align text to the left */
+    padding-bottom: 20px;
+}
+  
+.dashboardHeader {
+    font-weight: bold;
+    color: #800000; /* Dark red */
+    margin-bottom: 10px;
 }
 
 .backIcon {
@@ -11,8 +22,9 @@
 }
 
 .selectSectionTitle {
-    font-weight: bold;
-    color: #800000;
+    max-width: 400px;
+    margin: 0;
+    text-align: left; /* Align the select department to the left */
 }
 
 .selectSectionList {

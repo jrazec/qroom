@@ -12,20 +12,12 @@
   .headerContainer {
     text-align: left; /* Align text to the left */
     padding-bottom: 20px;
-    border-bottom: 2px solid #800000;
   }
   
   .dashboardHeader {
-    font-size: 2.5rem;
     font-weight: bold;
     color: #800000; /* Dark red */
     margin-bottom: 10px;
-  }
-  
-  .subHeader {
-    font-size: 1.5rem;
-    font-weight: normal;
-    color: #a9a9a9; /* Gray to differentiate 'Scheduling' */
   }
   
   .departmentSelect {
@@ -47,8 +39,7 @@
   
   /* Professor styles */
   .assignProfessor {
-    background-color: #fff;
-    padding: 20px;
+    background-color: #f6f6f6;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
     margin-top: 20px;
@@ -56,9 +47,12 @@
   }
   
   .sectionHeader {
-    color: #800000;
+    color: #ffffff;
     font-weight: bold;
     text-align: left; /* Align Assign Professor to the left */
+    background-color: #800000;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
   }
   
   .noProfessorsWarning {
@@ -70,7 +64,7 @@
     margin-top: 20px;
     max-height: 11.5rem; /* Adjusted height for scrolling */
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 0 10px 0 10px;
     display: flex;
     flex-direction: column;
   }
