@@ -60,7 +60,7 @@ function RoomPDFEditor() {
   };
 
   const handleDownloadDocument = () => {
-    handleUpdateDocument();
+
     window.location.href = `${extractDownloadUrl(preview.document.preview_url)}`;
   };
 
@@ -69,7 +69,9 @@ function RoomPDFEditor() {
       <h1 className="text-center mb-4">Room PDF Editor</h1>
       <button
         className="btn btn-primary d-block mx-auto"
-        onClick={() => setIsOpen(true)}
+        onClick={() =>{
+           handleUpdateDocument();
+           setIsOpen(true)}}
       >
         Print QR Codes
       </button>

@@ -56,13 +56,15 @@
     width: 80%;
     max-width: 600px;
     margin: 0 auto;
+
 }
 
 /* Main Image Styling */
 .mainImage {
     border-radius: 15px;
-    max-height: 300px;
-    object-fit: cover;
+    max-height: 500px;
+    object-fit: contain;
+; /* Simulates a border inside non-transparent parts */
 }
 
 /* Custom Controls Styling */
@@ -100,6 +102,11 @@
     text-align: center;
     color: #850000;
     font-weight: bold;
+}
+.caru {
+    box-shadow: 0rem 1rem 2rem rgb(114, 114, 114);
+    border-radius: 1rem;
+    background-color: #cc291f;
 }
 
 /* Social Media Icons */

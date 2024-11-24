@@ -27,7 +27,7 @@ import SchedulePage from "./users/SchedulePage";
 import LoginUser from "./users/LoginUser";
 import Settings from "./users/Settings";
 import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute correctly
-
+import ChatReport from './users/ChatReport';
 const cur = {}; // Current temporary holder
 
 const router = createBrowserRouter([
@@ -99,6 +99,10 @@ const router = createBrowserRouter([
   {
     path: '/user/settings/:id',
     element: <ProtectedRoute><Settings /></ProtectedRoute>,
+  },
+  {
+    path: '/chat-report/:id',
+    element: <ProtectedRoute><ChatReport  /></ProtectedRoute>,
   },
 ]);
 

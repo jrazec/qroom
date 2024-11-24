@@ -1,57 +1,109 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import FeedbackCss from './FeedbackPage.module.css'; 
+import FeedbackCss from './FeedbackPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
+import axios from 'axios';
+
+// Define the buildingMap globally
+const buildingMap = {
+  1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor"] },
+  2: { name: "VALERIO MALABANAN BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] },
+  3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor"] },
+  4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor"] },
+};
 
 function FeedbackPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [image, setImage] = useState(null);
   const [warning, setWarning] = useState('');
   const [result, setResult] = useState('');
-  const API_KEY = process.env.REACT_APP_GEMINI_API_KEY; // Replace with your actual API key
-  console.log(API_KEY)
-  
-  // Toggle Chat Mode
-  const handleChatToggle = () => {
-    setIsChatOpen(!isChatOpen);
+  const [buildings, setBuildings] = useState([]);
+  const [selectedBuilding, setSelectedBuilding] = useState('');
+  const [rooms, setRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState(''); // State for displaying feedback
+  const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+  useEffect(() => {
+    const loggedInUserName = localStorage.getItem("user_name"); // Get user_name from localStorage
+    
+    // Compare id from the URL with the logged-in user_name from localStorage
+    if (!loggedInUserName || loggedInUserName === "undefined" || loggedInUserName !== id) {
+      alert("Access forbidden");
+      navigate("/not-found"); // Redirect to the correct page if the user does not match
+    }
+  }, [id, navigate]);
+  // Initialize buildings
+  useEffect(() => {
+    setBuildings(Object.entries(buildingMap).map(([id, { name }]) => ({ id, name })));
+  }, []);
+
+  // Fetch rooms dynamically based on selected building
+  const fetchRooms = async (buildingId) => {
+    const building = buildingMap[buildingId];
+    if (building) {
+      const buildingName = building.name;
+      const floor = building.floors ? building.floors[0] : undefined; // Default to the first floor if floors exist
+
+      try {
+        const response = await axios.get('/user/rooms/floor', {
+          params: {
+            building: buildingName,
+            floor, // Include the floor parameter if available
+          },
+        });
+
+        if (response.data && response.data.rooms) {
+          setRooms(response.data.rooms);
+        } else {
+          setRooms([]);
+        }
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+        setRooms([]); // Clear rooms on error
+      }
+    } else {
+      setRooms([]); // Clear rooms if the building is invalid
+    }
   };
 
-  // Handle Image Upload
+  const handleBuildingChange = (e) => {
+    const buildingId = e.target.value;
+    setSelectedBuilding(buildingId);
+    setSelectedRoom(""); // Reset room selection
+    fetchRooms(buildingId);
+  };
+
+  const handleRoomChange = (e) => {
+    setSelectedRoom(e.target.value);
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
-        setWarning(''); // Clear previous warnings
+        setWarning('');
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Clear Image
-  const clearImage = () => {
+  const handleClearImage = () => {
     setImage(null);
-    setWarning('');
-    setResult('');
   };
 
-  // Submit Image for Classification
-  const handleSubmit = async () => {
+  const classifyImageWithGemini = async () => {
     if (!image) {
       setWarning('Please upload an image before submitting.');
-      return;
+      return 'unsure';
     }
 
-    setResult('Checking...');
-    setWarning('');
-
-    // Create an instance of the generative AI API
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash',
@@ -85,56 +137,64 @@ function FeedbackPage() {
       ];
 
       const response = await model.generateContent({ contents });
-      console.log('API Response:', response.response); // For debugging
+      const generatedText = response.response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-      if (!response.response || !response.response.candidates || response.response.candidates.length === 0) {
-        setWarning('No valid response from the API. Please try again later.');
-        return;
-      }
-
-      const generatedText = response.response.candidates[0].content.parts[0].text;
-      console.log('Generated Text:', generatedText);
-
-      let classification = 'unsure';
       if (generatedText.toLowerCase().includes('clean')) {
-        classification = 'clean';
+        return 'clean';
       } else if (generatedText.toLowerCase().includes('dirty')) {
-        classification = 'dirty';
+        return 'dirty';
+      } else {
+        return 'unsure';
       }
-
-      setResult(`Classroom is ${classification}.`);
-
-      // Report to backend with the cleanliness status
-      await fetch('/user/report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image, status: classification }),
-      });
-
     } catch (error) {
-      console.error('Error during submission:', error);
-      setWarning('An error occurred during submission. Please try again.');
+      console.error("Error during classification:", error);
+      setWarning('An error occurred during classification. Please try again.');
+      return 'unsure';
     }
   };
 
-  useEffect(() => {
-    // Check if the user is authenticated by looking for a token in localStorage
-    const token = localStorage.getItem('token');
-    const loggedInUser = localStorage.getItem('user_name'); // Get logged-in user's username from localStorage
-
-    if (!token) {
-      // If no token, redirect to login page
-      navigate('/user/login');
+  const handleSubmitFeedback = async () => {
+    if (!selectedRoom) {
+      setFeedbackMessage("Please select a room before submitting.");
       return;
     }
-
-    // If the user is trying to access another user's page
-    if (id !== loggedInUser) {
-      alert("Access forbidden");
-      navigate('/not-found'); // Redirect to the homepage or NotFound page
-      return;
+  
+    const roomDetails = rooms.find((room) => String(room.room_id) === String(selectedRoom));
+    const roomReportId = `room_report_${selectedRoom}_${Date.now()}`;
+    const roomName = roomDetails?.room_name || "Unknown";
+    const roomPurpose = roomDetails?.room_purpose || "Unknown";
+  
+    // Classify the image (clean, dirty, or unsure)
+    const classification = await classifyImageWithGemini();
+    setResult(`Classroom is ${classification}.`);
+  
+    // Set approval based on the classification result
+    const approval = classification === "clean" ? "approved" : "not yet";
+  
+    // Create FormData and log it
+    const formData = new FormData();
+    formData.append("room_report_id", roomReportId);
+    formData.append("room_id", selectedRoom);
+    formData.append("room_name", roomName);
+    formData.append("room_purpose", roomPurpose);
+    formData.append("status", classification);
+    formData.append("image", document.getElementById("imageUpload").files[0]); // Append actual file
+    formData.append("approval", approval); // Dynamically set approval based on classification
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCALHOST}/room-reports/submit`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      // Show the classification result and thank-you message
+      setFeedbackMessage(`The classroom is ${classification}. Thank you for your feedback!`);
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      setFeedbackMessage("An error occurred while submitting feedback. Please try again.");
     }
-  }, [id, navigate]);
+  };  
 
   return (
     <div className={`${FeedbackCss.app} ${isChatOpen ? FeedbackCss.chatMode : ''}`}>
@@ -143,15 +203,57 @@ function FeedbackPage() {
         <div className={FeedbackCss.contentWrapper}>
           {!isChatOpen ? (
             <>
+              {/* Dropdown for Buildings */}
+              <div className="mb-4">
+                <select
+                  className="form-select"
+                  value={selectedBuilding}
+                  onChange={handleBuildingChange}
+                >
+                  <option value="">Select Building</option>
+                  {buildings.map((building) => (
+                    <option key={building.id} value={building.id}>
+                      {building.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Dropdown for Rooms */}
+              <div className="mb-4">
+                <select
+                  className="form-select"
+                  value={selectedRoom}
+                  onChange={handleRoomChange}
+                  disabled={!rooms.length}
+                >
+                  <option value="">Select Room</option>
+                  {rooms.map((room) => (
+                    <option key={room.room_id} value={room.room_id}>
+                      {room.room_name} ({room.room_purpose || "No purpose"})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Image Upload Section */}
               <div className={`mb-4 ${FeedbackCss.imageContainer}`}>
                 {image ? (
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className={FeedbackCss.imagePreview}
-                    onClick={() => document.getElementById('imageUpload').click()}
-                    style={{ cursor: 'pointer' }}
-                  />
+                  <div>
+                    <img
+                      src={image}
+                      alt="Preview"
+                      className={FeedbackCss.imagePreview}
+                      onClick={() => document.getElementById('imageUpload').click()}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    <button
+                      onClick={handleClearImage}
+                      className="btn btn-outline-danger mt-2"
+                    >
+                      Clear Image
+                    </button>
+                  </div>
                 ) : (
                   <button
                     onClick={() => document.getElementById('imageUpload').click()}
@@ -169,38 +271,48 @@ function FeedbackPage() {
                 />
               </div>
 
-              {image && (
-                <button onClick={clearImage} className={`btn btn-secondary mb-4 ${FeedbackCss.clearButton}`}>
-                  Clear/Remove Picture
+              {/* Submit Feedback Button */}
+              <div>
+                <button
+                  onClick={handleSubmitFeedback}
+                  className={`btn btn-danger rounded-pill ${FeedbackCss.sendButton}`}
+                >
+                  Submit Feedback
                 </button>
+              </div>
+
+              {/* Navigate to ChatReport Button */}
+            <div className="mb-4 mt-5 pt-5">
+              <button
+                onClick={() => navigate(`/chat-report/${id}`)} // Replace `/chat-report/${id}` with the actual route path to ChatReport
+                className="btn btn-primary rounded-pill"
+              >
+                Go to Chat Report
+              </button>
+            </div>
+
+              {/* Display Feedback Message */}
+              {feedbackMessage && (
+                <div className="mt-4 alert alert-info" role="alert">
+                  {feedbackMessage}
+                </div>
               )}
-
-              {warning && <div className="text-danger mb-3">{warning}</div>}
-              {result && <p>{result}</p>}
-
-              <div className={`d-flex justify-content-center align-items-center ${FeedbackCss.passwordContainer}`}>
-                <button onClick={handleSubmit} className={`btn btn-danger rounded-pill ${FeedbackCss.sendButton}`}>
-                  SUBMIT
-                </button>
-
-              </div>
-              {/* Chat Button */}
-              <div className={FeedbackCss.chatButton}>
-                <button className={`btn btn-danger rounded-circle ${FeedbackCss.chatIcon}`} onClick={handleChatToggle}>
-                  <i className="fa fa-comments"></i>
-                </button>
-              </div>
-
             </>
-            
           ) : (
             <>
+              {/* Chat Section */}
               <div className={`mb-4 d-flex justify-content-between align-items-center ${FeedbackCss.chatHeader}`}>
-                <button className="btn btn-link text-danger" onClick={handleChatToggle}>
+                <button className="btn btn-link text-danger" onClick={() => setIsChatOpen(false)}>
                   Back
                 </button>
-                <input type="text" placeholder="Search" className={`form-control rounded-pill me-2 ${FeedbackCss.searchInput}`} />
-                <button className={`btn btn-danger rounded-pill ${FeedbackCss.searchButton}`}>Search</button>
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className={`form-control rounded-pill me-2 ${FeedbackCss.searchInput}`}
+                />
+                <button className={`btn btn-danger rounded-pill ${FeedbackCss.searchButton}`}>
+                  Search
+                </button>
               </div>
               <div className={`mb-4 ${FeedbackCss.chatContent}`}>
                 <div className={FeedbackCss.chatBubble}>Sample chat message...</div>
@@ -208,7 +320,6 @@ function FeedbackPage() {
             </>
           )}
         </div>
-
       </main>
     </div>
   );

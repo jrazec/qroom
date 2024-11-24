@@ -13,7 +13,7 @@ function SchedulePage() {
   const [schedule, setSchedule] = useState([]);
   
   // Map days to their index positions
-  const dayMap = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayMap = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   useEffect(() => {
     // Check if the user is authenticated by looking for a token in localStorage

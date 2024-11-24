@@ -51,7 +51,9 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
     await createAccount(dataToSend);
     await fetchData();
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload(); // Reload the page after deletion
+    }, 500);
   }
   const validateInput = (formData) => {
     const fData = [ formData.get("userNameInput"),

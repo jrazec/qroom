@@ -55,6 +55,7 @@ class userTable {
             const editUsers = `UPDATE users
                                 SET user_name=?, first_name=?, middle_name=?, last_name=?, password=?, role=?
                                 WHERE user_name=?;`;
+            
 
             // Hash the new password if provided (you can also modify this logic to handle other cases like password not being changed)
             bcrypt.hash(data.password, 10, (err, hashedPassword) => {

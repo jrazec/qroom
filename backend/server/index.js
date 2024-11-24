@@ -7,6 +7,9 @@ const bodyParser = require("body-parser");
 const userRoute = require("../routes/users");
 const adminRoute = require("../routes/admin")
 const path = require("path");
+const connectDB = require("../config/mongodb");
+const roomReportRoute = require("../routes/roomReports");
+const reportsRoute = require('../routes/reports');
 
 dotenv.config();
 
@@ -23,6 +26,12 @@ console.log("Serving static files from:", path.join(__dirname, "../uploads")); /
 // User routes
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
+
+app.use("/room-reports", roomReportRoute);
+
+app.use('/reports', reportsRoute);
+
+connectDB();
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on http://0.0.0.0:${PORT}`);

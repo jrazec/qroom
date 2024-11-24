@@ -84,17 +84,17 @@
 
 /* Room Card Styling */
 .roomCard {
-    width: 20rem;
-    height: 20rem;
+    width: 15rem;
+    height: 15rem;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: rgb(243, 0, 0);
     border: 30px solid #4b0000;
     box-shadow: inset 0 0 0 30px #800000,
                 0 9px 20px 0px rgba(0, 0, 0, 0.3);
-    /* background: radial-gradient(circle at top left, #a30000, #520000); */
+    background: radial-gradient(circle at top left, #a30000, #520000);
     margin: 0;
     text-decoration: none;
     transition: transform 0.25s ease-in-out;
@@ -104,10 +104,12 @@
 }
 
 .roomCard:hover {
-    transform: scale(1.08);
     text-decoration: none;
     color: #4b0000;
-
+    transform: scale(1.1);
+    box-shadow: inset 0 0 0 40px #800000,
+    0 13px 25px 0px rgba(0, 0, 0, 0.3);
+    transition: 0.25s ease-in-out;
 }
 
 /* Social Media Icons */
@@ -291,3 +293,12 @@
     }
 }
    
+
+
+  .roomCard svg {
+    color: #ffffff; /* White icon */
+    font-size: 2rem; /* Icon size */
+  }
+  
+  
+  

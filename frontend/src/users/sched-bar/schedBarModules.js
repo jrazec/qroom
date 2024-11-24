@@ -12,6 +12,8 @@ export const shortenDay = (day)=>{
         return "Fri";
       case "Saturday":
         return "Sat";
+      case "Sunday":
+        return "Sun";
     }
 }
 

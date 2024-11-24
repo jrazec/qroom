@@ -22,6 +22,12 @@ function RoomSearch2() {
     3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
     4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
   };
+  const bldgImg = [
+    "./../../assets/4.png",
+    "./../../assets/3.png",
+    "./../../assets/1.png",
+    "./../../assets/2.png"
+  ]
 
   useEffect(() => {
     // Authentication check
@@ -134,7 +140,7 @@ function RoomSearch2() {
         {/* Building Carousel */}
         {filteredBuildings.length > 0 && (
           <div id="carouselExampleIndicators" ref={carouselRef} className={`carousel slide mt-5 ${roomSearch2.carousel}`} data-bs-ride="carousel">
-            <div className="carousel-inner">
+            <div id="caru" className={`carousel-inner ${roomSearch2.caru}`}>
               {filteredBuildings.map((building, index) => (
                 <div
                   className={`carousel-item ${index === 0 ? 'active' : ''}`}
@@ -142,7 +148,7 @@ function RoomSearch2() {
                   onClick={() => handleBuildingClick(building)}
                 >
                   <img
-                    src={`https://picsum.photos/500/300?random=${building.id}`}
+                    src={`${bldgImg[index]}`}
                     className={`d-block w-100 ${roomSearch2.mainImage}`}
                     alt={building.name}
                     style={{ cursor: 'pointer' }}

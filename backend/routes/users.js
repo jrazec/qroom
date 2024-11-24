@@ -8,11 +8,15 @@ const updateAccount = require('./../controllers/updateAccount');
 const deleteAccount = require('./../controllers/deleteAccount');
 const showUserSchedule = require('./../controllers/showUserSchedule');
 const showRoom = require('./../controllers/showRoom');
+const occupationController = require('../controllers/occupationController');
+const getRoomSpecificSchedule = require('../controllers/getRoomSpecificSchedule');
+
 const updatePassword = require("../controllers/updatePassword").updatePassword;
 const { uploadPicture, deleteProfilePicture, getProfilePicture } = require("../controllers/uploadPicture");
 const { getRoomsByBuilding } = require("../controllers/roomList");
 const { getRoomsByFloor } = require("../controllers/roomsByFloor");
 const { getBuildings } = require("../controllers/roomList");
+const { getRoom } = require("../models/Schedule");
 
 const router = express.Router();
 
@@ -38,4 +42,9 @@ router.get("/rooms/building", getRoomsByBuilding);
 router.get("/rooms/floor", getRoomsByFloor);
 router.get("/buildings", getBuildings); // Route to get all distinct buildings
 
+router.post('/occupation', occupationController.createOccupation);
+router.put('/occupation', occupationController.updateOccupationStatus);
+router.get('/occupations', occupationController.getOccupations);
+
+router.get('/validate-schedule/:roomId', getRoomSpecificSchedule.single);
 module.exports = router;
