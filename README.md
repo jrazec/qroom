@@ -42,7 +42,8 @@
 - npm i cors (Backend)
 - npm i env-cmd (Frontend)
 - npm i multer (Backend)
-- npm install react-chartjs-2 chart.js
+- npm i react-chartjs-2 chart.js
+- npm i node-cron (Backend)
 ## How to cheack each packages installed in the front/backend
 npm list --/dev0
 
