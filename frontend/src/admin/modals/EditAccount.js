@@ -13,6 +13,7 @@ function EditAccount({ existingData, closeEditModal }) {
   const [middleName, setMiddleName] = useState(existingData.middle_name || '');
   const [password, setPassword] = useState(existingData.password || '');
   const [role, setRole] = useState(existingData.role || '');
+  const [department, setDepartment] = useState(existingData.department || '');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [ data, setData, groupAccounts, setGroupAccounts ] = useContext(DataContext);
 
@@ -37,7 +38,8 @@ function EditAccount({ existingData, closeEditModal }) {
       lastName: formData.get("editAccountLastNameInput"),
       role: formData.get("editAccountRoleInput"),
       password: formData.get("editAccountPasswordInput"),
-      userName: formData.get("editAccountUserNameInput")
+      userName: formData.get("editAccountUserNameInput"),
+      department: formData.get("editDepartmentInput")
     };
 
     await updateAccount(dataToSend);
@@ -50,15 +52,19 @@ function EditAccount({ existingData, closeEditModal }) {
                     formData.get("editAccountMiddleNameInput"),
                     formData.get("editAccountLastNameInput"),
                     formData.get("editAccountRoleInput"),
-                    formData.get("editAccountPasswordInput")]
+                    formData.get("editAccountPasswordInput"),
+                    formData.get("editDepartmentInput")];
 
     for (const [index, data] of fData.entries()) {
+      if(index === 5){
+        continue;// Skip password validation
+      }
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
-          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Role"][index]}. ${data}`);
+          alert(`Failed. Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name","Password", "Role"][index]}. ${data}`);
           return; // Return early if validation fails
       }
     }
-
+    alert('Success! Account updated.');
     updateUser(formData);
     
   }
@@ -69,11 +75,18 @@ function EditAccount({ existingData, closeEditModal }) {
     e.preventDefault();
     console.log({ userName, firstName, lastName, password, role });
     const formData = new FormData(e.target); // Get form data
+    if (!formData.get("editAccountPasswordInput")) {
+      formData.set("editAccountPasswordInput", existingData.password); // Replace with existing password
+    }
+        // Log the updated FormData for debugging
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
     validateInput(formData); // Validate input data
     closeEditModal(); // Close modal after saving changes
     setTimeout(() => {
       window.location.reload(); // Reload the page after deletion
-    }, 500);
+    }, 1000);
   };
 
   const togglePasswordVisibility = () => {
@@ -162,7 +175,7 @@ function EditAccount({ existingData, closeEditModal }) {
                   className="form-control"
                   name="editAccountPasswordInput"
                   placeholder="Enter new password..."
-                  onChange={(e) => (e.target.value==="") ? setPassword(existingData.password) :setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="form-check">
                   <input
@@ -193,6 +206,24 @@ function EditAccount({ existingData, closeEditModal }) {
                 </select>
               </div>
 
+              {/* Role Field */}
+              <div className="mb-3">
+                <label htmlFor="role">Department:</label>
+                <select
+                  name="editDepartmentInput"
+                  className="form-select"
+                  id="departmentS"
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                >
+                  <option value="" disabled>-- Choose Department --</option>
+                  <option value="CICS">CICS</option>
+                  <option value="CTE">CTE</option>
+                  <option value="CABE">CABE</option>
+                  <option value="CAS">CAS</option>
+                  <option value="CAS">CIT</option>
+                </select>
+              </div>
               {/* Save and Cancel buttons */}
               <div className="d-flex justify-content-end">
                 <button type="submit" className="btn btn-primary">Save</button>

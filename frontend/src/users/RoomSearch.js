@@ -40,13 +40,15 @@ function RoomSearch() {
     }
     if (roomid) { // Ensure roomid is defined before fetching
       fetchData(roomid, getRoom, setSchedule, setUserDetails, getUserSchedule, setUserRole, id);
-      getRoomSpecific(roomid, setCurrentSchedule);
+      if(schedule.length >= 1) {
+        getRoomSpecific(roomid, setCurrentSchedule);
+      }
 
     }
   }, [roomid, id, navigate]);
 
   const handleToggleOccupancy = (e) => {
-    if (userRole === 'instructor') {
+    if (userRole.toLowerCase() === 'instructor') {
       const currentTime = new Date();
       const currentDay = days[currentTime.getDay()];
       const currentHour = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
@@ -197,9 +199,9 @@ function RoomSearch() {
                 {roomStatus === 'Vacant' && <span className="text-success">●</span>}
               </p>
               <button
-                className={`btn mt-2 ${userRole === 'Student' ? 'btn-secondary' : 'btn-primary'}`} 
+                className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'btn-secondary' : 'btn-primary'}`} 
                 onClick={handleToggleOccupancy}
-                disabled={userRole === 'Student'} // Disable button for students
+                disabled={userRole.toLowerCase() === 'student'} // Disable button for students
               >
                 {roomOccupied ? 'Unoccupy Room' : 'Occupy Room'} {/* Toggle button text */}
               </button>

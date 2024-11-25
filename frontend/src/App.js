@@ -28,6 +28,8 @@ import LoginUser from "./users/LoginUser";
 import Settings from "./users/Settings";
 import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute correctly
 import ChatReport from './users/ChatReport';
+import LoginToRoom from "./users/LoginToRoom";
+
 const cur = {}; // Current temporary holder
 
 const router = createBrowserRouter([
@@ -67,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: '/user/login',
     element: <LoginUser />,
+  },
+  {
+    path: '/user/room/:roomid',
+    element: <LoginToRoom />,
   },
   {
     path: '/user/room-search/:id',

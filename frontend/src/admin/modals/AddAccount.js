@@ -11,6 +11,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(''); // Keep empty to show the placeholder
+  const [department, setDepartment] = useState('');
 
 
 
@@ -37,6 +38,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
     setLastName('');
     setPassword('');
     setRole(''); // Reset role to empty string to show the placeholder again
+    setDepartment('');
   };
 
   const sendUser = async (formData) => { // Sending the data from front to back
@@ -47,6 +49,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
       lastName: formData.get("lastNameInput"),
       role: formData.get("roleInput"),
       password: formData.get("passwordInput"),
+      department: formData.get("departmentInput")
     };
 
     await createAccount(dataToSend);
@@ -61,7 +64,8 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                     formData.get("middleNameInput"),
                     formData.get("lastNameInput"),
                     formData.get("roleInput"),
-                    formData.get("passwordInput")]
+                    formData.get("passwordInput"),
+                    formData.get("departmentInput")]; // Get form
 
     for (const [index, data] of fData.entries()) {
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
@@ -186,6 +190,25 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   <option value="" disabled>-- Choose Role --</option>
                   <option value="student">Student</option>
                   <option value="instructor">Instructor</option>
+                </select>
+              </div>
+
+              {/* Role Field */}
+              <div className="mb-3">
+                <label htmlFor="role">Department:</label>
+                <select
+                  name="departmentInput"
+                  className="form-select"
+                  id="department"
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                >
+                  <option value="" disabled>-- Choose Department --</option>
+                  <option value="CICS">CICS</option>
+                  <option value="CTE">CTE</option>
+                  <option value="CABE">CABE</option>
+                  <option value="CAS">CAS</option>
+                  <option value="CAS">CIT</option>
                 </select>
               </div>
 
