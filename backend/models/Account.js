@@ -20,8 +20,8 @@ class userTable {
     // Update the postAccount method to hash the password
     static postAccount(data) {
         return new Promise((resolve, reject) => {
-            const addUsers = `INSERT INTO users(user_name, first_name, middle_name, last_name, password, role)
-                            VALUES(?,?,?,?,?,?);`;
+            const addUsers = `INSERT INTO users(user_name, first_name, middle_name, last_name, password, role,department)
+                            VALUES(?,?,?,?,?,?,?);`;
 
             // Hash the password before inserting it into the database
             bcrypt.hash(data.password, 10, (err, hashedPassword) => {
@@ -35,7 +35,8 @@ class userTable {
                         `${data.middleName}`,
                         `${data.lastName}`,
                         hashedPassword, // Use the hashed password here
-                        `${data.role}`
+                        `${data.role}`,
+                        `${data.department}`
                     ];
                     con.query(addUsers, userData, (err, result) => {
                         if (err) {
@@ -53,7 +54,7 @@ class userTable {
     static putAccount(data){
         return new Promise((resolve, reject) => {
             const editUsers = `UPDATE users
-                                SET user_name=?, first_name=?, middle_name=?, last_name=?, password=?, role=?
+                                SET user_name=?, first_name=?, middle_name=?, last_name=?, password=?, role=?,department=?
                                 WHERE user_name=?;`;
             
 
@@ -70,6 +71,7 @@ class userTable {
                         `${data.lastName}`,
                         hashedPassword, // Use the hashed password here
                         `${data.role}`,
+                        `${data.department}`,
                         `${data.userName}`
                     ];
 
