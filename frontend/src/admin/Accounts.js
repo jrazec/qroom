@@ -120,11 +120,12 @@ function Accounts() {
         <DataContext.Provider value={[ data, setData, groupAccounts, setGroupAccounts ]}>
         <div className="mother-div">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                <h1 className="h2 text-danger font-weight-bold">Dashboard <small className="text-muted">Manage Accounts</small></h1>
+                <h1 className="h2 font-weight-bold" styles={{color: '#800000'}}>Manage Accounts</h1>
             </div>
 
-            <div className="d-flex align-items-center mb-3 justify-content-between">
+            <div className="d-flex flex-row align-items-center mb-3 justify-content-between">
                 <div>
+                <label className='mr-2 font-weight-bold' for="role">Filter</label>
                     <select id="role" className="form-control d-inline-block w-auto mr-3" name="roleSelection" 
                         ref={selectRef}
                         onChange={selectChange}>
@@ -132,10 +133,10 @@ function Accounts() {
                         <option value="instructor">Instructor</option>
                         <option value="student">Student</option>
                     </select>
-                </div>
 
-                <div>
+                    <label className='mr-2 font-weight-bold' for="searchAccount">Search</label>
                     <input 
+                        className="form-control d-inline-block w-auto mr-3"
                         type="search" 
                         name="searchAccount" 
                         id="searchAccount" 
@@ -143,7 +144,10 @@ function Accounts() {
                         value={searchTerm} // Bind the input to searchTerm state
                         onChange={handleSearchChange} // Update searchTerm as the user types
                     />
-                    <button className="btn btn-danger" type="button" data-toggle="modal" data-target="#addAccountModal">+ add</button>
+                </div>
+                <div>
+                    <button className="btn shadow btn-danger font-weight-bold" type="button" data-toggle="modal" data-target="#addAccountModal">+ Add</button>
+                    <button className="btn border shadow ml-1 font-weight-bold" type="button" data-toggle="modal" data-target="#">Upload</button>
                 </div>
             </div>
 
