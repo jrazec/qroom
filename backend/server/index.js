@@ -1,15 +1,15 @@
-// backend/server/index.js
 const express = require("express");
 const dotenv = require("dotenv");
 const con = require("../config/db");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoute = require("../routes/users");
-const adminRoute = require("../routes/admin")
+const adminRoute = require("../routes/admin");
 const path = require("path");
 const connectDB = require("../config/mongodb");
 const roomReportRoute = require("../routes/roomReports");
-const reportsRoute = require('../routes/reports');
+const reportsRoute = require("../routes/reports");
+const roomRoutes = require("../routes/rooms"); // Room-related routes
 
 dotenv.config();
 
@@ -19,17 +19,20 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve static files from backend/uploads
+// Serve static files
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
-console.log("Serving static files from:", path.join(__dirname, "../uploads")); // Debugging line
+console.log("Serving static files from:", path.join(__dirname, "../uploads"));
 
-// User routes
+// Room routes
+app.use("/api/rooms", roomRoutes);
+
+// User and admin routes
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
 
+// Room reports and general reports
 app.use("/room-reports", roomReportRoute);
-
-app.use('/reports', reportsRoute);
+app.use("/reports", reportsRoute);
 
 connectDB();
 

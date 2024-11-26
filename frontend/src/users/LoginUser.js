@@ -32,7 +32,7 @@ function LoginUser() {
           // Store token and user_name in localStorage
           localStorage.setItem('token', data.token); // Store the token
           localStorage.setItem('user_name', data.user.user_name); // Store user_name, not id
-    
+          localStorage.setItem('role', data.user.role); // Store user role
           // Navigate to user's home page
           setStatus(true); // Set login status to true
           navigate(`/user/home/${data.user.user_name}`); // Use user_name in the URL
