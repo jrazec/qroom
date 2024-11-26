@@ -98,7 +98,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/user/dashboard/:id',
-    element: <ProtectedRoute><HomePage /></ProtectedRoute>,
+    element: <ProtectedRoute><FacultyDashboard /></ProtectedRoute>,
   },
   {
     path: '/user/feedback/:id',
@@ -111,10 +111,6 @@ const router = createBrowserRouter([
   {
     path: '/chat-report/:id',
     element: <ProtectedRoute><ChatReport  /></ProtectedRoute>,
-  },
-  {
-    path: '/faculty/dashboard/:id',
-    element: <ProtectedRoute><FacultyDashboard /></ProtectedRoute>,
   },
 ]);
 

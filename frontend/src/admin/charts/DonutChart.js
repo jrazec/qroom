@@ -1,5 +1,5 @@
 import React from 'react';
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -40,8 +40,19 @@ const DonutChart = () => {
   };
 
   return (
-    <div>
-      <Doughnut data={data} />
+    <div style={{height: '15rem', margin: '0' }}>
+      <Doughnut 
+        data={data}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+          },
+        }}
+      />
     </div>
   );
 };

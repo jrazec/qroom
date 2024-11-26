@@ -53,8 +53,8 @@ function Navbar() {
           {/* Conditional Rendering: Feedback for Students, Dashboard for Instructors */}
           {userRole && userRole.toLowerCase() === "instructor" ? (
             <Link 
-              to={`/faculty/dashboard/${id}`} 
-              className={`${Nav['nav-item']} ${currentPath === `/faculty/dashboard/${id}` ? Nav.active : ''}`}
+              to={`/user/dashboard/${id}`} 
+              className={`${Nav['nav-item']} ${currentPath === `/user/dashboard/${id}` ? Nav.active : ''}`}
             >
               Dashboard
             </Link>
@@ -88,7 +88,7 @@ function Navbar() {
         <a href={`/user/room-search/${id}`}><i className="fa fa-search"></i></a>
         <a href={`/user/schedule/${id}`}><i className="fa fa-calendar"></i></a>
         {userRole && userRole.toLowerCase() === "instructor" && (
-          <a href={`/faculty/dashboard/${id}`}><i className="fa fa-dashboard"></i></a>
+          <a href={`/user/dashboard/${id}`}><i className="fa fa-dashboard"></i></a>
         )}
         {userRole && userRole.toLowerCase() === "student" && (
           <a href={`/user/feedback/${id}`}><i className="fa fa-envelope"></i></a>

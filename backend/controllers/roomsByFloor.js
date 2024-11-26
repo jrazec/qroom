@@ -12,7 +12,7 @@ exports.getRoomsByFloor = async (req, res) => {
     const query = `
       SELECT room_id, room_name, room_purpose,floor_number
       FROM rooms
-      WHERE bldg_name = ? AND room_purpose in ('Classroom', 'Laboratory');
+      WHERE bldg_name = ? AND floor_number = ?;
     `;
     con.query(query, [building, floor], (err, result) => {
       if (err) {

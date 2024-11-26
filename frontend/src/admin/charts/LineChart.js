@@ -1,5 +1,5 @@
 import React from 'react';
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -44,7 +44,11 @@ const LineChart = () => {
 
   return (
     <div>
-      <Line data={data} />
+      <Line 
+        data={data}
+        options={{
+          maintainAspectRatio: false,
+        }} />
     </div>
   );
 };
