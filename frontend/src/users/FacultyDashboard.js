@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar"; // Ensure Navbar exists
 import "./FacultyDashboard.css"; // Import the custom CSS
 import { fetchRoomData } from "../api/api"; // Import the API function to fetch room data
+import { useParams, useNavigate } from 'react-router-dom';
+import UserOccupiedRoom from "./UserOccupiedRoom"; // Import UserOccupiedRoom component
 
 function FacultyDashboard() {
   const [selectedBuildings, setSelectedBuildings] = useState([]); // Array of selected buildings
@@ -21,6 +23,29 @@ function FacultyDashboard() {
   const [loading, setLoading] = useState(false); // Track loading state
   const [error, setError] = useState(null); // Track error state
   const [currentTime, setCurrentTime] = useState(""); // Track the current time
+
+  // Hooks for URL parameters and navigation
+  const navigate = useNavigate();
+  const loggedInUser = localStorage.getItem("user_name");
+
+  // Validate user on component mount
+  useEffect(() => {
+    // Check if the user is authenticated by looking for a token in localStorage
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // If no token, redirect to login page
+      navigate("/user/login");
+      return;
+    }
+
+    // If the user is not found in local storage, navigate to not found or forbidden page
+    if (!loggedInUser) {
+      alert("Access forbidden");
+      navigate("/"); // Redirect to the homepage or NotFound page
+      return;
+    }
+  }, [loggedInUser, navigate]);
 
   // Update time every second
   useEffect(() => {
@@ -213,6 +238,14 @@ function FacultyDashboard() {
               </ul>
             </div>
           </div>
+        )}
+      </div>
+      {/* User Occupied Room Section */}
+      <div className="user-occupied-room-section">
+        {loggedInUser ? (
+          <UserOccupiedRoom userName={loggedInUser} />
+        ) : (
+          <p className="error-text">User is not logged in. Cannot load occupied room.</p>
         )}
       </div>
     </div>

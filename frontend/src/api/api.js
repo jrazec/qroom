@@ -268,3 +268,18 @@ export const createOccupation = async (occupationData) => {
     
     
     // comment
+
+    export const updateRoomOccupancy = async (roomId, action) => {
+      try {
+        const response = await fetch(`/api/rooms/occupancy`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ roomId, action }),
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error updating room occupancy:', error);
+        throw error;
+      }
+    };
+    

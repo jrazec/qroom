@@ -1,6 +1,7 @@
 import "./App.css";
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { OccupancyProvider } from "./users/OccupancyContext"; // Import the OccupancyProvider
 
 import Layout from "./admin/LayoutAdmin";
 import AdminDashboard from './admin/AdminDashboard';
@@ -20,7 +21,7 @@ import FeedbackPage from "./users/FeedbackPage";
 import HomePage from "./users/HomePage";
 import Navbar from "./users/Navbar";
 import RoomPage from "./users/RoomPage";
-import RoomSearch from "./users/RoomSearch";
+import RoomSearch from "./users/RoomSearch/RoomSearch";
 import RoomSearch1 from "./users/RoomSearch1";
 import RoomSearch2 from "./users/RoomSearch2";
 import SchedulePage from "./users/SchedulePage";
@@ -120,7 +121,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      {/* Wrap everything in OccupancyProvider to provide context to all components */}
+      <OccupancyProvider>
+        <RouterProvider router={router} />
+      </OccupancyProvider>
     </React.StrictMode>
   );
 }
