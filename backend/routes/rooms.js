@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const con = require('../config/db'); // Use your existing connection
+const con = require('../config/db'); // Database connection
 
+// Fetch room statuses
 router.post('/room-status', (req, res) => {
-  const { building_name } = req.body; // Removed room_purpose from payload
-  const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  const { building_names, room_purpose } = req.body; // Accept an array of building names and room purpose
+  const currentDate = new Date().toISOString().split('T')[0]; // Current date (YYYY-MM-DD)
 
   console.log('-------------------------------');
-  console.log('Incoming Request Payload:', { building_name });
+  console.log('Incoming Request Payload:', { building_names, room_purpose });
   console.log('Using Current Date:', currentDate);
 
   const results = {
@@ -18,12 +19,14 @@ router.post('/room-status', (req, res) => {
     scheduledVacantRooms: [],
   };
 
+  // Error handler function
   const handleError = (error, message) => {
     console.error('Error Message:', message);
     console.error('Error Details:', error);
     res.status(500).json({ message });
   };
 
+  // Fetch occupied room count
   const fetchOccupiedCount = () =>
     new Promise((resolve, reject) => {
       const sql = `
@@ -32,9 +35,12 @@ router.post('/room-status', (req, res) => {
         JOIN occupations USING(room_id)
         WHERE occupation_tag = 'Occupied'
           AND DATE(occupation_end) = ?
-          AND bldg_name = ?`;
-      console.log('Executing SQL for Occupied Room Count:', sql);
-      con.query(sql, [currentDate, building_name], (err, rows) => {
+          AND bldg_name IN (?)
+          ${room_purpose ? 'AND room_purpose = ?' : ''}`;
+      const params = room_purpose
+        ? [currentDate, building_names, room_purpose]
+        : [currentDate, building_names];
+      con.query(sql, params, (err, rows) => {
         if (err) return reject(err);
         results.occupiedCount = rows[0]?.occupied_count || 0;
         console.log('Occupied Room Count:', results.occupiedCount);
@@ -42,6 +48,7 @@ router.post('/room-status', (req, res) => {
       });
     });
 
+  // Fetch vacant rooms and count
   const fetchVacantCountAndDetails = () =>
     new Promise((resolve, reject) => {
       const sql = `
@@ -50,19 +57,23 @@ router.post('/room-status', (req, res) => {
         LEFT JOIN occupations o ON r.room_id = o.room_id
           AND DATE(o.occupation_end) = ?
           AND (o.occupation_tag = 'Occupied' OR o.occupation_tag = 'Scheduled')
-        WHERE r.bldg_name = ?
+        WHERE r.bldg_name IN (?)
+          ${room_purpose ? 'AND r.room_purpose = ?' : ''}
           AND o.room_id IS NULL;`; // Fetch rooms that are not occupied or scheduled
-      console.log('Executing SQL for Vacant Room Count and Details:', sql);
-      con.query(sql, [currentDate, building_name], (err, rows) => {
+      const params = room_purpose
+        ? [currentDate, building_names, room_purpose]
+        : [currentDate, building_names];
+      con.query(sql, params, (err, rows) => {
         if (err) return reject(err);
-        results.vacantCount = rows.length || 0; // Vacant count is the number of rows
-        results.vacantRooms = rows; // Vacant room details
+        results.vacantCount = rows.length || 0;
+        results.vacantRooms = rows;
         console.log('Vacant Room Count:', results.vacantCount);
         console.log('Vacant Room Details:', results.vacantRooms);
         resolve();
       });
     });
 
+  // Fetch room details based on a tag (Occupied or Scheduled)
   const fetchRoomDetails = (tag) =>
     new Promise((resolve, reject) => {
       const sql = `
@@ -71,9 +82,12 @@ router.post('/room-status', (req, res) => {
         JOIN occupations USING(room_id)
         WHERE occupation_tag = ?
           AND DATE(occupation_end) = ?
-          AND bldg_name = ?`;
-      console.log(`Executing SQL for ${tag} Room Details:`, sql);
-      con.query(sql, [tag, currentDate, building_name], (err, rows) => {
+          AND bldg_name IN (?)
+          ${room_purpose ? 'AND room_purpose = ?' : ''}`;
+      const params = room_purpose
+        ? [tag, currentDate, building_names, room_purpose]
+        : [tag, currentDate, building_names];
+      con.query(sql, params, (err, rows) => {
         if (err) return reject(err);
         if (tag === 'Occupied') {
           results.occupiedRooms = rows;
@@ -85,6 +99,7 @@ router.post('/room-status', (req, res) => {
       });
     });
 
+  // Execute all queries in sequence
   fetchOccupiedCount()
     .then(fetchVacantCountAndDetails)
     .then(() => fetchRoomDetails('Occupied'))
@@ -94,6 +109,18 @@ router.post('/room-status', (req, res) => {
       res.status(200).json(results);
     })
     .catch((err) => handleError(err, 'Error fetching room data'));
+});
+
+// Fetch distinct room purposes
+router.get('/get-room-purposes', (req, res) => {
+  const sql = `SELECT DISTINCT room_purpose FROM rooms`;
+  con.query(sql, (err, rows) => {
+    if (err) {
+      console.error('Error fetching room purposes:', err);
+      return res.status(500).json({ message: 'Error fetching room purposes' });
+    }
+    res.status(200).json(rows.map((row) => row.room_purpose));
+  });
 });
 
 module.exports = router;

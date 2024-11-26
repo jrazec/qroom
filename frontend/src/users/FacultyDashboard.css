@@ -3,12 +3,14 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .dashboard-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box; /* Include padding in width calculations */
 }
 
 /* Dashboard Header */
@@ -39,12 +41,24 @@ body {
     flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
+/* Filters Section */
+.filters-section {
+    display: flex;
+    justify-content: space-between; /* Distribute space evenly */
+    align-items: center; /* Vertically align items */
+    gap: 20px; /* Add spacing between elements */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    width: 100%; /* Take full width of the parent container */
+}
+
 /* Statistics Section */
 .statistics-section {
     display: flex;
-    flex-wrap: wrap; /* Enable wrapping */
-    gap: 20px; /* Space between stat cards */
-    justify-content: center; /* Center on smaller screens */
+    justify-content: center; /* Center-align items */
+    align-items: center; /* Vertically align items */
+    gap: 20px; /* Add spacing between cards */
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    flex: 1;
 }
 
 .stat-card {
@@ -81,8 +95,9 @@ body {
     border: 2px solid #8b0000;
     border-radius: 10px;
     padding: 10px 15px;
+    box-sizing: border-box; /* Include padding in width */
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
-    overflow-x: auto; /* Enable scrolling for overflow */
+    flex: 1;
 }
 
 .building-btn {
@@ -102,39 +117,51 @@ body {
     transition: background-color 0.2s;
 }
 
+/* Selected (Active) Button */
+.building-btn.active {
+    background-color: #570202;
+    color: #fff;
+}
+
+/* General Button Hover */
 .building-btn:hover {
-    background-color: #a30000; /* Darken on hover */
+    background-color: #b50000; /* Slightly darker red */
 }
 
-/* Laboratory and Room Buttons */
-.action-buttons {
+/* Dropdown Container */
+.dropdown-container {
     display: flex;
-    flex-direction: column; /* Stack vertically */
-    gap: 10px; /* Space between buttons */
-    background-color: #fff;
-    border: 2px solid #8b0000;
-    border-radius: 10px;
-    padding: 15px 20px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-    align-items: center; /* Center alignment */
-    overflow-y: auto; /* Enable scrolling for overflow */
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    max-width: 100%;
 }
 
-.action-btn {
-    background-color: #fff;
-    color: #8b0000;
-    border: 2px solid #8b0000;
-    border-radius: 10px;
-    padding: 12px 25px;
+.modern-dropdown {
+    width: 250px; /* Adjust width as needed */
+    padding: 10px 15px;
     font-size: 1rem;
     font-weight: bold;
+    color: #8b0000; /* Primary color */
+    border: 2px solid #8b0000;
+    border-radius: 8px;
+    background-color: #fff; /* White background */
+    outline: none;
     cursor: pointer;
-    text-align: center;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-.action-btn:hover {
-    background-color: #f5f5f5; /* Subtle hover effect */
+/* On Hover */
+.modern-dropdown:hover {
+    background-color: #f5f5f5; /* Light gray background on hover */
+    border-color: #a30000; /* Darker red border */
+}
+
+/* Dropdown Arrow Customization */
+.modern-dropdown:focus {
+    border-color: #a30000; /* Highlighted border on focus */
+    box-shadow: 0 0 5px rgba(163, 0, 0, 0.5);
 }
 
 /* Room Details */
@@ -177,6 +204,25 @@ body {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
+    .filters-section {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center;
+    }
+
+    .statistics-section {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .building-buttons {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .dropdown-container {
+        justify-content: center;
+    }
+
     .stat-card {
         width: 120px; /* Smaller width for mobile */
         height: 90px;
@@ -184,26 +230,6 @@ body {
 
     .stat-value {
         font-size: 1.5rem; /* Adjust font size */
-    }
-
-    .building-buttons {
-        gap: 10px; /* Reduce gap */
-    }
-
-    .building-btn {
-        width: 50px; /* Smaller buttons */
-        height: 50px;
-        font-size: 0.8rem; /* Adjust text size */
-    }
-
-    .action-buttons {
-        flex-direction: row; /* Stack horizontally */
-        justify-content: center;
-    }
-
-    .action-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
     }
 
     .room-details {
