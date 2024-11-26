@@ -54,7 +54,8 @@ const router = createBrowserRouter([
       { path: '/admin/scheduling/profselect', element: <SchedProf /> },
       { path: '/admin/scheduling/sectionselect', element: <SchedSection /> },
       { path: '/admin/scheduling/calendar', element: <SchedCalendar /> },
-      { path: '/admin/scheduling/roomselect', element: <SchedRoom /> },
+      { path: '/admin/scheduling/roomselect', element: <SchedRoom /> }
+
     ] // Removed ProtectedRoute from admin routes
   },
   {

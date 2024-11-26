@@ -27,7 +27,7 @@ router.use(express.static("frontend"));
 
 // Existing routes
 router.route("/login").post(showAccount.single);
-router.route("/schedule/").post(showUserSchedule.single);
+router.route("/schedule").post(showUserSchedule.single);
 router.route("/rooms").get(showRoom.single);
 
 // New route for changing password

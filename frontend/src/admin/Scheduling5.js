@@ -12,18 +12,20 @@ import {
 import { FaTrashAlt } from "react-icons/fa";
 import "./Scheduling5.css";
 import { FaArrowLeft } from 'react-icons/fa';
+import { useEffect } from "react";
+import axios from "axios";
 function Scheduling5() {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [studentsWithoutSection, setStudentsWithoutSection] = useState([
-    { id: "SR-001", firstName: "Alice", lastName: "Smith", department: "CICS" },
-    { id: "SR-002", firstName: "Bob", lastName: "Jones", department: "CAS" },
-    { id: "SR-003", firstName: "Charlie", lastName: "Brown", department: "CICS" },
-    { id: "SR-004", firstName: "Daisy", lastName: "Miller", department: "CTE" },
+    { user_name: "SR-001", first_name: "Alice", last_name: "Smith", department: "CICS" },
+    { user_name: "SR-002", first_name: "Bob", last_name: "Jones", department: "CAS" },
+    { user_name: "SR-003", first_name: "Charlie", last_name: "Brown", department: "CICS" },
+    { user_name: "SR-004", first_name: "Daisy", last_name: "Miller", department: "CTE" },
   ]);
   const [studentsWithSection, setStudentsWithSection] = useState([
-    { id: "SR-005", firstName: "Eve", lastName: "Adams", department: "CICS", section: "BSIT 1101" },
-    { id: "SR-006", firstName: "Frank", lastName: "Harris", department: "CAS", section: "BSPSYCH 1101" },
+    { user_name: "SR-005", first_name: "Eve", last_name: "Adams", department: "CICS", section_name: "BSIT 1101" },
+    { user_name: "SR-006", first_name: "Frank", last_name: "Harris", department: "CAS", section_name: "BSPSYCH 1101" },
   ]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [studentsToAdd, setStudentsToAdd] = useState([]);
@@ -38,7 +40,27 @@ function Scheduling5() {
   const handleBack = () => {
     navigate(`/admin/scheduling`);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
 
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/user-withWithoutSched`);
+        const data = await response.json();
+        const { status, results } = data;
+        console.log(results.withSchedule)
+        if (status) {
+          setStudentsWithSection(results.withSchedule);
+          setStudentsWithoutSection(results.withoutSchedule);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const departmentSections = {
     CICS: ["BSIT 1101", "BSIT 1102", "BSIT 1103","BSIT 1104", "BSIT 1105", "BSIT 1106","BSIT 1107", "BSIT 1108", "BSIT 2101","BSIT 2102", "BSIT 2103", "BSIT 2104", "BSIT 2105","BSIT BA 3101","BSIT BA 3102","BSIT NT 3101","BSIT SM 3101","BSIT SM 3102","BSIT BA 4101","BSIT BA 4102","BSIT SM 4101","BSIT NT 4101","BSIT NT 4102"],
     CAS: ["BSPSYCH 1101", "BSPSYCH 1102"],
@@ -48,7 +70,7 @@ function Scheduling5() {
 
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department);
-    setSelectedSection(null); // Reset section
+    setSelectedSection(null); // Reset section_name
   };
 
   const handleAddButtonClick = () => {
@@ -72,10 +94,10 @@ function Scheduling5() {
     );
   };
 
-  const handleStudentToggle = (id) => {
+  const handleStudentToggle = (user_name) => {
     setStudentsToAdd((prev) =>
       prev.map((student) =>
-        student.id === id
+        student.user_name === user_name
           ? { ...student, isSelected: !student.isSelected }
           : student
       )
@@ -85,25 +107,50 @@ function Scheduling5() {
     setStudentToDelete(student);
     setShowDeleteModal(true);
   };
-  const handleDeleteConfirm = () => {
-    // Placeholder for the PUT request to update the backend
-    // Example: axios.put('/api/removeStudent', { studentId: studentToDelete.id })
-  
+  const handleDeleteConfirm = async () => {
     // Remove the student from the studentsWithSection array
     setStudentsWithSection((prev) =>
-      prev.filter((student) => student.id !== studentToDelete.id)
+      prev.filter((student) => student.user_name !== studentToDelete.user_name)
+    );
+
+
+
+    // Close the delete modal
+    setShowDeleteModal(false);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/user-removeSection`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_name: studentToDelete.user_name }),
+      });
+
+      const data = await response.json();
+
+      if (data.status) {
+      console.log(`Student ${studentToDelete.user_name} removed from section successfully.`);
+      } else {
+      console.error("Failed to remove student from section.");
+      }
+    } catch (error) {
+      console.error("Error removing student from section:", error);
+    }
+    // Remove the student from the studentsWithSection array
+    setStudentsWithSection((prev) =>
+      prev.filter((student) => student.user_name !== studentToDelete.user_name)
     );
   
     // Add the student back to the studentsWithoutSection array
     setStudentsWithoutSection((prev) => [...prev, studentToDelete]);
   
-    console.log(`Student removed and added back to studentsWithoutSection: ${studentToDelete.firstName}`);
+    console.log(`Student removed and added back to studentsWithoutSection: ${studentToDelete.first_name}`);
   
     // Close the delete modal
     setShowDeleteModal(false);
   };
   
-  const handleAddSelected = () => {
+  const handleAddSelected = async () => {
     const selectedStudents = studentsToAdd.filter((student) => student.isSelected);
 
     if (selectedStudents.length === 0) {
@@ -111,31 +158,52 @@ function Scheduling5() {
       return;
     }
 
-    // Add selected students to the section
-    setStudentsWithSection((prev) => [
-      ...prev,
-      ...selectedStudents.map((student) => ({
-        ...student,
-        section: selectedSection,
-      })),
-    ]);
+    const user_names = selectedStudents.map((student) => student.user_name);
 
-    // Remove the added students from the studentsWithoutSection list
-    setStudentsWithoutSection((prev) =>
-      prev.filter(
-        (student) => !selectedStudents.some((selected) => selected.id === student.id)
-      )
-    );
+    try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/add-user-to-section`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_names, section_name: selectedSection }),
+      });
 
-    // Success message
-    setMessage({ type: "success", text: "Students successfully added to the section." });
-    setShowAddModal(false);
+      const data = await response.json();
+
+      if (data.status) {
+        // Add selected students to the section_name
+        setStudentsWithSection((prev) => [
+          ...prev,
+          ...selectedStudents.map((student) => ({
+            ...student,
+            section_name: selectedSection,
+          })),
+        ]);
+
+        // Remove the added students from the studentsWithoutSection list
+        setStudentsWithoutSection((prev) =>
+          prev.filter(
+            (student) => !selectedStudents.some((selected) => selected.user_name === student.user_name)
+          )
+        );
+
+        // Success message
+        setMessage({ type: "success", text: "Students successfully added to the section." });
+        setShowAddModal(false);
+      } else {
+        setMessage({ type: "error", text: "Failed to add students to the section." });
+      }
+    } catch (error) {
+      console.error("Error adding students to section:", error);
+      setMessage({ type: "error", text: "An error occurred while adding students to the section." });
+    }
   };
 
   const filteredStudentsWithSection = studentsWithSection.filter(
     (student) =>
       student.department === selectedDepartment &&
-      student.section === selectedSection
+      student.section_name === selectedSection
   );
 
   return (
@@ -174,9 +242,9 @@ function Scheduling5() {
           onSelect={setSelectedSection}
           className="department-dropdown"
         >
-          {departmentSections[selectedDepartment]?.map((section) => (
-            <Dropdown.Item key={section} eventKey={section}>
-              {section}
+          {departmentSections[selectedDepartment]?.map((section_name) => (
+            <Dropdown.Item key={section_name} eventKey={section_name}>
+              {section_name}
             </Dropdown.Item>
           ))}
         </DropdownButton>
@@ -204,11 +272,11 @@ function Scheduling5() {
           {selectedDepartment && selectedSection ? (
             filteredStudentsWithSection.length > 0 ? (
               filteredStudentsWithSection.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.id}</td>
-                  <td>{student.section}</td>
-                  <td>{student.firstName}</td>
-                  <td>{student.lastName}</td>
+                <tr key={student.user_name}>
+                  <td>{student.user_name}</td>
+                  <td>{student.section_name}</td>
+                  <td>{student.first_name}</td>
+                  <td>{student.last_name}</td>
                   <td>
                     <FaTrashAlt
                       className="delete-icon"
@@ -259,17 +327,17 @@ function Scheduling5() {
             </thead>
             <tbody>
               {studentsToAdd.map((student) => (
-                <tr key={student.id}>
+                <tr key={student.user_name}>
                   <td>
                     <Form.Check
                       type="checkbox"
                       checked={student.isSelected}
-                      onChange={() => handleStudentToggle(student.id)}
+                      onChange={() => handleStudentToggle(student.user_name)}
                     />
                   </td>
-                  <td>{student.id}</td>
+                  <td>{student.user_name}</td>
                   <td>
-                    {student.firstName} {student.lastName}
+                    {student.first_name} {student.last_name}
                   </td>
                 </tr>
               ))}

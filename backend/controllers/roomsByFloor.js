@@ -10,9 +10,9 @@ exports.getRoomsByFloor = async (req, res) => {
     console.log("Received floor:", floor);       // Debugging
 
     const query = `
-      SELECT room_id, room_name, room_purpose
+      SELECT room_id, room_name, room_purpose,floor_number
       FROM rooms
-      WHERE bldg_name = ? AND floor_number = ?
+      WHERE bldg_name = ? AND room_purpose in ('Classroom', 'Laboratory');
     `;
     con.query(query, [building, floor], (err, result) => {
       if (err) {

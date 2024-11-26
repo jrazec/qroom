@@ -140,6 +140,99 @@ class userTable {
             });
         });
     }
+
+    static getInstructors() {
+        return new Promise((resolve, reject) => {
+            let queryUsers = `SELECT user_name, CONCAT(first_name, ' ', middle_name, ' ',last_name) as name,department FROM users WHERE role='instructor';`;
+
+            con.query(queryUsers, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);  
+                } else {
+                    resolve(result);    
+                }
+            });
+        });
+    }   
+    
+
+    static getUsers() {
+        return new Promise((resolve, reject) => {
+            let queryWithSchedule = `SELECT DISTINCT user_name,first_name,last_name,middle_name, department,section_name FROM users LEFT JOIN user_section_schedules USING(user_name) LEFT JOIN section_schedules USING(section_sched_id) WHERE role LIKE '%tudent' AND section_name IS NOT NULL;`;
+            let queryWithoutSchedule = `SELECT DISTINCT user_name,first_name,last_name,middle_name, department,section_name FROM users LEFT JOIN user_section_schedules USING(user_name) LEFT JOIN section_schedules USING(section_sched_id) WHERE role LIKE '%tudent' AND section_name IS NULL;`;
+
+            con.query(queryWithSchedule, (err, resultWithSchedule) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);  
+                }
+
+                con.query(queryWithoutSchedule, (err, resultWithoutSchedule) => {
+                    if (err) {
+                        console.error(err);
+                        return reject(err);  
+                    }
+
+                    resolve({
+                        withSchedule: resultWithSchedule,
+                        withoutSchedule: resultWithoutSchedule
+                    });
+                });
+            });
+        });
+    }
+
+    static assignUsersToSection(user_names, section_name) {
+        return new Promise((resolve, reject) => {
+            const querySectionSchedIdPerSection = `SELECT DISTINCT section_sched_id FROM section_schedules WHERE section_name = ?;`;
+
+            con.query(querySectionSchedIdPerSection, [section_name], (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);  
+                }
+
+                const secSchedIds = result.map(row => row.section_sched_id);
+
+                const insertPromises = user_names.map(user_name => {
+                    const insertQuery = `INSERT INTO user_section_schedules (section_sched_id, user_name) VALUES (?, ?);`;
+                    return new Promise((resolve, reject) => {
+                        secSchedIds.forEach(secSchedId => {
+                            con.query(insertQuery, [secSchedId, user_name], (err, result) => {
+                                if (err) {
+                                    console.error(err);
+                                    return reject(err);  
+                                }
+                                resolve(result);
+                            });
+                        });
+                    });
+                });
+
+                Promise.all(insertPromises)
+                    .then(results => resolve(results))
+                    .catch(err => reject(err));
+            });
+        });
+    }
+
+    static deleteSched(user_name) {
+        return new Promise((resolve, reject) => {
+            const deleteUsers = `DELETE FROM user_section_schedules
+                                 WHERE user_name=?;`;
+
+            const userData = [`${user_name}`];
+            con.query(deleteUsers, userData, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);  
+                } else {
+                    resolve(result);    
+                }
+            });
+        });
+    }
 }
 
 module.exports = userTable;

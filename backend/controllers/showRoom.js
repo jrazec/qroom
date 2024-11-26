@@ -27,3 +27,13 @@ exports.labAndClass = async (req,res) =>{
     }
 
   }
+
+  exports.rooms = async (req,res) =>{
+    try {
+        const room = await roomTable.getRoom()
+        const sched = await roomTable.getRoomSched()
+        res.status(200).json({room,sched});  
+    } catch (error) {
+        res.status(500).json({ error: 'Error' });  // Send error response
+    }
+  }

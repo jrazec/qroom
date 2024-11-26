@@ -47,13 +47,11 @@ function FeedbackPage() {
     const building = buildingMap[buildingId];
     if (building) {
       const buildingName = building.name;
-      const floor = building.floors ? building.floors[0] : undefined; // Default to the first floor if floors exist
 
       try {
         const response = await axios.get('/user/rooms/floor', {
           params: {
             building: buildingName,
-            floor, // Include the floor parameter if available
           },
         });
 
@@ -189,7 +187,7 @@ function FeedbackPage() {
       });
   
       // Show the classification result and thank-you message
-      setFeedbackMessage(`The classroom is ${classification}. Thank you for your feedback!`);
+      setFeedbackMessage(`${(classification !== "unsure") ? "The system detected that it is: "+ classification+". It will be further evaluated by the admin." : "The system is unsure about the photo, it will be validated by the admin or try resending a clear picture of a classroom."}.`);
     } catch (error) {
       console.error("Error submitting feedback:", error);
       setFeedbackMessage("An error occurred while submitting feedback. Please try again.");
@@ -230,12 +228,17 @@ function FeedbackPage() {
                   <option value="">Select Room</option>
                   {rooms.map((room) => (
                     <option key={room.room_id} value={room.room_id}>
-                      {room.room_name} ({room.room_purpose || "No purpose"})
+                      {room.floor_number} | <strong>{room.room_name}</strong> ({room.room_purpose || "No purpose"})
                     </option>
                   ))}
                 </select>
               </div>
-
+              {/* Display Feedback Message */}
+              {feedbackMessage && (
+                <div className="mt-4 alert alert-info" role="alert">
+                  {feedbackMessage}
+                </div>
+              )}
               {/* Image Upload Section */}
               <div className={`mb-4 ${FeedbackCss.imageContainer}`}>
                 {image ? (
@@ -258,6 +261,7 @@ function FeedbackPage() {
                   <button
                     onClick={() => document.getElementById('imageUpload').click()}
                     className={`btn btn-outline-secondary ${FeedbackCss.uploadButton}`}
+                    style={{ width: '100%',height:'30vh' }}
                   >
                     Upload Image Here
                   </button>
@@ -291,12 +295,7 @@ function FeedbackPage() {
               </button>
             </div>
 
-              {/* Display Feedback Message */}
-              {feedbackMessage && (
-                <div className="mt-4 alert alert-info" role="alert">
-                  {feedbackMessage}
-                </div>
-              )}
+
             </>
           ) : (
             <>

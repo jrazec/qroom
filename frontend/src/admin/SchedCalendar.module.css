@@ -71,3 +71,10 @@ th a{
     background-color:#d1d1d1;
     
   }
+
+  .motherCont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }

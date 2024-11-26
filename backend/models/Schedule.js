@@ -5,10 +5,11 @@ class scheduleTable {
         return new Promise((resolve, reject) => {
             const uName = userName;
             console.log(userName)
-            const queryUser = ` select user_name,day,time_start,time_end,course_code,course_description,program,section_name,room_name,role from users join user_section_schedules using(user_name) join section_schedules using(section_sched_id) join courses using(course_id) join rooms using(room_id) where user_name=?`;
+            const queryUser = ` select user_name,day,time_start,time_end,course_code,course_description,section_name,room_name,role from users join user_section_schedules using(user_name) join section_schedules using(section_sched_id) join courses using(course_id) join rooms using(room_id) where user_name=?`;
             con.query(queryUser, [uName], (err, result) => {
                 if (err) {
                     console.error('Database query error:', err);
+                    return reject(err);
                     return reject(err);  // Reject on database error
                 }    
                 if (result.length === 0) {
@@ -50,8 +51,67 @@ class scheduleTable {
           });
         });
       }
-  
+      static createSchedule(body) {
+        return new Promise((resolve, reject) => {
+          const {
+            section_name, 
+            room_id, 
+            department, 
+            course_id,
+            day, 
+            user_name, 
+            time_start, 
+            time_end, 
+        } = body;
 
+      const queryStudents = `SELECT DISTINCT(user_name) FROM users JOIN user_section_schedules USING(user_name) JOIN section_schedules USING(section_sched_id) WHERE section_name=? AND role LIKE '%tudent'`;
+      con.query(queryStudents,[section_name], (err, students) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+
+        const queryMaxId = `SELECT MAX(section_sched_id) AS maxId FROM section_schedules`;
+                con.query(queryMaxId, (err, maxIdResult) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);
+                }
+
+                const section_sched_id = maxIdResult[0].maxId + 1;
+                const insertScheduleQuery = `INSERT INTO section_schedules (section_sched_id, section_name, room_id, day, time_start, time_end, course_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+                con.query(insertScheduleQuery, [section_sched_id, section_name, room_id, day, time_start, time_end, course_id], (err, scheduleResult) => {
+                    if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);
+                    }
+
+                    if (students.length === 0) {
+                    const insertInstructorQuery = `INSERT INTO user_section_schedules (section_sched_id, user_name) VALUES (?, ?)`;
+                    con.query(insertInstructorQuery, [section_sched_id, user_name], (err, instructorResult) => {
+                        if (err) {
+                        console.error('Database query error:', err);
+                        return reject(err);
+                        }
+                        resolve({ status: true, result: instructorResult });
+                    });
+                    } else {
+                    const studentValues = students.map(student => `(${section_sched_id}, '${student.user_name}')`).join(', ');
+                    const insertUsersQuery = `INSERT INTO user_section_schedules (section_sched_id, user_name) VALUES (${section_sched_id}, '${user_name}'), ${studentValues}`;
+                    con.query(insertUsersQuery, (err, usersResult) => {
+                        if (err) {
+                        console.error('Database query error:', err);
+                        return reject(err);
+                        }
+                        resolve({ status: true, result: usersResult });
+                    });
+                    }
+                });
+                });
+            });
+        });
+
+        }
 }
 
 

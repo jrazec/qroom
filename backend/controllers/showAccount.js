@@ -25,3 +25,14 @@ exports.single = async (req, res) => {
 };
 
 
+exports.with_withoutSchedule = async (req, res) => {
+    try {
+        const results = await userTable.getUsers();
+        res.status(200).json({ status: true, results });
+
+    } catch (error) {
+        console.error('Error in single:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+

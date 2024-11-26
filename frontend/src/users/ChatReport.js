@@ -156,7 +156,10 @@ function ChatReport() {
             ))}
           </select>
         </div>
-
+        {/* Feedback Message */}
+        {feedbackMessage && (
+          <div className="alert alert-info mt-3">{feedbackMessage}</div>
+        )}
         {/* Textbox for Report */}
         <div className="mb-4">
           <textarea
@@ -178,10 +181,7 @@ function ChatReport() {
           </button>
         </div>
 
-        {/* Feedback Message */}
-        {feedbackMessage && (
-          <div className="alert alert-info mt-3">{feedbackMessage}</div>
-        )}
+
       </div>
     </div>
   );
