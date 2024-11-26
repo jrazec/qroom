@@ -220,3 +220,29 @@ export const createOccupation = async (occupationData) => {
         throw error;
       }
     };
+
+    export const fetchRoomData = async (building_name, filter_date) => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/api/rooms/room-status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ building_name, filter_date }),
+        });
+    
+        if (!response.ok) {
+          console.error("Error response from API:", response.status);
+          throw new Error("Failed to fetch room data");
+        }
+    
+        const data = await response.json();
+        console.log("Room Data:", data); // Debugging log
+        return data;
+      } catch (error) {
+        console.error("Error fetching room data:", error);
+        throw error;
+      }
+    };
+    
+    
+    
+    

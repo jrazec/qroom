@@ -29,6 +29,7 @@ import Settings from "./users/Settings";
 import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute correctly
 import ChatReport from './users/ChatReport';
 import LoginToRoom from "./users/LoginToRoom";
+import FacultyDashboard from './users/FacultyDashboard'; // Import the new component
 
 const cur = {}; // Current temporary holder
 
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
   {
     path: '/chat-report/:id',
     element: <ProtectedRoute><ChatReport  /></ProtectedRoute>,
+  },
+  {
+    path: '/faculty/dashboard/:id',
+    element: <ProtectedRoute><FacultyDashboard /></ProtectedRoute>,
   },
 ]);
 

@@ -10,7 +10,7 @@ const path = require("path");
 const connectDB = require("../config/mongodb");
 const roomReportRoute = require("../routes/roomReports");
 const reportsRoute = require('../routes/reports');
-
+const roomRoutes = require('../routes/rooms'); // Adjust the path if needed
 dotenv.config();
 
 const app = express();
@@ -22,6 +22,8 @@ app.use(bodyParser.json());
 // Serve static files from backend/uploads
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 console.log("Serving static files from:", path.join(__dirname, "../uploads")); // Debugging line
+
+app.use('/api/rooms', roomRoutes);
 
 // User routes
 app.use("/user", userRoute);
