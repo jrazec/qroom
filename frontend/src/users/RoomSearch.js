@@ -271,6 +271,7 @@ function RoomSearch() {
                 </div>
               </div>
             </div>
+            
 
             {/* Previous Button */}
             {/* <div className={roomSearch.previousButton}>

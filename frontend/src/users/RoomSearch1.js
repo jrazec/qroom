@@ -22,7 +22,7 @@ function RoomSearch1() {
     4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
   };
 
-  const bldgImg = "/assets/floor.png";
+  const bldgImg = "/assets/floor.png"; // Placeholder image
 
   useEffect(() => {
     // Check if the user is authenticated
@@ -120,8 +120,8 @@ function RoomSearch1() {
           {/* Left Section: Search Bar */}
           <div className={roomSearch1.leftSection}>
             {/* Back Button at the top of Search Bar */}
-            <div className="mt-4">
-              <button className="btn btn-secondary" onClick={handleBackClick}>
+            <div className="mt-3">
+              <button className={roomSearch1.btn} onClick={handleBackClick}>
                 Back
               </button>
             </div>
@@ -157,6 +157,15 @@ function RoomSearch1() {
                   ))}
                 </ul>
               )}
+            </div>
+
+            {/* Picture Placeholder under the search bar */}
+            <div className={roomSearch1.imagePlaceholder}>
+              <img
+                src="/assets/placeholder.jpg" // Use your placeholder image
+                alt="Building Placeholder"
+                className={roomSearch1.placeholderImage}
+              />
             </div>
           </div>
 

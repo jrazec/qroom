@@ -88,17 +88,18 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 100%;
+    width: 100vw;
+    max-width: 85%;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  height: 80%;
+    height: 80%;
 
     /* margin-bottom: 20px; */
 }
 
 .scheduleContainer {
-  width: 100%;
+  width: 85%;
   height: 100%;
   max-height: 90%;
   padding: 0.4rem;
@@ -107,6 +108,7 @@
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  margin-right: 1rem;
 }
 
 .scheduleUser {
@@ -191,10 +193,16 @@
 
 /* Mobile Specific Layout */
 @media (max-width: 768px) {
-  /* .mainLayout {
-      flex-direction: column;
-      padding: 10px;
-  } */
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 80%;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    flex-grow: 1;
+}
 
   .scheduleWrapper {
       flex-direction: column;
