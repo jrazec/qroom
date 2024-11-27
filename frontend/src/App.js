@@ -1,8 +1,9 @@
 import "./App.css";
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"; // Import Navigate for redirection
 
-import Layout from "./admin/LayoutAdmin";
+import Layout from "./admin/LayoutAdmin"; // Layout with sidebar for admins
+import LoginAdmin from "./admin/LoginAdmin"; // Admin login page
 import AdminDashboard from './admin/AdminDashboard';
 import Scheduling from './admin/Scheduling';
 import Accounts from './admin/Accounts';
@@ -24,7 +25,8 @@ import RoomSearch from "./users/RoomSearch";
 import RoomSearch1 from "./users/RoomSearch1";
 import RoomSearch2 from "./users/RoomSearch2";
 import SchedulePage from "./users/SchedulePage";
-import LoginUser from "./users/LoginUser";
+import LoginUser from "./users/LoginUser";  // User login page
+
 import Settings from "./users/Settings";
 import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute correctly
 import ChatReport from './users/ChatReport';
@@ -34,43 +36,84 @@ import FacultyDashboard from './users/FacultyDashboard'; // Import the new compo
 const cur = {}; // Current temporary holder
 
 const router = createBrowserRouter([
-  // Public Route
+  // Public Route: Root path should show the user login page
   {
     path: '/',
-    element: <NotFound />,
+    element: <LoginUser />,  // Directly render LoginUser at the root
   },
-  // Admin Routes - No ProtectedRoute for now
+
+  // Admin Routes - Protect these routes for authenticated admins
   {
     path: '/admin',
-    element: <Layout />,
-    errorElement: <NotFound />,
-    children: [
-      { path: '/admin', element: <AdminDashboard /> },
-      { path: '/admin/accounts', element: <Accounts /> },
-      { path: '/admin/feedback', element: <Feedback /> },
-      { path: '/admin/scheduling', element: <Scheduling /> },
-      { path: '/admin/scheduling/sections', element: <Scheduling5 /> },
-      { path: '/admin/scheduling/3', element: <Scheduling3 /> },
-      { path: '/admin/scheduling/4', element: <Scheduling4 /> },
-      { path: '/admin/scheduling/profselect', element: <SchedProf /> },
-      { path: '/admin/scheduling/sectionselect', element: <SchedSection /> },
-      { path: '/admin/scheduling/calendar', element: <SchedCalendar /> },
-      { path: '/admin/scheduling/roomselect', element: <SchedRoom /> }
-
-    ] // Removed ProtectedRoute from admin routes
+    element: <Navigate to="/admin/login" />,  // Redirect to admin login if not logged in
   },
+
+  // Admin Login Route (Accessed when the user is not authenticated)
   {
     path: '/admin/login',
-    element: <LoginUser />,
+    element: <LoginAdmin />,  // Admin login page
   },
-  // User Routes
+
+  // Admin Routes - Protect these routes for authenticated admins
+  {
+    path: '/admin',
+    element: <ProtectedRoute isAdmin={true}><Layout /></ProtectedRoute>, // Protect the layout
+    children: [
+      {
+        path: '/admin/dashboard',
+        element: <AdminDashboard />,
+      },
+      {
+        path: '/admin/accounts',
+        element: <Accounts />,
+      },
+      {
+        path: '/admin/feedback',
+        element: <Feedback />,
+      },
+      {
+        path: '/admin/scheduling',
+        element: <Scheduling />,
+      },
+      { 
+        path: '/admin/scheduling/sections', 
+        element: <Scheduling5 />,
+      },
+      { 
+        path: '/admin/scheduling/3', 
+        element: <Scheduling3 />,
+      },
+      {
+        path: '/admin/scheduling/4',
+        element: <Scheduling4 />,
+      },
+      {
+        path: '/admin/scheduling/profselect',
+        element: <SchedProf />,
+      },
+      {
+        path: '/admin/scheduling/sectionselect',
+        element: <SchedSection />,
+      },
+      {
+        path: '/admin/scheduling/calendar',
+        element: <SchedCalendar />,
+      },
+      {
+        path: '/admin/scheduling/roomselect',
+        element: <SchedRoom />,
+      },
+    ],
+  },
+
+  // User Routes - Protected Routes for users
   {
     path: '/user/home/:id',
     element: <ProtectedRoute><HomePage /></ProtectedRoute>,
   },
   {
     path: '/user/login',
-    element: <LoginUser />,
+    element: <LoginUser />,  // User login page
   },
   {
     path: '/user/room/:roomid',
@@ -110,7 +153,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/chat-report/:id',
-    element: <ProtectedRoute><ChatReport  /></ProtectedRoute>,
+    element: <ProtectedRoute><ChatReport /></ProtectedRoute>,
   },
 ]);
 

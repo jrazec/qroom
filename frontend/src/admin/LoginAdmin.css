@@ -1,0 +1,152 @@
+/* Main container with modern background */
+.modern-login-page {
+    height: 100vh;
+    background: linear-gradient(135deg, #e9ecef, #c3cfe2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Updated Login container for full height responsiveness */
+  .login-container {
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+  }
+  
+  /* Left section */
+  .brand-logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #800000; /* Maroon color */
+    font-size: 4rem;
+    margin-bottom: 30px;
+  }
+  
+  .vr-image {
+    max-width: 70%;
+    height: auto;
+  }
+  
+  /* Updated Login card styling */
+  .login-card {
+    border-radius: 15px;
+    background-color: white;
+    padding: 2rem;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  .login-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Updated Brand name styling */
+  .brand-name {
+    color: #800000;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+  
+  /* Form input styling */
+  .form-group label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #800000;
+    margin-bottom: 0.5rem;
+  }
+  
+  .modern-input {
+    border: 2px solid #800000;
+    border-radius: 8px;
+    padding: 12px;
+    height: auto;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease;
+  }
+  .modern-input:focus {
+    border-color: #9b1c1c;
+    box-shadow: 0 0 5px rgba(155, 28, 28, 0.4);
+    outline: none;
+  }
+  
+  /* Button styling */
+  .login-btn {
+    background-image: linear-gradient(to right, #800000, #a52a2a);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    border: none;
+  }
+  .login-btn:hover {
+    background-image: linear-gradient(to right, #9b1c1c, #c04040);
+    transform: translateY(-3px);
+  }
+  
+  /* Forgot password link */
+  .forgot-password-link {
+    text-decoration: none;
+    color: #800000;
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.2s ease;
+  }
+  .forgot-password-link:hover {
+    text-decoration: underline;
+    color: #c04040;
+  }
+  
+  /* Updated CAPTCHA styling to center it */
+  .captcha-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* Media queries for responsive design */
+  @media (max-width: 768px) {
+    .brand-logo {
+      font-size: 3rem;
+    }
+  
+    .vr-image {
+      display: none; /* Hide image on smaller devices */
+    }
+  
+    .login-card {
+      padding: 1.5rem;
+    }
+  
+    .modern-input {
+      padding: 10px;
+    }
+  
+    .login-btn {
+      padding: 10px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .brand-logo {
+      font-size: 2.5rem;
+    }
+  
+    .login-card {
+      padding: 1rem;
+    }
+  
+    .modern-input {
+      padding: 8px;
+    }
+  
+    .login-btn {
+      padding: 8px;
+    }
+  }
+  

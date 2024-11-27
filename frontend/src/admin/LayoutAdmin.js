@@ -1,9 +1,21 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import React from 'react';
 import "./LayoutAdmin.css";
 
 const Layout = () => {
   const location = useLocation(); // Get the current location
+  const navigate = useNavigate(); // Get the navigate function
+
+  // Handle Logout
+  const handleLogout = () => {
+    // Clear localStorage to log the user out
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('role');
+
+    // Redirect to admin login page
+    navigate("/admin/login");
+  };
 
   return (
     <div className="app">
@@ -18,12 +30,12 @@ const Layout = () => {
           <ul className="nav flex-column">
             <li className="nav-item">
               <Link
-                to="/admin"
+                to="/admin/dashboard"
                 className={`nav-link text-white ${
-                  location.pathname === "/admin" ? "active" : ""
+                  location.pathname === "/admin/dashboard" ? "active" : ""
                 }`}
               >
-                Home
+                Dashboard
               </Link>
             </li>
             <li className="nav-item">
@@ -58,10 +70,9 @@ const Layout = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/"
-                className={`nav-link text-white ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
+                to="#"
+                onClick={handleLogout}
+                className="nav-link text-white"
               >
                 Logout
               </Link>
