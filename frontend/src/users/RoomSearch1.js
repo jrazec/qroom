@@ -1,4 +1,3 @@
-// RoomSearch1.js
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import roomSearch1 from './RoomSearch1.module.css';
@@ -23,7 +22,8 @@ function RoomSearch1() {
     4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
   };
 
-  const bldgImg = "/assets/floor.png"
+  const bldgImg = "/assets/floor.png";
+
   useEffect(() => {
     // Check if the user is authenticated
     const token = localStorage.getItem('token');
@@ -47,7 +47,7 @@ function RoomSearch1() {
     // Fetch rooms for the specific building and floor
     const fetchRooms = async () => {
       try {
-        const response = await axios.get('/user/rooms/floor', {
+        const response = await axios.get(`${process.env.REACT_APP_LOCALHOST}/user/rooms/floor`, {
           params: {
             building: buildingMap[floorid].name,
             floor: buildingMap[floorid].floors[0], // Initially fetch for the first floor
@@ -70,7 +70,7 @@ function RoomSearch1() {
   // Handle floor change
   const handleFloorChange = async (floor) => {
     try {
-      const response = await axios.get('/user/rooms/floor', {
+      const response = await axios.get(`${process.env.REACT_APP_LOCALHOST}/user/rooms/floor`, {
         params: {
           building: buildingName,
           floor,
@@ -113,91 +113,86 @@ function RoomSearch1() {
   return (
     <div className={roomSearch1.app}>
       <Navbar id={id} />
-      
-      {/* Back Button */}
-      <div className="mt-4">
-        <button className="btn btn-secondary" onClick={handleBackClick}>
-          Back
-        </button>
-      </div>
 
       <main className={roomSearch1.mainContent}>
-        {/* Search Bar */}
-        <div className={`${roomSearch1.searchBar} mb-5 text-center position-relative`}>
-          <div className="d-flex justify-content-center align-items-center">
-            <input
-              type="text"
-              className={`form-control ${roomSearch1.searchInput} d-inline-block`}
-              placeholder="Search by room name or purpose"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            />
-            <button
-              className={`btn btn-danger ${roomSearch1.searchBtn} d-inline-block ml-2`}
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-          {showSuggestions && searchTerm.trim() !== "" && (
-            <ul className={`${roomSearch1.suggestions} list-group position-absolute w-100`} style={{ top: '100%', zIndex: '1000' }}>
-              {filteredRooms.map((room) => (
-                <li
-                  key={room.room_id}
-                  className="list-group-item list-group-item-action"
-                  onClick={() => handleRoomClick(room.room_id)}
-                >
-                  {room.room_name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Floor Selection Section */}
-        <div className="floor-images mt-5 d-flex justify-content-center align-items-center">
-          {floors.map((floor, index) => (
-            <div key={index} className="floor-image-container" onClick={() => handleFloorChange(floor)}>
-              <img
-                src={`${bldgImg}`}
-                alt={floor}
-                className={`${roomSearch1.floorImage} img-fluid rounded shadow`}
-              />
-              <h3 className="text-center mt-2">{floor}</h3>
-            </div>
-          ))}
-        </div>
-
-        {/* Room List for the Selected Floor */}
-        <div className="list-group mt-4">
-          {filteredRooms.length > 0 ? (
-            filteredRooms.map((room) => (
-              <button
-                key={room.room_id}
-                className={`list-group-item list-group-item-action text-center ${roomSearch1.roomBtn}`}
-                onClick={() => handleRoomClick(room.room_id)}
-              >
-                {room.room_name}
+        {/* Split Flexbox Layout */}
+        <div className={roomSearch1.flexContainer}>
+          {/* Left Section: Search Bar */}
+          <div className={roomSearch1.leftSection}>
+            {/* Back Button at the top of Search Bar */}
+            <div className="mt-4">
+              <button className="btn btn-secondary" onClick={handleBackClick}>
+                Back
               </button>
-            ))
-          ) : (
-            <p className="text-center mt-3">No rooms available for the selected floor or matching the search criteria.</p>
-          )}
-        </div>
+            </div>
 
-        {/* Social Media Icons */}
-        <div className={roomSearch1.socialIcons}>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-envelope"></i>
-          </a>
-          <a href="#" className={roomSearch1.socialIcon}>
-            <i className="fa fa-twitter"></i>
-          </a>
+            <div className={`${roomSearch1.searchBar} mb-5 text-center position-relative`}>
+              <div className="d-flex justify-content-center align-items-center">
+                <input
+                  type="text"
+                  className={`form-control ${roomSearch1.searchInput} d-inline-block`}
+                  placeholder="Search by room name or purpose"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                />
+                <button
+                  className={`btn btn-danger ${roomSearch1.searchBtn} d-inline-block ml-2`}
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
+              </div>
+              {showSuggestions && searchTerm.trim() !== "" && (
+                <ul className={`${roomSearch1.suggestions} list-group position-absolute w-100`} style={{ top: '100%', zIndex: '1000' }}>
+                  {filteredRooms.map((room) => (
+                    <li
+                      key={room.room_id}
+                      className="list-group-item list-group-item-action"
+                      onClick={() => handleRoomClick(room.room_id)}
+                    >
+                      {room.room_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {/* Right Section: Floor Selection and Room List */}
+          <div className={roomSearch1.rightSection}>
+            {/* Floor Selection Section */}
+            <div className="floor-images d-flex justify-content-center align-items-center">
+              {floors.map((floor, index) => (
+                <div key={index} className="floor-image-container" onClick={() => handleFloorChange(floor)}>
+                  <img
+                    src={bldgImg}
+                    alt={floor}
+                    className={`img-fluid rounded shadow`}
+                  />
+                  <h3 className="text-center mt-2">{floor}</h3>
+                </div>
+              ))}
+            </div>
+
+            {/* Room List for the Selected Floor */}
+            <div className="list-group mt-4">
+              {filteredRooms.length > 0 ? (
+                filteredRooms.map((room) => (
+                  <button
+                    key={room.room_id}
+                    className={`list-group-item list-group-item-action text-center ${roomSearch1.roomBtn}`}
+                    onClick={() => handleRoomClick(room.room_id)}
+                  >
+                    {room.room_name}
+                  </button>
+                ))
+              ) : (
+                <p className="text-center mt-3">No rooms available for the selected floor or matching the search criteria.</p>
+              )}
+            </div>
+          </div>
         </div>
       </main>
     </div>
