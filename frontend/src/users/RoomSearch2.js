@@ -172,7 +172,7 @@ function RoomSearch2() {
           <p className="text-center mt-5">No buildings available or matching the search criteria.</p>
         )}
 
-        <h3 className={`carousel-title mt-5 ${roomSearch2.carouselTitle}`}>Buildings Available</h3>
+        {/* <h3 className={`carousel-title mt-5 ${roomSearch2.carouselTitle}`}>Buildings Available</h3> */}
 
       </main>
     </div>

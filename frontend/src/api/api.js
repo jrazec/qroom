@@ -84,7 +84,7 @@ export const deleteAccount = async (dataToChange) =>{
 
 export const checkCreds = async ({ user_name, password }) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/login`, {
+      const response = await fetch(`https://shnc77kq-3001.asse.devtunnels.ms/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_name, password })
