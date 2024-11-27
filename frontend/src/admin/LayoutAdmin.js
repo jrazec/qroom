@@ -12,10 +12,11 @@ const Layout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user_name');
     localStorage.removeItem('role');
-
-    // Redirect to admin login page
-    navigate("/admin/login");
+  
+    // Redirect to admin login page, replacing current history entry to prevent going back
+    navigate("/admin/login", { replace: true });
   };
+  
 
   return (
     <div className="app">
