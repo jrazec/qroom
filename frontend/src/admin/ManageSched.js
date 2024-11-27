@@ -3,17 +3,13 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import styles from './SchedCalendar.module.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getUserSchedule } from '../api/api';
 
 const WeeklySchedule = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-
-    // Extract "selectedDepartment" and "selectedSection" from location.state
-    // const { "selectedDepartment", "selectedSection",userSectionSched } = location.state || {};
 
     const [events, setEvents] = useState([]);
     const [selectedBuilding, setSelectedBuilding] = useState('');
@@ -22,31 +18,12 @@ const WeeklySchedule = () => {
     const [showNoRoomsWarning, setShowNoRoomsWarning] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedEventId, setSelectedEventId] = useState(null);
-    const [isEventSelected, setIsEventSelected] = useState(false);
 
 
     const buildings = ['LEONOR SOLIS BUILDING', 'VALERIO MALABANAN BUILDING', 'GREGORIO ZARA BUILDING', 'ANDRES BONIFACIO BUILDING'];
-    const [rooms,setRooms] = useState([
-        { room_name: 'room001', building: 'LSB' },
-        { room_name: 'room002', building: 'VMB' },
-        { room_name: 'room003', building: 'GZB' },
-        { room_name: 'room004', building: 'ABB' },
-        { room_name: 'room005', building: 'LSB' },
-        { room_name: 'room006', building: 'VMB' },
-        { room_name: 'room007', building: 'GZB' },
-        { room_name: 'room008', building: 'ABB' },
-    ]);
+    const [rooms,setRooms] = useState([]);
 
-    const [roomSchedules,setRoomSchedules] = useState({
-        room001: [
-            { start: '2024-11-27T08:00:00', end: '2024-11-27T10:00:00' },
-            { start: '2024-11-28T13:00:00', end: '2024-11-28T15:00:00' }
-        ],
-        room002: [
-            { start: '2024-11-27T09:00:00', end: '2024-11-27T11:00:00' }
-        ],
-        // Add similar schedules for other rooms as needed
-    });
+    const [roomSchedules,setRoomSchedules] = useState({});
     useEffect(() => {
         const fetchRoomSchedules = async () => {
             try {
@@ -83,12 +60,6 @@ const WeeklySchedule = () => {
 
         fetchRoomSchedules();
     }, []);
-    // useEffect(() => {
-    //     if (!"selectedDepartment" || !"selectedSection") {
-    //         alert('Schedule information is incomplete. Please go back and fill in the necessary details.');
-    //         navigate('/admin/scheduling/sectionselect');
-    //     }
-    // }, ["selectedDepartment", "selectedSection", navigate]);
 
     const handleBuildingChange = (e) => {
         const bldg_name = e.target.value;
@@ -100,13 +71,6 @@ const WeeklySchedule = () => {
         setEvents([]);
     };
     
-    const scheduleDetails = {
-        department: "selectedDepartment",
-        section: "selectedSection",
-        events,
-        room: selectedRoom,
-        bldg_name: selectedBuilding,
-      };
     const handleRoomSelect = (e) => {
         const roomId = e.target.value;
         const room = rooms.find(r => r.room_id === parseInt(roomId, 10));
@@ -114,7 +78,6 @@ const WeeklySchedule = () => {
 
         // Clear all events when room changes
         setEvents([]);
-        setIsEventSelected(false);
         updateRoomSchedules(parseInt(roomId, 10));
     };
 
@@ -145,11 +108,11 @@ const WeeklySchedule = () => {
     
             return {
                 id: `fixed-${roomId}-${index}`,
-                title: `Room Reserved (${schedule.room_name})`,
+                title: `(${schedule.room_name})`,
                 start: startDate.toISOString(),
                 end: endDate.toISOString(),
-                backgroundColor: 'gray',
-                borderColor: 'gray',
+                backgroundColor: '#800000',
+                borderColor: '#800000',
                 editable: false,
             };
         });
@@ -161,102 +124,48 @@ const WeeklySchedule = () => {
         ]);
     };
     
-
-    // const handleDateSelect = (selectInfo) => {
-    //     if (isEventSelected) {
-    //         alert('You already have an active event. Please remove it or proceed before adding a new one.');
-    //         return;
-    //     }
+    //unsure here
+    const handleConfirmClick = async () => {
+        if (selectedEventId) {
+            try {
+                // Extract the schedule ID or other relevant details for deletion
+                const scheduleId = selectedEventId.split('-')[1]; // Assuming selectedEventId format is 'fixed-roomId-index'
+                
+                // Send a DELETE request to the backend API
+                const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/delete-schedule`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ scheduleId }), // Send schedule ID to delete
+                });
     
-    //     if (!selectedRoom) {
-    //         console.log('Please select a room before adding an event.');
-    //         return;
-    //     }
+                const data = await response.json();
     
-    //     const title = `${"selectedDepartment"}, ${"selectedSection"}, Room: ${selectedRoom.room_name}`;
-    //     const calendarApi = selectInfo.view.calendar;
-    //     calendarApi.unselect();
-    
-    //     const newEventStart = new Date(selectInfo.startStr);
-    //     const newEventEnd = new Date(selectInfo.endStr);
-    
-    //     // Ensure the start and end times are within the same day
-    //     if (newEventStart.toDateString() !== newEventEnd.toDateString()) {
-    //         alert('The selected time spans multiple days. Please select a single day.');
-    //         return;
-    //     }
-    
-    //     // Check for overlap in the same room (same day)
-    //     const isOverlapWithOtherEvents = events.some(event => {
-    //         if (event.extendedProps?.room === selectedRoom.room_name) {
-    //             const eventStart = new Date(event.start);
-    //             const eventEnd = new Date(event.end);
-    
-    //             // Check if the selected time overlaps with existing events on the same day
-    //             return (newEventStart < eventEnd && newEventEnd > eventStart);
-    //         }
-    //         return false;
-    //     });
-    
-    //     if (isOverlapWithOtherEvents) {
-    //         alert('The selected time overlaps with another event for this room. Please choose another time.');
-    //         return;
-    //     }
-    
-    //     const newEvent = {
-    //         id: String(events.length + 1),
-    //         title,
-    //         start: selectInfo.startStr,
-    //         end: selectInfo.endStr,
-    //         allDay: selectInfo.allDay,
-    //         extendedProps: {
-    //             room: selectedRoom.room_name,
-    //         },
-    //     };
-    
-    //     // Add the new event to the state
-    //     setEvents(prevEvents => [...prevEvents, newEvent]);
-    
-    //     // Set the event as selected to prevent additional selections
-    //     setIsEventSelected(true);
-    // };
-    
-    
-    
-
-    const handleProceedClick = () => {
-        // if (!"selectedDepartment" || !"selectedSection") {
-        //     alert('Department and Section information are missing.');
-        //     return;
-        // }
-    
-        // if (!selectedRoom) {
-        //     alert('Please select a room before proceeding.');
-        //     return;
-        // }
-    
-        // const userCreatedEvent = events.find(event => !event.id.startsWith('fixed-'));
-        // if (!userCreatedEvent) {
-        //     alert('No user-created event found.');
-        //     return;
-        // }
-    
-
+                if (response.ok) {
+                    // Success: Remove the event from the UI
+                    setEvents(prevEvents => prevEvents.filter(event => event.id !== selectedEventId));
+                    setShowModal(false);
+                    alert(data.message); // Show success message
+                } else {
+                    // Handle error if deletion fails
+                    alert(data.error || 'Failed to delete the schedule');
+                }
+            } catch (error) {
+                console.error('Error while deleting the event:', error);
+                alert('An error occurred while deleting the schedule');
+            }
+        }
     };
     
 
     const handleBackClick = () => {
-        if (events.length > 0) {
-            if (window.confirm('You have already created events. Are you sure you want to go back?')) {
-                navigate('/admin/scheduling/sectionselect');
-            }
-        } else {
-            navigate('/admin/scheduling/sectionselect');
-        }
+            //to add here is confirmation if the user wants to go back while a deletion is not confirmed
+            navigate('/admin/scheduling');
     };
 
     const handleEventClick = (info) => {
-        if (!info.event.id.startsWith('fixed-')) {
+        if (info.event.id.startsWith('fixed-')) {
             setSelectedEventId(info.event.id);
             setShowModal(true);
         } else {
@@ -267,7 +176,6 @@ const WeeklySchedule = () => {
     const handleRemoveEvent = () => {
         setEvents(prevEvents => prevEvents.filter(event => event.id !== selectedEventId));
         setShowModal(false);
-        setIsEventSelected(false); // Allow new event selections after removal
     };
     
 
@@ -294,11 +202,10 @@ const WeeklySchedule = () => {
         slotMinTime: "07:00:00",
         slotMaxTime: "19:00:00",
         allDaySlot: false,
-        selectable: true, // Allow the user to select an event
+        selectable: false, // Allow the user to select an event
         selectMirror: true,
         selectOverlap: false, // Prevent overlapping events
         editable: false, // Prevent users from dragging events
-        // select: handleDateSelect, // Function to call when a date range is selected
         events: events, // Use the events with fixed schedules
         eventClick: handleEventClick,
     };
@@ -319,7 +226,7 @@ const WeeklySchedule = () => {
                 >
                     &larr;
                 </span>
-                <h2>Department: {"selectedDepartment"}, Section: {"selectedSection"}</h2>
+                <h2>Manage Schedule</h2>
             </div>
             <div className={`mt-4 ${styles.motherCont}`}>
                <div className={styles.roomSelection}>
@@ -369,10 +276,10 @@ const WeeklySchedule = () => {
                 <Button
                     variant="primary"
                     className={`${styles.proceedButton} mt-4 d-block mx-auto`}
-                    onClick={handleProceedClick}
+                    onClick={handleConfirmClick}
                     disabled={events.length === 0 || !selectedRoom}
                 >
-                    PROCEED
+                    CONFIRM
                 </Button>
             </div>
             <Modal show={showModal} onHide={() => setShowModal(false)}>
