@@ -10,6 +10,7 @@ const roomReportRoute = require("../routes/roomReports");
 const reportsRoute = require("../routes/reports");
 const roomRoutes = require("../routes/rooms"); // Room-related routes
 const adminRoutes = require('../routes/adminRoutes');  // Admin route for authentication and other admin functionalities
+const userRouteForgot = require('../routes/userRoutes');  // Import the user routes
 
 dotenv.config();
 
@@ -36,6 +37,9 @@ app.use("/reports", reportsRoute);
 
 // Admin routes, including protected ones
 app.use('/api/admin', adminRoutes);  // This should now be properly routed
+
+// Use the user routes
+app.use('/api/user', userRouteForgot);
 
 // Connect to DB
 connectDB();

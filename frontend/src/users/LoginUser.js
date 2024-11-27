@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import './LoginUser.css';
-import { checkCreds } from "../api/api"; // Ensure this is correctly implemented for your backend API
 import { useNavigate } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
+import { checkCreds } from "../api/api"; // Ensure this is the correct path to your api.js file
 import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA component (commented out for now)
 
 function LoginUser() {
@@ -12,11 +12,56 @@ function LoginUser() {
   const [showModal, setShowModal] = useState(false); // Modal visibility state for wrong credentials
   const [captchaToken, setCaptchaToken] = useState(null); // reCAPTCHA token
 
+  const [forgotEmail, setForgotEmail] = useState("");  // Email for forgot password
+  const [emailValid, setEmailValid] = useState(true);   // Email validation state
+
   const navigate = useNavigate(); // Initialize the navigate function
 
   const handleCaptchaChange = (token) => {
     setCaptchaToken(token); // Save the CAPTCHA token
   };
+
+  // Handle Forgot Password Submit
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Check if the email is valid
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@g\.batstate-u\.edu\.ph$/;  // Regex for validating the email
+    if (!emailPattern.test(forgotEmail)) {
+      setEmailValid(false);
+      return;
+    }
+  
+    const userName = forgotEmail.split('@')[0]; // Extract the user_name part (before the '@' symbol)
+  
+    try {
+      // Call the API to send the reset link
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/api/user/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_name: userName }),  // Send the user_name (SR Code) to the backend
+      });
+  
+      const data = await response.json();
+      if (data.status) {
+        alert("Password reset link sent to your email.");
+        // Reset form and state
+        setForgotEmail('');
+        setEmailValid(true);
+      } else {
+        alert(data.message || "Failed to send password reset link.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+  
+  
+
+  // Handle regular login form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,24 +71,24 @@ function LoginUser() {
     }
 
     try {
-        // Call the API to check credentials
-        const data = await checkCreds({ user_name: userName, password });
-        if (data.status) {
-          // Store token and user_name in localStorage
-          localStorage.setItem('token', data.token); // Store the token
-          localStorage.setItem('user_name', data.user.user_name); // Store user_name, not id
-          localStorage.setItem('role', data.user.role); // Store user role
-          // Navigate to user's home page
-          setStatus(true); // Set login status to true
-          navigate(`/user/home/${data.user.user_name}`); // Use user_name in the URL
-        } else {
-          setStatus(false); // Set login status to false
-          setShowModal(true); // Show the modal for wrong credentials
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Error logging in. Please try again.');
+      // Call the API to check credentials
+      const data = await checkCreds({ user_name: userName, password });
+
+      if (data.status) {
+        // Store token and user_name in localStorage
+        localStorage.setItem('token', data.token); // Store the token
+        localStorage.setItem('user_name', data.user.user_name); // Store user_name
+        localStorage.setItem('role', data.user.role); // Store user role
+        setStatus(true); // Set login status to true
+        navigate(`/user/home/${data.user.user_name}`); // Redirect to user's home page
+      } else {
+        setStatus(false); // Set login status to false
+        setShowModal(true); // Show the modal for wrong credentials
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Error logging in. Please try again.');
+    }
   };
 
   return (
@@ -95,12 +140,11 @@ function LoginUser() {
                   Password is case sensitive
                 </small>
 
-                {/* CAPTCHA Section (commented out for now) */}
+                {/* CAPTCHA Section */}
                 <div className="captcha-container mb-3">
                   <ReCAPTCHA
                     sitekey={"6LfT84cqAAAAAL8yzip2W08lSkixpwTpL2nytHny"} // Replace with your actual site key
                     onChange={handleCaptchaChange}
-                    
                   />
                 </div>
 
@@ -109,15 +153,54 @@ function LoginUser() {
                 </button>
               </form>
 
-              {/* Highlight the 'Forgot Password' link if login failed */}
+              {/* Forgot Password Link */}
               <div className="text-center mt-3">
                 <a
                   href="#"
                   className={`forgot-password-link ${stat === false ? 'highlight' : ''}`}
+                  data-toggle="modal"
+                  data-target="#forgotPasswordModal"
                 >
                   FORGOT PASSWORD
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bootstrap Modal for Forgot Password */}
+      <div className="modal fade" id="forgotPasswordModal" tabIndex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleForgotPasswordSubmit}>
+                <div className="form-group">
+                  <label htmlFor="forgotEmail">Enter your registered email:</label>
+                  <input
+                    type="email"
+                    id="forgotEmail"
+                    className="form-control"
+                    placeholder="Enter your email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    required
+                  />
+                  {!emailValid && <small className="text-danger">Please enter a valid Batangas State University email address.</small>}
+                </div>
+                <button type="submit" className="btn btn-primary w-100">
+                  Submit
+                </button>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>

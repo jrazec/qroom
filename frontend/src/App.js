@@ -33,6 +33,8 @@ import ChatReport from './users/ChatReport';
 import LoginToRoom from "./users/LoginToRoom";
 import FacultyDashboard from './users/FacultyDashboard'; // Import the new component
 
+import ResetPassword from './users/ResetPassword';
+
 const cur = {}; // Current temporary holder
 
 const router = createBrowserRouter([
@@ -154,6 +156,11 @@ const router = createBrowserRouter([
   {
     path: '/chat-report/:id',
     element: <ProtectedRoute><ChatReport /></ProtectedRoute>,
+  },
+  // Reset Password Route
+  {
+    path: '/reset-password/:token',
+    element: <ResetPassword />,  // Reset Password page
   },
 ]);
 
