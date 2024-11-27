@@ -32,14 +32,18 @@
     align-items: center;
     gap: 10px;
     width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    
 }
 
 .searchInput {
     width: 250px;
-    height: 40px;
+    font-size: 15px;
     border-radius: 20px;
     border: 1px solid #520000;
     padding-left: 15px;
+    margin: 0;
 }
 
 .btnSearch {
@@ -49,7 +53,14 @@
     padding: 8px 20px;
     border: none;
     font-weight: bold;
+    height: 40px;
+    display: flex;              /* Use flexbox for centering */
+    align-items: center;        /* Vertically center the content */
+    justify-content: center;    /* Horizontally center the content */
+    text-align: center;         /* Ensures text is aligned properly */
 }
+
+
 
 /* Carousel Container Styling */
 .carousel {
@@ -72,7 +83,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 30rem;
 }
 
 .customBtn {
@@ -146,11 +157,35 @@
         background-color: #F5F5F5;
     }
 
-
-    .searchInput {
-        width: 100%;
+    .mainContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 80%;
+        align-items: center;
+        text-align: center;
+        padding: 40px;
+        flex-grow: 1;
     }
 
+    .customControls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7rem;
+    }
+
+    
+    .searchInput {
+        width: 150px;
+        height: 40px;
+        border-radius: 20px;
+        border: 1px solid #520000;
+        padding-left: 15px;
+        margin: 0;
+    }
+    
+   
     .carousel {
         width: 100%;
         max-width: 100%;

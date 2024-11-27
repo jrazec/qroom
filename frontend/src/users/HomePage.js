@@ -158,6 +158,7 @@ function HomePage() {
           </div>
         </div>
 
+
         <div className={HomeCss.pagination}>
           {cards.map((_, index) => (
             <span

@@ -101,7 +101,7 @@ function RoomSearch2() {
 
       <main className={roomSearch2.mainContent}>
         {/* Search Bar */}
-        <div className={`${roomSearch2.searchBar} mb-5 text-center position-relative`}>
+        <div className={`${roomSearch2.searchBar} text-center position-relative`}>
           <div className="d-flex justify-content-center align-items-center">
             <input
               type="text"
@@ -139,7 +139,7 @@ function RoomSearch2() {
 
         {/* Building Carousel */}
         {filteredBuildings.length > 0 && (
-          <div id="carouselExampleIndicators" ref={carouselRef} className={`carousel slide mt-5 ${roomSearch2.carousel}`} data-bs-ride="carousel">
+          <div id="carouselExampleIndicators" ref={carouselRef} className={`carousel slide mt-3 ${roomSearch2.carousel}`} data-bs-ride="carousel">
             <div id="caru" className={`carousel-inner ${roomSearch2.caru}`}>
               {filteredBuildings.map((building, index) => (
                 <div
@@ -161,8 +161,8 @@ function RoomSearch2() {
             </div>
             {/* Custom controls linked to the carousel */}
             <div className={`custom-controls mt-4 ${roomSearch2.customControls}`}>
-              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToPreviousSlide}>Previous</button>
-              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToNextSlide}>Next</button>
+              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToPreviousSlide}><i class="fa-solid fa-play fa-flip-horizontal"></i></button>
+              <button className={`btn ${roomSearch2.customBtn}`} onClick={goToNextSlide}><i class="fa-solid fa-play"></i></button>
             </div>
           </div>
         )}
