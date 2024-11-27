@@ -266,7 +266,11 @@
         padding: 40px;
         flex-grow: 1;
     }
-    
+    .brand {
+        width: 200px; /* Adjust width to make the logo smaller */
+        height: auto; /* Keep aspect ratio */
+        object-fit: contain; /* Ensure the image does not stretch */
+    }
 
 
       .brandTitle {
