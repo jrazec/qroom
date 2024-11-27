@@ -17,7 +17,7 @@ const { getRoomsByBuilding } = require("../controllers/roomList");
 const { getRoomsByFloor } = require("../controllers/roomsByFloor");
 const { getBuildings } = require("../controllers/roomList");
 const { getRoom } = require("../models/Schedule");
-
+const {getRoomOccup} = require('../controllers/occupationController')
 const router = express.Router();
 
 // Middleware configurations
@@ -45,6 +45,8 @@ router.get("/buildings", getBuildings); // Route to get all distinct buildings
 router.post('/occupation', occupationController.createOccupation);
 router.put('/occupation', occupationController.updateOccupationStatus);
 router.get('/occupations', occupationController.getOccupations);
+
+router.get('/check-room', getRoomOccup)
 
 router.get('/validate-schedule/:roomId', getRoomSpecificSchedule.single);
 module.exports = router;

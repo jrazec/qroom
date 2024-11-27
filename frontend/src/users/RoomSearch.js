@@ -43,7 +43,14 @@ function RoomSearch() {
       if(schedule.length >= 1) {
         getRoomSpecific(roomid, setCurrentSchedule);
       }
-
+      fetch(`${process.env.REACT_APP_LOCALHOST}/user/check-room?roomid=${roomid}&user_name=${id}`)
+        .then(response => response.json())
+        .then(data => {
+          setRoomStatus((data.status) ? 'Occupied' : 'Vacant');
+        })
+        .catch(error => {
+          console.error('Error fetching room status:', error);
+        });
     }
   }, [roomid, id, navigate]);
 
