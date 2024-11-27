@@ -25,6 +25,20 @@
   border-bottom-right-radius: 20px;
 }
 
+.text{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #850000;
+  margin-top: 0.5rem;
+}
+
+.floor_images_container{
+  margin:5px;
+}
+
 /* Adjust the height and ensure the image does not overflow */
 .imagePlaceholder {
   width: 100%;
@@ -163,24 +177,25 @@
   .leftSection {
       flex: 1 1 100%; /* Make the left section take up full width on smaller screens */
       padding: 0 1rem;
-      max-height: 50%;
+      max-height: 30%;
       /* background-color: green; */
   }
 
 
 
   .rightSection{
-    padding: 20px;
+    padding: 5px;
     font-size: 16px;
   }
 
+  .text{
+    font-size: 10px;
+  }
 
 
   /* Adjust the placeholder image to be smaller on mobile */
   .imagePlaceholder {
-    max-height: 50%;
-      height: 100vh; /* Smaller height for the image on mobile */
-      max-width: 50%;
+    display: none;
   }
 
   /* Ensure the search bar fits well on mobile */

@@ -129,7 +129,7 @@ function RoomSearch1() {
               </button>
             </div>
 
-            <div className={`${roomSearch1.searchBar} mb-5 text-center position-relative`}>
+            <div className={`${roomSearch1.searchBar} mb-3 text-center position-relative`}>
               <div className="d-flex justify-content-center align-items-center">
                 <input
                   type="text"
@@ -183,7 +183,7 @@ function RoomSearch1() {
                     alt={floor}
                     className={`img-fluid rounded shadow`}
                   />
-                  <h3 className="text-center mt-2">{floor}</h3>
+                  <h3 className="text-center ">{floor}</h3>
                 </div>
               ))}
             </div>
