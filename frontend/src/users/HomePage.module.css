@@ -38,6 +38,12 @@
     z-index: 1000;
 } */
 
+.brand {
+    width: 20rem; /* Adjust width to make the logo smaller */
+    height: auto; /* Keep aspect ratio */
+    object-fit: contain; /* Ensure the image does not stretch */
+}
+
 /* Brand Title Styling */
 .brandTitle {
     font-size: 7rem;
@@ -60,7 +66,9 @@
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    
+    height: 100vh;
+    max-height: 50%;
+    margin-bottom: 1rem;
 }
 
 .optionLabel{
@@ -258,6 +266,8 @@
         padding: 40px;
         flex-grow: 1;
     }
+    
+
 
       .brandTitle {
         font-size: 4.5rem;
