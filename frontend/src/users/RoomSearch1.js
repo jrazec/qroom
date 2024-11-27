@@ -14,15 +14,17 @@ function RoomSearch1() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Define a mapping for building IDs to building names and floor numbers
+  // Define a mapping for building IDs to building names, floor numbers, and images
   const buildingMap = {
-    1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
-    2: { name: "VALERIO MALABANAN BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
-    3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"] },
-    4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"] }
+    1: { name: "LEONOR SOLIS BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"], image: "/assets/lsb.png" },
+    2: { name: "VALERIO MALABANAN BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"], image: "/assets/vmb.png" },
+    3: { name: "ANDRES BONIFACIO BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor", "5th Floor"], image: "/assets/abb.png" },
+    4: { name: "GREGORIO ZARA BUILDING", floors: ["1st Floor", "2nd Floor", "3rd Floor"], image: "/assets/gzb.png" }
   };
 
   const bldgImg = "/assets/floor.png"; // Placeholder image
+
+  const [buildingImage, setBuildingImage] = useState("");
 
   useEffect(() => {
     // Check if the user is authenticated
@@ -38,10 +40,11 @@ function RoomSearch1() {
       return;
     }
 
-    // Set building name and floors
+    // Set building name, floors, and image based on floorid
     if (buildingMap[floorid]) {
       setBuildingName(buildingMap[floorid].name);
       setFloors(buildingMap[floorid].floors);
+      setBuildingImage(buildingMap[floorid].image); // Set the building image dynamically
     }
 
     // Fetch rooms for the specific building and floor
@@ -159,11 +162,11 @@ function RoomSearch1() {
               )}
             </div>
 
-            {/* Picture Placeholder under the search bar */}
+            {/* Building Image under the search bar */}
             <div className={roomSearch1.imagePlaceholder}>
               <img
-                src="/assets/placeholder.jpg" // Use your placeholder image
-                alt="Building Placeholder"
+                src={buildingImage} // Dynamically load the building image based on the selected floorid
+                alt="Building"
                 className={roomSearch1.placeholderImage}
               />
             </div>
