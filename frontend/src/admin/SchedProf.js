@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import styles from './AssignProfessor.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { useEffect } from 'react';
 
 const AssignProfessor = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const departments = ['CICS', 'CTE', 'CAS', 'CABE'];
   const [professors,setProfessors] = useState([
-    { user_name: 'prof001', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 1, course_name: 'DSA' }, { id: 2, course_name: 'Linear Algebra' }, { id: 4, course_name: 'Calculus' }, { id: 5, course_name: 'ssssss' }, { id: 3, course_name: 'Calculus' }] },
+  { user_name: 'prof001', department: 'CICS', name: 'Dr. John Smith', subjects: [{ id: 1, course_name: 'DSA' }, { id: 2, course_name: 'Linear Algebra' }, { id: 4, course_name: 'Calculus' }, { id: 5, course_name: 'ssssss' }, { id: 3, course_name: 'Calculus' }] },
   { user_name: 'prof002', department: 'CICS', name: 'Dr. Jane Doe', subjects: [] },
   { user_name: 'prof003', department: 'CTE', name: 'Prof. Michael White', subjects: [{ id: 1, course_name: 'Physics' }] },
   { user_name: 'prof004', department: 'CAS', name: 'Prof. Sarah Black', subjects: [{ id: 2, course_name: 'Chemistry' }] },
@@ -25,12 +26,27 @@ const AssignProfessor = () => {
 
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [filteredProfessors, setFilteredProfessors] = useState([]);
-  const [selectedProfessor, setSelectedProfessor] = useState(null);
+  const [selectedProfessor, setSelectedProfessor] = useState({});
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [showSubjectPopup, setShowSubjectPopup] = useState(false);
   const [isSubjectConfirmed, setIsSubjectConfirmed] = useState(false);
   const [showNoProfessorsWarning, setShowNoProfessorsWarning] = useState(false);
 
+  useEffect(() => {
+    console.log(location.state)
+    if (location.state?.selectedDepartment) {
+      setSelectedDepartment(location.state.selectedDepartment);
+    }
+    if (location.state?.selectedProfessor) {
+      setSelectedProfessor(location.state.selectedProfessor);
+    }
+    if (location.state?.selectedSubject) {
+      console.log(selectedProfessor,'ses')
+      setSelectedSubject(location.state.selectedSubject);
+    }
+  }, [location.state]);
+  
+  
   const handleDepartmentChange = (e) => {
     const department = e.target.value;
     setSelectedDepartment(department);
@@ -41,6 +57,27 @@ const AssignProfessor = () => {
     setShowNoProfessorsWarning(filtered.length === 0);
     setIsSubjectConfirmed(false); // Reset confirmation on department change
   };
+
+   // When the department changes (or when the page mounts), filter the professors
+  //  useEffect(() => {
+  //   if (selectedDepartment) {
+  //     const filtered = professors.filter((prof) => prof.department === selectedDepartment);
+  //     setFilteredProfessors(filtered);
+  //     setShowNoProfessorsWarning(filtered.length === 0);
+  //   }
+  // }, [selectedDepartment, professors]); 
+
+  useEffect(() => {
+    if (selectedDepartment) {
+      const filtered = professors.filter((prof) => prof.department === selectedDepartment);
+      setFilteredProfessors(filtered);
+      setShowNoProfessorsWarning(filtered.length === 0);
+    }
+  }, [selectedDepartment, professors]);
+  
+
+
+  
 
   const handleProfessorSelect = (professor) => {
     if (selectedProfessor?.user_name === professor.user_name) {
@@ -103,7 +140,7 @@ const AssignProfessor = () => {
         course_id: selectedSubject?.course_id,
       };
       console.log('Selected Professor and Subject:', userSectionSched);
-      navigate('/admin/scheduling/sectionselect', { state: { selectedDepartment, userSectionSched} });
+      navigate('/admin/scheduling/sectionselect', { state: { selectedDepartment, selectedProfessor, selectedSubject, userSectionSched} });
     }
   };
 
@@ -133,6 +170,11 @@ const AssignProfessor = () => {
 
     fetchProfessors();
   }, []);
+  
+
+  console.log(filteredProfessors)
+
+  
   return (
     <div className={`container ${styles.assignProfessorContainer}`}>
       <div className={`${styles.headerContainer} mt-4 d-flex align-items-center`}>
@@ -143,7 +185,7 @@ const AssignProfessor = () => {
           Schedule Class
         </h3>
       </div>
-
+      
       <div className={`mt-4 ${styles.departmentSelect}`}>
         <label htmlFor="departmentSelect" className={`form-label ${styles.label}`}>
           Select Department
@@ -167,7 +209,7 @@ const AssignProfessor = () => {
 
       <div className={`mt-4 ${styles.assignProfessor}`}>
         <h3 className={styles.sectionHeader}>Assign Professor</h3>
-        {showNoProfessorsWarning ? (
+        {showNoProfessorsWarning || !selectedProfessor && !selectedDepartment? (
           <div className={`alert alert-warning ${styles.noProfessorsWarning}`}>
             No instructors added. Please choose another department or add a professor to the department.
           </div>
@@ -190,6 +232,7 @@ const AssignProfessor = () => {
                 <div className={`${styles.professorCell} ${styles.professorSubject}`} style={{ width: '35%' }}>
                   {prof.selectedSubject ? `Subject: ${prof.selectedSubject}` : ''}
                 </div>
+
               </div>
             ))}
           </div>

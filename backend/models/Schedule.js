@@ -1,4 +1,5 @@
 const con = require('../config/db');
+const { deleteSched } = require('./Account');
 
 class scheduleTable {
     static getSingleSchedule(userName) {
@@ -112,6 +113,27 @@ class scheduleTable {
         });
 
         }
+    
+    static deleteSchedule(section_sched_id) {
+        return new Promise((resolve, reject) => {
+          const query = `DELETE FROM user_section_schedules WHERE section_sched_id = ?;`;
+          const query2 = `DELETE FROM section_schedules WHERE section_sched_id = ?;`;
+          con.query(query, [parseInt(section_sched_id)], (err, result) => {
+            if (err) {
+              console.error('Database query error:', err);
+              return reject(err);
+            }
+            con.query(query, [parseInt(section_sched_id)], (err, result) => {
+                if (err) {
+                  console.error('Database query error:', err);
+                  return reject(err);
+                }
+                resolve({ status: true, result: result });
+              });
+
+          });
+        });
+      }
 }
 
 
