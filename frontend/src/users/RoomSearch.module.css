@@ -193,36 +193,37 @@
 @media (max-width: 768px) {
   /* Hide Room Image on Mobile */
   .roomImage {
-      display: none;
+    display: none;
   }
 
   /* Display Room Name only on Mobile */
   .roomName {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #520000;
-      text-align: center;
-      margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #520000;
+    text-align: center;
+    margin-top: 20px;
   }
 
   /* Adjust the Left Section Layout for Mobile */
   .leftSection {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: auto;
-      width: 100%;
-      padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    padding: 10px;
   }
 
   /* Adjust the Right Section Layout for Mobile */
   .rightSection {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
   }
 
   /* Forcefully Center Schedule Wrapper */
@@ -230,71 +231,59 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-top: 20px;
-    padding-bottom: 20px;
-    margin-right: 35px; /* Added right margin to provide space */
-    margin-bottom: 160px;
+    margin-right: 30px;
+    /* margin-bottom: 160px; */
   }
 
-  /* Schedule Container: force full centering and remove scrollbar */
+  /* Schedule Container: Ensure it is contained and doesn't overflow */
   .scheduleContainer {
-    width: 95%; /* Reduce width to ensure no overflow */
-    max-width: 400px; /* Set a max-width to avoid being too wide on small screens */
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
-    margin-right: 100px; /* Reduce right margin */
+    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border: 2px solid #800000;
     background-color: #fff;
     border-radius: 10px;
     position: relative;
-    top: 2%;
-    margin: 0 auto 20px; /* Center it and add bottom margin */
+    margin-bottom: 20px;
     box-sizing: border-box;
-    overflow: hidden; /* Prevent overflow and remove scrollbar */
+    overflow: hidden;
+    height: auto; /* Let the height grow based on content */
+    min-height: 150px; /* Set a minimum height to avoid it being too small */
   }
 
-  /* Force Flexbox Centering for scheduleBars */
-  .scheduleBars {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Ensure it's responsive */
-  }
-
-  .scheduleBar {
-    width: 80%;
-    margin: 5px 0;
-  }
-
-  /* Hide social media icons on mobile */
-  .socialIcons {
-      display: none;
-  }
-
-  /* Adjust the bottom block to not be cut off */
-  .botBlock {
-    margin-bottom: 15px; /* Ensure it's not cut off */
-  }
-
-  /* Ensure no overflow at the bottom */
+  /* Schedule Content Section Adjustments */
   .scheduleContent {
-    margin-bottom: 10px;
+    margin-bottom: 30px; /* Increased margin for spacing */
+    padding: 20px; /* Add padding for readability */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevent scrollbars */
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    display: block;
+    min-height: 300px; /* Increased minimum height to make content more visible */
+  
   }
 
-  /* Add margin between schedule bars */
+  /* Schedule Bars container improvements */
   .scheduleBars {
     margin-bottom: 20px;
   }
-}
-@media (max-width: 768px) {
-  .mobile-margin-padding {
-    margin-right: 1.5rem;  /* mr-4 equivalent */
-    padding-right: 1.5rem; /* pr-4 equivalent */
+
+  /* Adjust padding and bottom margin for better spacing */
+  .mainContent {
+    padding-bottom: 1000px; /* Increased bottom padding */
   }
 }
-
 
 /* Other Media Queries for Larger Devices (optional) */
 @media (min-width: 769px) {

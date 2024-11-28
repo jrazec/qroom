@@ -201,7 +201,7 @@ function RoomSearch() {
         className={`row justify-content-center align-items-center ${roomSearch.mainLayout} mt-1`}
         >
           {/* Left Section - Room Image and Status */}
-          <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-2' : ''}`}>
+          <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-3' : ''}`}>
             <div className={roomSearch.roomStatus}>
               <img
                 src="https://picsum.photos/500/500"
