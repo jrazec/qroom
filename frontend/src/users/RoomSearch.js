@@ -25,14 +25,14 @@ function RoomSearch() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Check if the screen is <= 768px
+      setIsMobile(window.innerWidth <= 768); // Check if the screen width is <= 768px
     };
 
     handleResize(); // Call once to set initial state
     window.addEventListener('resize', handleResize); // Update state on resize
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize); // Clean up listener on component unmount
     };
   }, []);
 
