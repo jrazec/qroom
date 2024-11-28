@@ -76,11 +76,11 @@ function Navbar() {
         </nav>
       </header>
 
-      {showBackButton && (
+      {/* {showBackButton && (
         <div className={Nav['back-icon-container']}>
           <FaArrowLeft onClick={handleBack} className={Nav['back-icon']} />
         </div>
-      )}
+      )} */}
 
       {/* Bottom Navbar */}
       <nav className={Nav['bottom-nav']}>

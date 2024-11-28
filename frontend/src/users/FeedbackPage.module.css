@@ -16,14 +16,16 @@
 .mainContent {
     background-color: white;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    max-height: 100%;
-    width: 100%;
-    max-width: 82.4rem;
+    height: 100vh;
+    max-height: 85%;
+    width: 100vw;
+    max-width: 89%;
     flex-grow: 1;
-    overflow-y: auto;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-}
+    margin: 0;
+  }
+  
 
 .contentWrapper {
     width: 100%;
@@ -191,7 +193,16 @@
         background-color: #F5F5F5;
     }
 
-
+    .mainContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 80%;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+        flex-grow: 1;
+    }
 
 
     .feedbackSection {

@@ -31,7 +31,7 @@
     display: flex;
     justify-content:end;
     width: 100vw;
-    right: 10%;
+    right: 7.88%;
     padding: 0 1rem; /* Adds padding to the left and right */
 }
 
@@ -211,14 +211,14 @@
 }
 
 /* Position for desktop: bottom-right corner */
-@media (min-width: 769px) {
+/* @media (min-width: 769px) {
     .back-icon-container {
-        bottom: 20px; /* 20px from the bottom */
-        right: 20px; /* 20px from the right */
+        bottom: 20px; 
+        right: 
     }
 
     .back-icon {
-        font-size: 28px; /* Larger icon for desktop */
+        font-size: 28px;
         color: #8b0000;
         transition: color 0.3s ease;
     }
@@ -226,7 +226,7 @@
     .back-icon:hover {
         color: #6b0000;
     }
-}
+} */
 
 /* Position for mobile: above the bottom navbar */
 @media (max-width: 768px) {

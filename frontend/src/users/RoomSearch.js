@@ -21,6 +21,21 @@ function RoomSearch() {
   const { roomid, id } = useParams();
   const navigate = useNavigate();
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Check if the screen width is <= 768px
+    };
+
+    handleResize(); // Call once to set initial state
+    window.addEventListener('resize', handleResize); // Update state on resize
+
+    return () => {
+      window.removeEventListener('resize', handleResize); // Clean up listener on component unmount
+    };
+  }, []);
+
   useEffect(() => {
     // Check if the user is authenticated by looking for a token in localStorage
     const token = localStorage.getItem('token');
@@ -189,9 +204,11 @@ function RoomSearch() {
           </button>
         </div>
 
-        <div className={`row justify-content-center align-items-center ${roomSearch.mainLayout} mt-1`}>
+        <div 
+        className={`row justify-content-center align-items-center ${roomSearch.mainLayout} mt-1`}
+        >
           {/* Left Section - Room Image and Status */}
-          <div className={`col-md-5 text-center ${roomSearch.leftSection}`}>
+          <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-3' : ''}`}>
             <div className={roomSearch.roomStatus}>
               <img
                 src="https://picsum.photos/500/500"
@@ -206,7 +223,7 @@ function RoomSearch() {
                 {roomStatus === 'Vacant' && <span className="text-success">●</span>}
               </p>
               <button
-                className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'btn-secondary' : 'btn-primary'}`} 
+                className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'btn-secondary' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
                 onClick={handleToggleOccupancy}
                 disabled={userRole.toLowerCase() === 'student'} // Disable button for students
               >
@@ -242,7 +259,7 @@ function RoomSearch() {
                 ))
               )}
             </div>
-              <div className={roomSearch.scheduleContainer}>
+              <div className={`${roomSearch.scheduleContainer} mt-5`}>
                 <div className={`${roomSearch.days} d-flex justify-content-between`}>
                   {dayMap.map((day, index) => (
                     <div key={index} className={roomSearch.dayLabel}>
@@ -278,6 +295,7 @@ function RoomSearch() {
                 </div>
               </div>
             </div>
+            
 
             {/* Previous Button */}
             {/* <div className={roomSearch.previousButton}>

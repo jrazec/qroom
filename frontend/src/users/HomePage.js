@@ -135,7 +135,7 @@ function HomePage() {
     <div className={HomeCss.app}>
       <Navbar id={id} /> {/* Pass id to Navbar */}
       <main className={HomeCss.mainContent}>
-        <h1 className={HomeCss.brandTitle}>QRoom</h1>
+      <img src="/assets/Qroom.png" alt="QRoom Logo" className={HomeCss.brand} />
 
 
         <div className={HomeCss.carousel}>
@@ -157,6 +157,7 @@ function HomePage() {
             ))}
           </div>
         </div>
+
 
         <div className={HomeCss.pagination}>
           {cards.map((_, index) => (
