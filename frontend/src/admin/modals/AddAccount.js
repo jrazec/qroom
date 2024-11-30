@@ -12,6 +12,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(''); // Keep empty to show the placeholder
   const [department, setDepartment] = useState('');
+  const [email, setEmail] = useState('');
 
 
 
@@ -39,6 +40,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
     setPassword('');
     setRole(''); // Reset role to empty string to show the placeholder again
     setDepartment('');
+    setEmail('');
   };
 
   const sendUser = async (formData) => { // Sending the data from front to back
@@ -49,7 +51,8 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
       lastName: formData.get("lastNameInput"),
       role: formData.get("roleInput"),
       password: formData.get("passwordInput"),
-      department: formData.get("departmentInput")
+      department: formData.get("departmentInput"),
+      email: formData.get("emailInput")
     };
 
     await createAccount(dataToSend);
@@ -65,11 +68,13 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                     formData.get("lastNameInput"),
                     formData.get("roleInput"),
                     formData.get("passwordInput"),
-                    formData.get("departmentInput")]; // Get form
+                    formData.get("departmentInput"),
+                    formData.get("emailInput")
+                  ]; // Get form
 
     for (const [index, data] of fData.entries()) {
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
-          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Role", "Password"][index]}.`);
+          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Email","Password","Role","Department"][index]}.`);
           return; // Return early if validation fails
       }
     }
@@ -115,7 +120,6 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   type="text"
                   className="form-control"
                   id="username"
-                  placeholder="Enter your value"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                 />
@@ -129,7 +133,6 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   type="text"
                   className="form-control"
                   id="firstName"
-                  placeholder="Enter your value"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
@@ -143,7 +146,6 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   type="text"
                   className="form-control"
                   id="middleName"
-                  placeholder="Enter your value"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
                 />
@@ -157,9 +159,21 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   type="text"
                   className="form-control"
                   id="lastName"
-                  placeholder="Enter your value"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+              
+              {/* Email Field */}
+              <div className="mb-3">
+                <label htmlFor="firstName">Email:</label>
+                <input
+                  name="emailInput"
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -171,7 +185,6 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
                   type="text"
                   className="form-control"
                   id="password"
-                  placeholder="Enter your value"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />

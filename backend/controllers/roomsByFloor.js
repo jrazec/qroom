@@ -10,9 +10,9 @@ exports.getRoomsByFloor = async (req, res) => {
     console.log("Received floor:", floor);       // Debugging
 
     const query = `
-      SELECT room_id, room_name, room_purpose,floor_number
+      SELECT room_id, CONCAT(floor_number, ' | ',room_name) as room_name, room_purpose
       FROM rooms
-      WHERE bldg_name = ? AND floor_number = ?;
+      WHERE bldg_name = ?;
     `;
     con.query(query, [building, floor], (err, result) => {
       if (err) {

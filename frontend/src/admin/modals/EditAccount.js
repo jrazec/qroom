@@ -15,6 +15,7 @@ function EditAccount({ existingData, closeEditModal }) {
   const [role, setRole] = useState(existingData.role || '');
   const [department, setDepartment] = useState(existingData.department || '');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [email, setEmail] = useState(existingData.email || '');
   const [ data, setData, groupAccounts, setGroupAccounts ] = useContext(DataContext);
 
   const fetchData = async () =>{
@@ -39,7 +40,9 @@ function EditAccount({ existingData, closeEditModal }) {
       role: formData.get("editAccountRoleInput"),
       password: formData.get("editAccountPasswordInput"),
       userName: formData.get("editAccountUserNameInput"),
-      department: formData.get("editDepartmentInput")
+      department: formData.get("editDepartmentInput"),
+      email: formData.get("editAccountEmailInput"),
+      userName: existingData.user_name
     };
 
     await updateAccount(dataToSend);
@@ -53,7 +56,8 @@ function EditAccount({ existingData, closeEditModal }) {
                     formData.get("editAccountLastNameInput"),
                     formData.get("editAccountRoleInput"),
                     formData.get("editAccountPasswordInput"),
-                    formData.get("editDepartmentInput")];
+                    formData.get("editDepartmentInput"),
+                    formData.get("editAccountEmailInput")];
 
     for (const [index, data] of fData.entries()) {
       if(index === 5){
@@ -121,6 +125,7 @@ function EditAccount({ existingData, closeEditModal }) {
                 <input
                   type="text"
                   className="form-control"
+                  style={{color:"maroon"}}
                   name="editAccountUserNameInput"
                   placeholder="Enter your value"
                   value={userName}
@@ -134,6 +139,7 @@ function EditAccount({ existingData, closeEditModal }) {
                 <input
                   type="text"
                   className="form-control"
+                  style={{color:"maroon"}}
                   name="editAccountFirstNameInput"
                   placeholder="Enter your value"
                   value={firstName}
@@ -147,6 +153,7 @@ function EditAccount({ existingData, closeEditModal }) {
                 <input
                   type="text"
                   className="form-control"
+                  style={{color:"maroon"}}
                   name="editAccountLastNameInput"
                   placeholder="Enter your value"
                   value={lastName}
@@ -160,10 +167,24 @@ function EditAccount({ existingData, closeEditModal }) {
                 <input
                   type="text"
                   className="form-control"
+                  style={{color:"maroon"}}
                   name="editAccountMiddleNameInput"
                   placeholder="Enter your value"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
+                />
+              </div>
+
+             {/* Password Field */}
+             <div className="mb-3">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  style={{color:"maroon"}}
+                  name="editAccountEmailInput"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -173,6 +194,7 @@ function EditAccount({ existingData, closeEditModal }) {
                 <input
                   type={showPassword ? "text" : "password"} // Show password based on toggle
                   className="form-control"
+                  style={{color:"maroon"}}
                   name="editAccountPasswordInput"
                   placeholder="Enter new password..."
                   onChange={(e) => setPassword(e.target.value)}

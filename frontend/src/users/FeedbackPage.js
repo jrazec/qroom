@@ -228,7 +228,7 @@ function FeedbackPage() {
                   <option value="">Select Room</option>
                   {rooms.map((room) => (
                     <option key={room.room_id} value={room.room_id}>
-                      {room.floor_number} | <strong>{room.room_name}</strong> ({room.room_purpose || "No purpose"})
+                       <strong>{room.room_name}</strong> ({room.room_purpose || "No purpose"})
                     </option>
                   ))}
                 </select>
@@ -286,7 +286,7 @@ function FeedbackPage() {
               </div>
 
               {/* Navigate to ChatReport Button */}
-            <div className="mb-4 mt-5 pt-5">
+            <div className="pt-3">
               <button
                 onClick={() => navigate(`/chat-report/${id}`)} // Replace `/chat-report/${id}` with the actual route path to ChatReport
                 className="btn btn-primary rounded-pill"

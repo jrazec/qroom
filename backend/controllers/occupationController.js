@@ -85,3 +85,18 @@ exports.autoRevertOccupation = async (req, res) => {
     res.status(500).json({ error: 'Failed to auto revert occupations' });
   }
 };
+
+exports.getRoomOccup = async (req,res)=> {
+  const {roomid} = req.query;
+  try {
+    const result = await occupationTable.getOccupationByRoomAndUser(roomid);
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: 'No occupation found for the given room and user' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch room occupation' });
+  }
+   
+}

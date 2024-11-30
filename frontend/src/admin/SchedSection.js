@@ -9,7 +9,7 @@ const SelectSection = () => {
   const location = useLocation();
 
   // Get selected department from the previous page
-  const { selectedDepartment, userSectionSched } = location.state || {};
+  const { selectedDepartment, selectedProfessor, selectedSubject, userSectionSched } = location.state || {};
 
   const [selectedSection, setSelectedSection] = useState(null);
 
@@ -47,20 +47,26 @@ const SelectSection = () => {
     }
   };
 
-  // Handle the back button click
   const handleBackClick = () => {
     if (selectedSection) {
       if (window.confirm('You have already selected a section. Are you sure you want to go back?')) {
         console.log('Back confirmed with section selected:', selectedSection);
-        navigate('/admin/scheduling/profselect');
+        navigate('/admin/scheduling/profselect', {
+          state: { selectedDepartment, selectedProfessor, selectedSubject, selectedSection }
+        });
       } else {
         console.log('Back cancelled by user');
       }
     } else {
       console.log('Back clicked with no section selected');
-      navigate('/admin/scheduling/profselect');
+      navigate('/admin/scheduling/profselect', {
+        state: { selectedDepartment, selectedProfessor, selectedSubject }
+      });
     }
   };
+  
+  
+  
 
   return (
     <div className={`${styles.selectSectionContainer} container mt-4`}>

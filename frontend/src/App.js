@@ -16,6 +16,7 @@ import SchedProf from "./admin/SchedProf";
 import SchedSection from "./admin/SchedSection";
 import SchedCalendar from "./admin/SchedCalendar";
 import SchedRoom from "./admin/SchedRoom";
+import ManageSched from "./admin/ManageSched"; //temp
 import NotFound from "./NotFound";
 import FeedbackPage from "./users/FeedbackPage";
 import HomePage from "./users/HomePage";
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
         path: '/admin/scheduling/roomselect',
         element: <SchedRoom />,
       },
+      { path: '/admin/scheduling/roomselect', element: <SchedRoom /> },
+      { path: '/admin/scheduling/managesched', element: <ManageSched /> }
+
+      
     ],
   },
 

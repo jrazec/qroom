@@ -54,6 +54,21 @@ class occupationTable {
       });
     });
   }
+  static getOccupationByRoomAndUser(roomId) {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM occupations WHERE room_id = ? AND occupation_tag = 'Occupied'`;
+      con.query(query, [roomId], (err, results) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        if (results.length === 0) {
+          return resolve({ status: false, message: 'No Occupations found for the specified room and user' });
+        }
+        resolve({ status: true, results });
+      });
+    });
+  }
 }
 
 module.exports = occupationTable;

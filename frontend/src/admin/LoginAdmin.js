@@ -77,18 +77,18 @@ function LoginAdmin() {
           {/* Right Section - Login Form */}
           <div className="col-md-4 col-10">
             <div className="card shadow-lg p-4 login-card">
-              <h3 className="text-center brand-name">Ravzberie.</h3>
+              <h3 className="text-center brand-name">ADMIN</h3>
               <h4 className="text-center mb-4">Login</h4>
 
               <form onSubmit={handleSubmit} name="login">
                 <div className="form-group mb-4">
-                  <label htmlFor="srCode">SR-CODE</label>
+                  <label htmlFor="srCode">USERNAME</label>
                   <input
                     name="userName"
                     type="text"
                     className="form-control modern-input"
                     id="srCode"
-                    placeholder="Enter your SR-code"
+                    placeholder="Enter your admin username"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                   />

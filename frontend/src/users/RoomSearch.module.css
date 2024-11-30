@@ -9,17 +9,17 @@
   position: relative;
   overflow: hidden;
   align-items: center;
-  position: relative;
 }
 
 /* Main Content Area */
 .mainContent {
   background-color: white;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  max-height: 100%;
-  width: 100%;
+  height: 100vh;
+  max-height: 85%;
+  width: 100vw;
+  max-width: 89%;
   flex-grow: 1;
-  overflow-y: auto;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -42,20 +42,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
+  height: 100vh;
+  max-height: 70%;
   width: 30%;
 }
 
 .roomImage {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 50%; /* Reduce image size on mobile */
+  max-width: 50%;
+  margin-left: 28%;
 }
 
 .roomStatus h2 {
   color: #520000;
   font-weight: bold;
-  font-size: 1.5rem; /* Responsive font size */
+  font-size: 1.5rem;
 }
 
 .roomOccupied {
@@ -64,7 +66,8 @@
   font-weight: bold;
 }
 
-.mainLayout{
+/* Main Layout */
+.mainLayout {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,24 +83,24 @@
   justify-content: flex-start;
   height: 100%;
   width: 70%;
-  /* padding: 20px; */
+  padding: 20px;
 }
 
 .scheduleWrapper {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100vw;
+  max-width: 85%;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   height: 80%;
-
-    /* margin-bottom: 20px; */
+  overflow: hidden;
 }
 
 .scheduleContainer {
-  width: 100%;
+  width: 85%;
   height: 100%;
   max-height: 90%;
   padding: 0.4rem;
@@ -106,14 +109,16 @@
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  margin-right: 1rem;
+  overflow: auto;
 }
 
 .scheduleUser {
   display: flex;
   flex-direction: column;
   align-items: center;
- 
 }
+
 .leftSched {
   display: flex;
   flex-direction: column;
@@ -123,17 +128,17 @@
   max-height: 100%;
   width: 50%;
 }
+
 .userImage {
   border-radius: 50%;
   margin-bottom: 10px;
-  width: 70px; /* Reduce size for mobile */
+  width: 70px;
   height: 70px;
-  
 }
 
 .userDetails {
   text-align: center;
-  font-size: 0.9rem; /* Smaller font on mobile */
+  font-size: 0.9rem;
 }
 
 /* Days (Mon, Tues, Wed, etc.) Side by Side */
@@ -153,120 +158,206 @@
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .scheduleBars .col {
-  flex: 1; /* Ensure all columns get equal space */
-  max-width: 40px; /* Limit the width of each column */
-  margin: 0 5px; /* Add some horizontal space between bars */
+  flex: 1;
+  max-width: 40px;
+  margin: 0 5px;
 }
 
 .scheduleBar {
   background-color: #850000;
   width: 100%;
-  height: 40px; /* Control the height */
+  height: 40px;
   border-radius: 10px;
 }
 
 /* Previous Button Positioning inside Main Content */
 .previousButton {
-  /* margin-top: auto;  */
   position: relative;
   left: 100%;
   bottom: 100%;
-  /* display: flex;
-  justify-content: flex-end; */
-  width: 100%; 
+  width: 100%;
 }
 
 .previousButton button {
   padding: 8px 16px;
   font-size: 0.9rem;
-  margin-right: 20px; /* Adds spacing from the right side */
-  margin-bottom: 20px; /* Adds spacing from the bottom */
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
-
-
 
 /* Mobile Specific Layout */
 @media (max-width: 768px) {
-  /* .mainLayout {
-      flex-direction: column;
-      padding: 10px;
-  } */
+  /* Hide Room Image on Mobile */
+  .roomImage {
+    display: none;
+  }
 
+  /* Display Room Name only on Mobile */
+  .roomName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #520000;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* Adjust the Left Section Layout for Mobile */
+  .leftSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Adjust the Right Section Layout for Mobile */
+  .rightSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Forcefully Center Schedule Wrapper */
   .scheduleWrapper {
-      flex-direction: column;
-      width: 100%;
-      margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    margin-right: 30px;
   }
 
-  .leftSection, .rightSection {
-      width: 100%;
-      margin: 0;
-
+  /* Schedule Container: Ensure it is contained and doesn't overflow */
+  .scheduleContainer {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 2px solid #800000;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: auto; /* Let the height grow based on content */
+    min-height: 400px; /* Set a minimum height to avoid it being too small */
   }
 
-  .backButton {
-      top: 10px;
-      left: 10px;
+  /* Schedule Content Section Adjustments */
+  .scheduleContent {
+    margin-bottom: 30px; /* Increased margin for spacing */
+    padding: 20px; /* Add padding for readability */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevent scrollbars within content */
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    display: block;
+    min-height: 300px; /* Increased minimum height to make content more visible */
   }
 
-  .scheduleBars .col {
-      flex-basis: 100%; /* Stack the schedule bars vertically */
-      margin-bottom: 10px; /* Add space between bars */
+  /* Ensure the entire page scrolls when content overflows */
+  body {
+    overflow-y: scroll; /* Allow vertical scrolling */
+    padding-bottom: 50px; /* Add some breathing room at the bottom */
+    margin: 0; /* Remove default margin to prevent unwanted spaces */
   }
 
-  .scheduleDay {
-      flex-basis: 100%; /* Days stack vertically */
-      margin-bottom: 10px;
+  /* Schedule Bars container improvements */
+  .scheduleBars {
+    margin-bottom: 20px;
   }
 
-  .scheduleBar {
-      height: 40px; /* Reduced height for smaller screens */
+  /* Adjust padding and bottom margin for better spacing */
+  .mainContent {
+    padding-bottom: 1000px; /* Increased bottom padding for spacing */
+  }
+
+  /* Ensure content adapts */
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
   }
 }
 
-/* Social Media Icons */
-.socialIcons {
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
+
+
+/* Other Media Queries for Larger Devices (optional) */
+@media (min-width: 769px) {
+  .roomImage {
+      display: block; /* Display the room image again for larger screens */
+  }
+
+  .roomName {
+      display: none; /* Hide room name on larger screens if needed */
+  }
 }
 
-.socialIcon .btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
 
-.socialIcon .btn:hover {
-  background-color: #850000;
-}
+/* Desktop Specific Layout */
+@media (min-width: 769px) {
+  .app{
+      position: relative;
+  }
 
-.socialIcon i {
-  color: white;
-}
-
-/* Mobile Specific Layout for Social Media */
-@media (max-width: 768px) {
   .socialIcons {
-      bottom: 10px;
-      left: 10px;
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+      position: absolute;
+      left: 0.2rem;
+      bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
   }
 
-  .socialIcon .btn {
-      width: 35px;
-      height: 35px;
+  .socialIcon {
+      background-color: #520000;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+  }
+
+  .socialIcon:hover {
+      background-color: #850000;
+      color: #ffffff;
+  }
+
+  .mainContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+      flex-grow: 1;
   }
 }
+
+/* Schedule Bars */
 .scheduleBars {
   display: flex;
-  height: 300px; /* Adjust based on your design */
+  height: 300px;
   position: relative;
 }
 
@@ -277,10 +368,6 @@
   border-radius: 5px;
   transition: all 0.3s ease;
 }
-
-/* Adjust other CSS rules according to your design */
-  
-
 
 .days {
   display: flex;
@@ -308,28 +395,31 @@
   border-radius: 5px;
   transition: all 0.3s ease;
 }
-.botBlock,.topBlock {
+
+.botBlock, .topBlock {
   position: absolute;
   color: #F5F5F5;
   left: 0; 
   right: 0; 
   margin-inline: auto; 
   width: fit-content;
-  font-size: 0.7rem;
 }
+
 .botBlock {
   bottom: 0.2rem;
 }
+
 .topBlock {
   top: 0.2rem;
 }
-@media only screen and (max-width: 800px) {
-  .botBlock,.topBlock {
-     font-size: 0.5rem;
-    }
-}
-/* PopoverStyles.module.css */
 
+@media only screen and (max-width: 800px) {
+  .botBlock, .topBlock {
+     font-size: 0.5rem;
+  }
+}
+
+/* PopoverStyles.module.css */
 /* Custom Popover Styles */
 .popover {
   background-color: #800000; /* Maroon background */

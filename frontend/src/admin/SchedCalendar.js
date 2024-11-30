@@ -19,6 +19,8 @@ const WeeklySchedule = () => {
     const [selectedBuilding, setSelectedBuilding] = useState('');
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
+    const [profs, setProfs] = useState([]);
+    const [selectedProf, setSelectedProf] = useState(null);
     const [showNoRoomsWarning, setShowNoRoomsWarning] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedEventId, setSelectedEventId] = useState(null);
@@ -51,7 +53,13 @@ const WeeklySchedule = () => {
         const fetchRoomSchedules = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/room-sched`)
+                const res = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/instructors-subjects`)
                 const data = await response.json();
+                const resData = await res.json();
+                setProfs(resData.prof?.map((prof) => ({
+                    user_name: prof.user_name,
+                    full_name: prof.name
+                })));
                 setRooms(data.room.results);
                 const newRoomSchedules = data.sched.results.reduce((acc, curr) => {
                     const { room_id, day, time_start, time_end, room_name, bldg_name } = curr;
@@ -97,7 +105,7 @@ const WeeklySchedule = () => {
         setFilteredRooms(filtered);
         setSelectedRoom(null);
         setShowNoRoomsWarning(filtered.length === 0)
-        setEvents([]);
+
     };
     
     const scheduleDetails = {
@@ -112,12 +120,75 @@ const WeeklySchedule = () => {
         const room = rooms.find(r => r.room_id === parseInt(roomId, 10));
         setSelectedRoom(room);
 
-        // Clear all events when room changes
-        setEvents([]);
+        // Clear all events that don't start with 'prof-' when room changes
+        setEvents(prevEvents => prevEvents.filter(event => event.id.startsWith('prof-')));
         setIsEventSelected(false);
         updateRoomSchedules(parseInt(roomId, 10));
+
     };
 
+    const handleProfChange = (e) => {
+        const prof = e.target.value;
+        setEvents(prevEvents => prevEvents.filter(event => !event.id.startsWith('prof-')));
+        setSelectedProf(prof);
+        
+
+        updateProfSchedules(prof);
+    }
+    const updateProfSchedules = (profName) => {
+        fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                uName: profName
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            const baseDate = new Date();
+            baseDate.setDate(baseDate.getDate() - baseDate.getDay()); // Set to the current week's Sunday
+
+            const profEvents = data.result.map((event, index) => {
+                const dayIndex = daysOfWeek.indexOf(event.day);
+
+                // Calculate the target date for the event day
+                const targetDate = new Date(baseDate);
+                targetDate.setDate(baseDate.getDate() + dayIndex);
+
+                // Convert time strings to actual Date objects
+                const [startHour, startMinute] = event.time_start.split(':').map(Number);
+                const [endHour, endMinute] = event.time_end.split(':').map(Number);
+
+                const startDate = new Date(targetDate);
+                startDate.setHours(startHour, startMinute, 0, 0);
+
+                const endDate = new Date(targetDate);
+                endDate.setHours(endHour, endMinute, 0, 0);
+
+                return {
+                    id: `prof-${profName}-${index}`,
+                    title: `Prof: ${profName}`,
+                    start: startDate.toISOString(),
+                    end: endDate.toISOString(),
+                    backgroundColor: 'blue',
+                    borderColor: 'blue',
+                    editable: false,
+                };
+            });
+
+            setEvents(prevEvents => [
+                ...prevEvents.filter(event => !event.id.startsWith(`prof-${profName}`)),
+                ...profEvents
+            ]);
+        })
+        .catch(error => {
+            console.error('Error fetching professor schedule:', error);
+        });
+    };
     const updateRoomSchedules = (roomId) => {
         if (!roomSchedules[roomId]) return;
     
@@ -356,6 +427,22 @@ const WeeklySchedule = () => {
             </div>
             <div className={`mt-4 ${styles.motherCont}`}>
                <div className={styles.roomSelection}>
+               <div className={`${styles.buildingSelect}`}>
+                    <label htmlFor="buildingSelect" className={`form-label ${styles.label}`}>
+                        Select Professor
+                    </label>
+                    <select
+                        id="profSelect"
+                        className={`form-select ${styles.buildingDropdown}`}
+                        value={selectedProf}
+                        onChange={handleProfChange}
+                    >
+                        <option value="" disabled>Choose Building</option>
+                        {profs.map(professor => (
+                            <option key={professor.user_name} value={professor.user_name}>{professor.full_name}</option>
+                        ))}
+                    </select>
+                </div>
                <div className={`${styles.buildingSelect}`}>
                     <label htmlFor="buildingSelect" className={`form-label ${styles.label}`}>
                         Select Building

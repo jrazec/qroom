@@ -2,6 +2,9 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const con = require('../config/db');  // Import the MySQL connection
+const dotenv = require('dotenv');
+// For .env variable
+dotenv.config()
 
 // Forgot Password Controller
 const forgotPassword = (req, res) => {
@@ -59,7 +62,7 @@ const forgotPassword = (req, res) => {
                     logger: true, 
                 });
 
-                const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+                const resetLink = `${process.env.LOCALHOST}/reset-password/${resetToken}`;
                 console.log("Reset link generated:", resetLink);
 
                 // Setup email options

@@ -20,8 +20,8 @@ class userTable {
     // Update the postAccount method to hash the password
     static postAccount(data) {
         return new Promise((resolve, reject) => {
-            const addUsers = `INSERT INTO users(user_name, first_name, middle_name, last_name, password, role,department)
-                            VALUES(?,?,?,?,?,?,?);`;
+            const addUsers = `INSERT INTO users(user_name, first_name, middle_name, last_name, password, role,department,email)
+                            VALUES(?,?,?,?,?,?,?,?);`;
 
             // Hash the password before inserting it into the database
             bcrypt.hash(data.password, 10, (err, hashedPassword) => {
@@ -36,7 +36,8 @@ class userTable {
                         `${data.lastName}`,
                         hashedPassword, // Use the hashed password here
                         `${data.role}`,
-                        `${data.department}`
+                        `${data.department}`,
+                        `${data.email}`
                     ];
                     con.query(addUsers, userData, (err, result) => {
                         if (err) {
@@ -54,7 +55,7 @@ class userTable {
     static putAccount(data){
         return new Promise((resolve, reject) => {
             const editUsers = `UPDATE users
-                                SET user_name=?, first_name=?, middle_name=?, last_name=?, password=?, role=?,department=?
+                                SET user_name=?, first_name=?, middle_name=?, last_name=?, password=?, role=?,department=?,email=?
                                 WHERE user_name=?;`;
             
 
@@ -72,7 +73,9 @@ class userTable {
                         hashedPassword, // Use the hashed password here
                         `${data.role}`,
                         `${data.department}`,
-                        `${data.userName}`
+                        `${data.email}`,
+                        `${data.userName}`,
+
                     ];
 
                     con.query(editUsers, userData, (err, result) => {
