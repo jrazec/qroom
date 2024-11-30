@@ -9,14 +9,14 @@ import {
   Modal,
   Alert,
 } from "react-bootstrap";
-import { FaTrashAlt } from "react-icons/fa";
-import "./Scheduling5.css";
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaPlus, FaTrashAlt, FaTimes } from "react-icons/fa";
+import styles from "./Scheduling5.module.css";
 import { useEffect } from "react";
 import axios from "axios";
 function Scheduling5() {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState("All");
   const [studentsWithoutSection, setStudentsWithoutSection] = useState([
     { user_name: "SR-001", first_name: "Alice", last_name: "Smith", department: "CICS" },
     { user_name: "SR-002", first_name: "Bob", last_name: "Jones", department: "CAS" },
@@ -200,107 +200,192 @@ function Scheduling5() {
     }
   };
 
+  const handleAddSection = async (section_name) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/add-section`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ section_name, department: selectedDepartment }),
+      });
+
+      const data = await response.json();
+
+      if (data.status) {
+        console.log(`Section ${section_name} added successfully.`);
+      } else {
+        console.error("Failed to add section.");
+      }
+    } catch (error) {
+      console.error("Error adding section:", error);
+    }
+  };
+
+  const allStudents = [...studentsWithoutSection, ...studentsWithSection];
   const filteredStudentsWithSection = studentsWithSection.filter(
     (student) =>
       student.department === selectedDepartment &&
       student.section_name === selectedSection
   );
 
+  // Filter students by status
+const filteredByStatus = (students, status) => {
+  switch (status) {
+    case "Regular":
+      // Filter students with assigned sections
+      return students.filter(student => student.section_name !== null && student.section_name !== "");
+    case "Irregular":
+      // Placeholder logic: filter students with multiple sections (assuming studentsWithMultipleSections is available)
+      return students.filter(student => student.sections && student.sections.length > 1); // Assuming "sections" is an array with multiple sections
+    case "No Section":
+      // Filter students without any section assigned
+      return students.filter(student => student.section_name === null || student.section_name === "");
+    default:
+      return students;
+  }
+};
+
+// Apply status filter first
+const filteredStudentsByStatus = filteredByStatus(allStudents, selectedStatus);
+
+// Then apply department and section filters
+const filteredStudents = filteredStudentsByStatus.filter(
+  (student) =>
+    (selectedDepartment ? student.department === selectedDepartment : true) &&
+    (selectedSection ? student.section_name === selectedSection : true)
+);
+
+// Function to clear all filters
+const clearFilters = () => {
+  setSelectedStatus("All");       // Reset status filter to "All"
+  setSelectedDepartment(null);    // Reset department filter to null
+  setSelectedSection(null);       // Reset section filter to null
+};
+
   return (
-    <div className="container scheduling-container">
+    <div className={`container ${styles["scheduling-container"]}`}>
       {/* Dashboard Heading */}
-      <div className="d-flex align-items-center mb-3" style={{cursor: "pointer"}} onClick={handleBack}>
-        <button className="btn  me-3 back-button" style={{backgroundColor:"whitesmoke"}}>
-          <FaArrowLeft style={{width:"0.8rem"}}/> <span >Back</span>
+      <div className="d-flex align-items-center mb-3">
+        <button className="btn  me-3 back-button" style={{backgroundColor:"whitesmoke", cursor: "pointer"}} onClick={handleBack}>
+          <FaArrowLeft style={{width:"1rem"}}/>
         </button>
-        <h2 className="dashboard-title" >
-          Dashboard <span className="fw-light">Scheduling</span>
+        <h2 className={styles["dashboard-title"]} >
+          Manage Section
         </h2>
         
       </div>
 
-      {/* Department and Section Dropdowns */}
-      <div className="d-flex align-items-center mb-4">
-        <Form.Label className="fs-5 fw-bold me-3 department-label">
-          Departments
-        </Form.Label>
-        <DropdownButton
-          id="department-dropdown"
-          title={selectedDepartment || "Department"}
-          onSelect={handleDepartmentChange}
-          className="department-dropdown"
-        >
-          {Object.keys(departmentSections).map((dept) => (
-            <Dropdown.Item key={dept} eventKey={dept}>
-              {dept}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <DropdownButton
-          id="section-dropdown"
-          title={selectedSection || "Section"}
-          onSelect={setSelectedSection}
-          className="department-dropdown"
-        >
-          {departmentSections[selectedDepartment]?.map((section_name) => (
-            <Dropdown.Item key={section_name} eventKey={section_name}>
-              {section_name}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <Button
-          className="add-button ms-auto"
-          onClick={handleAddButtonClick}
-          disabled={!selectedDepartment || !selectedSection}
-        >
-          + Add
-        </Button>
-      </div>
 
-      {/* Table */}
-      <Table bordered className="scheduling-table">
-        <thead>
-          <tr>
-            <th>SR Code</th>
-            <th>Section</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedDepartment && selectedSection ? (
-            filteredStudentsWithSection.length > 0 ? (
-              filteredStudentsWithSection.map((student) => (
-                <tr key={student.user_name}>
-                  <td>{student.user_name}</td>
-                  <td>{student.section_name}</td>
-                  <td>{student.first_name}</td>
-                  <td>{student.last_name}</td>
-                  <td>
-                    <FaTrashAlt
-                      className="delete-icon"
-                      onClick={() => handleDeleteButtonClick(student)}
-                    />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  No students found for the selected department and section.
-                </td>
-              </tr>
-            )
-          ) : (
-            <tr>
-              <td colSpan="5" className="text-center">
-                Please select a department and section.
+ {/* Department and Section Dropdowns */}
+ <div className="d-flex align-items-center mb-4">
+      <Form.Label className={`fs-5 me-3 ${styles["department-label"]}`}>
+        Filters
+      </Form.Label>
+      
+      {/* Status Dropdown */}
+      <DropdownButton
+        id="status-dropdown"
+        title={selectedStatus || "Status"}
+        onSelect={setSelectedStatus}
+        className="me-3"
+      >
+        <Dropdown.Item eventKey="All">All</Dropdown.Item>
+        <Dropdown.Item eventKey="Regular">Regular</Dropdown.Item>
+        <Dropdown.Item eventKey="Irregular">Irregular</Dropdown.Item>
+        <Dropdown.Item eventKey="No Section">No Section</Dropdown.Item>
+      </DropdownButton>
+
+      {/* Department Dropdown */}
+      <DropdownButton
+        id="department-dropdown"
+        title={selectedDepartment || "Department"}
+        onSelect={handleDepartmentChange}
+        className={styles["department-dropdown"]}
+      >
+        {Object.keys(departmentSections).map((dept) => (
+          <Dropdown.Item key={dept} eventKey={dept}>
+            {dept}
+          </Dropdown.Item>
+        ))}
+      </DropdownButton>
+
+      {/* Section Dropdown */}
+      <DropdownButton
+        id="section-dropdown"
+        title={selectedSection || "Section"}
+        onSelect={setSelectedSection}
+        className={styles["department-dropdown"]}
+        disabled={!selectedDepartment} // Disable section dropdown if no department is selected
+      >
+        {selectedDepartment && departmentSections[selectedDepartment]?.map((section_name) => (
+          <Dropdown.Item key={section_name} eventKey={section_name}>
+            {section_name}
+          </Dropdown.Item>
+        ))}
+      </DropdownButton>
+
+      {/* Clear All Filters Button */}
+      <Button
+        variant="secondary"
+        onClick={clearFilters}
+        disabled={selectedStatus === "All" && !selectedDepartment && !selectedSection} // Disable if no filters are applied
+        className={`ml-3 ${styles["close-icon"]}`}
+        data-toggle="tooltip" data-placement="bottom" title="Clear all filters"
+        style={{ display: (selectedStatus !== "All" || selectedDepartment || selectedSection) ? "inline-block" : "none" }} // Only show when filters are selected
+      >
+        <FaTimes />
+      </Button>
+
+      {/* Add Button */}
+      <Button
+        className={`${styles["add-button"]} ms-auto`}
+        onClick={handleAddSection}
+        // disabled={!selectedDepartment || !selectedSection}
+      >
+        + Add New Section
+      </Button>
+    </div>
+
+    {/* Table */}
+    <Table bordered className={styles["scheduling-table"]}>
+      <thead>
+        <tr>
+          <th>SR Code</th>
+          <th>Section</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredStudents.length > 0 ? (
+          filteredStudents.map((student) => (
+            <tr key={student.user_name}>
+              <td>{student.user_name}</td>
+              <td>{student.section_name}</td>
+              <td>{student.first_name}</td>
+              <td>{student.last_name}</td>
+              <td className="text-center">
+                <FaPlus className={styles["plus-icon"]} 
+                  onClick={() => handleAddButtonClick()} 
+                />
+                <FaTrashAlt
+                  className={`${styles["delete-icon"]} ms-3`}
+                  onClick={() => handleDeleteButtonClick(student)}
+                />
               </td>
             </tr>
-          )}
-        </tbody>
-      </Table>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="5" className="text-center">
+              No students found for the selected filters.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </Table>
 
       {/* Add Students Modal */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
