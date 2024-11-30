@@ -129,7 +129,7 @@ const WeeklySchedule = () => {
 
     const handleProfChange = (e) => {
         const prof = e.target.value;
-        setEvents([]);
+        setEvents(prevEvents => prevEvents.filter(event => !event.id.startsWith('prof-')));
         setSelectedProf(prof);
         
 
