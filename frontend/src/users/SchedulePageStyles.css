@@ -1,0 +1,114 @@
+/* General App Styling */
+.app {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    align-items: center;
+}
+
+/* Main Content Area */
+.mainContent {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    flex-grow: 1;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+/* Schedule Container */
+.scheduleContainer {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-y: auto; /* Enable scrolling */
+}
+
+/* Hide Scrollbar */
+.scheduleContainer::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar on Webkit browsers */
+}
+
+.scheduleContainer {
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
+
+/* FullCalendar Styling */
+.fc {
+    font-size: 1rem;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.fc .fc-day-header {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.fc .fc-timegrid-slot {
+    height: 2.5rem; /* Adjust slot height */
+}
+
+.fc .fc-event {
+    font-size: 0.85rem;
+    padding: 2px;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .mainContent {
+        padding: 10px;
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
+
+    .scheduleContainer {
+        width: 100%;
+        max-height: 90%;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    .fc {
+        font-size: 0.9rem;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.1rem;
+    }
+
+    .fc .fc-day-header {
+        font-size: 0.9rem;
+    }
+
+    .fc .fc-timegrid-slot {
+        height: 2rem; /* Reduced slot height */
+    }
+
+    .fc .fc-event {
+        font-size: 0.75rem;
+        padding: 3px;
+    }
+}
