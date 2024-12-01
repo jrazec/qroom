@@ -32,7 +32,11 @@
     border-radius: 6px;
     border: 1px solid #a90000;
   }
-  
+
+  .department-dropdown ::selection {
+    background-color: #a90000;
+    color: white;
+  }
   .department-dropdown :disabled {
     background-color: #f0f0f0;
     color: #a90000;
