@@ -266,5 +266,37 @@ export const createOccupation = async (occupationData) => {
     };
     
     
-    
+    export const getSection = async () => {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/sections`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    };
+
+    export const createSection = async (dataToSend) =>{
+      fetch(`${process.env.REACT_APP_LOCALHOST}/admin/sections`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend), // Convert the object to JSON
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // Parse the response
+      })
+      .then(data => {
+          console.log('Success:', data);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+    }
     // comment
