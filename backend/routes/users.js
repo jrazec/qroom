@@ -17,7 +17,9 @@ const { getRoomsByBuilding } = require("../controllers/roomList");
 const { getRoomsByFloor } = require("../controllers/roomsByFloor");
 const { getBuildings } = require("../controllers/roomList");
 const { getRoom } = require("../models/Schedule");
+const showRoomStatus = require('../controllers/showRoomStatus');
 const {getRoomOccup} = require('../controllers/occupationController')
+const { getUserOccupied } = require('../controllers/occupationController');
 const router = express.Router();
 
 // Middleware configurations
@@ -47,6 +49,11 @@ router.put('/occupation', occupationController.updateOccupationStatus);
 router.get('/occupations', occupationController.getOccupations);
 
 router.get('/check-room', getRoomOccup)
-
+router.get('/room-status/:id/:roomid', showRoomStatus);
 router.get('/validate-schedule/:roomId', getRoomSpecificSchedule.single);
+router.post('/get-user-occupied', getUserOccupied);
+
+router.post('/occupy-room', occupationController.toggleOccupyRoom);
+
+
 module.exports = router;

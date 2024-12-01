@@ -69,6 +69,41 @@ class occupationTable {
       });
     });
   }
+  static getOccupationByUser(room_id) {
+    return new Promise((resolve, reject) => {
+      const query = `select * from occupations join rooms using(room_id) where status = 'occupied' and room_id=?`;
+      con.query(query, [room_id], (err, results) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        if (results.length === 0) {
+          return resolve({ status: false, message: 'No Occupations found for the specified user' });
+        }
+        resolve({ status: true, results });
+      });
+    });
+  }
+
+  static toggleOccupyRoom(room_id, user_name) {
+    return new Promise((resolve, reject) => {
+      const query = `insert into occupations(room_id,occupation_start,occupation_end,user_name) values(?,CURRENT_TIMESTAMP(),NULL,?);`;
+      const query2 = `UPDATE rooms SET status = 'occupied' WHERE room_id = ?;`;
+      con.query(query, [room_id, user_name], (err, results) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        con.query(query2, [room_id], (err, results) => {
+          if (err) {
+            console.error('Database query error:', err);
+            return reject(err);
+          }
+          resolve({ status: true, message: 'Room Occupied' });
+        });
+      });
+    });
+  }
 }
 
 module.exports = occupationTable;

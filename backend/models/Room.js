@@ -54,6 +54,20 @@ class roomTable {
             });
         });
     }    
+    static getStatus(id,room_id) {
+        return new Promise((resolve, reject) => {
+            const queryUser = `select status,user_name from rooms left join occupations using(room_id) where room_id= ?;`
+            con.query(queryUser, [room_id], (err, results) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);  // Reject on database error
+                }    
+                console.log(results)
+                // User found, return the user data with a success status
+                resolve(results);
+            });
+        });
+    }
 
 }
 

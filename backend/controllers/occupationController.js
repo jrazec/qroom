@@ -100,3 +100,28 @@ exports.getRoomOccup = async (req,res)=> {
   }
    
 }
+
+exports.getUserOccupied = async (req,res)=> {
+  const room_id = req.body.room_id;
+  try {
+    const result = await occupationTable.getOccupationByUser(room_id);
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: 'No occupation found for the given user' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user occupation' });
+  }
+   
+}
+
+exports.toggleOccupyRoom = async (req,res)=> {
+  const {room_id, user_name} = req.body;
+  try {
+    const result = await occupationTable.toggleOccupyRoom(room_id, user_name);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to toggle room occupation' });
+  }   
+}

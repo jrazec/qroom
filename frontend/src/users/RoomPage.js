@@ -6,7 +6,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 function RoomPage() {
   const { id } = useParams();
   const navigate = useNavigate(); // Hook for navigation
-
   useEffect(() => {
     // Check if the user is authenticated by looking for a token in localStorage
     const token = localStorage.getItem('token');

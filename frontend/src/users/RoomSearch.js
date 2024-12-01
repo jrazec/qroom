@@ -20,6 +20,131 @@ function RoomSearch() {
   const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const { roomid, id } = useParams();
   const navigate = useNavigate();
+  const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [scheduledOrVacant, setScheduledOrVacant] = useState(true);
+  const [isActiv, setIsActiv] = useState(true);
+  const [buttons, setButton] = useState('Occupy');
+
+  const buttonOccupy = () => {
+    return (
+      <button
+        className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'd-none' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
+        onClick={handleOccupyRoom}
+        disabled={userRole.toLowerCase() === 'student'} // Disable button for students
+      >
+        Occupy Room
+      </button>
+    )
+  };
+  const handleOccupyRoom = () => {
+    const token = localStorage.getItem('token');
+    fetch(`${process.env.REACT_APP_LOCALHOST}/user/occupy-room`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Send token in request header
+      },
+      body: JSON.stringify({
+        user_name: id,
+        room_id: roomid,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status) {
+          setStatus('occupied');
+          setButton('Unoccupy');
+        }
+      })
+      .catch((error) => console.error('Error:', error));
+  }
+
+  const buttonUnoccupy = () => {
+    return (
+      <button
+        className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'd-none' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
+        onClick={handleUnoccupyRoom}
+        disabled={userRole.toLowerCase() === 'student'} // Disable button for students
+      >
+        Unccupy Room
+      </button>
+    )
+  };
+  const handleUnoccupyRoom = () => {
+    const token = localStorage.getItem('token');
+    fetch(`${process.env.REACT_APP_LOCALHOST}/user/unoccupy-room`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Send token in request header
+      },
+      body: JSON.stringify({
+        user_name: id,
+        room_id: roomid,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === 'Room unoccupied') {
+          setStatus('vacant');
+          setButton('Occupy');
+        }
+      })
+      .catch((error) => console.error('Error:', error));
+  }
+
+
+  const buttonReserve = () => {
+    return (
+      <button
+        className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'd-none' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
+        onClick={handleReserveRoom}
+        disabled={userRole.toLowerCase() === 'student'} // Disable button for students
+      >
+        Reserve Room
+      </button>
+    )
+  };
+  const handleReserveRoom = () => {
+    const token = localStorage.getItem('token');
+    fetch(`${process.env.REACT_APP_LOCALHOST}/user/reserve-room`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Send token in request header
+      },
+      body: JSON.stringify({
+        user_name: id,
+        room_id: roomid,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === 'Room reserved') {
+          setStatus('occupied');
+          setButton('Unoccupy');
+        }
+      })
+      .catch((error) => console.error('Error:', error));
+  }
+
+  const buttonDisabled = () => {
+    return (
+      <button
+        className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'd-none' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
+        onClick={handleReserveRoom}
+        disabled={userRole.toLowerCase() === 'student'} // Disable button for students
+      >
+        Occupied
+      </button>
+    )
+  }
+
+  const listButtons = {'Occupy': buttonOccupy, 'Unoccupy':buttonUnoccupy, 'Reserve':buttonReserve,'Disabled':buttonDisabled};
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -58,138 +183,98 @@ function RoomSearch() {
       if(schedule.length >= 1) {
         getRoomSpecific(roomid, setCurrentSchedule);
       }
-      fetch(`${process.env.REACT_APP_LOCALHOST}/user/check-room?roomid=${roomid}&user_name=${id}`)
-        .then(response => response.json())
-        .then(data => {
-          setRoomStatus((data.status) ? 'Occupied' : 'Vacant');
-        })
-        .catch(error => {
-          console.error('Error fetching room status:', error);
-        });
     }
+
+    // Polling function
+    const pollData = () => {
+      setLoading(true);
+      fetch(`${process.env.REACT_APP_LOCALHOST}/user/room-status/${id}/${roomid}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Send token in request header
+        },
+      })
+        .then((response) => {
+          if (response.status === 401) {
+            // Token expired or invalid, redirect to login page
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_name');
+            navigate('/user/login');
+            return;
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data[0].status);
+          setStatus(data[0].status);
+          setScheduledOrVacant((data[0].status === 'vacant'));
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    };
+
+    console.log(status,"sd")
+    if (status === 'occupied') {
+      fetch(`${process.env.REACT_APP_LOCALHOST}/user/get-user-occupied`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Send token in request header
+      },
+      body: JSON.stringify({
+        room_id: roomid,
+      }),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data,"sdsds")
+        if (data.results[0].user_name === id) {
+            setButton('Unoccupy')// Show unoccupy button
+        } else {
+            setButton('Disabled')// Disable the button
+        }
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+    } else if (status === 'vacant') {
+      const today = new Date();
+      const currentDay = days[today.getDay()];
+      const currentTime = today.getHours() + today.getMinutes() / 60;
+
+      const todaySchedule = schedule.find(item => 
+      item.day === currentDay && 
+      currentTime >= item.time_start && 
+      currentTime <= item.time_end
+      );
+
+      if (todaySchedule) {
+        if (todaySchedule.user_name === id) {
+          setButton('Occupy')// Show occupy button
+        } else {
+          setButton('Reserve')// Show reserve button
+        }
+      } else {
+          setButton('Reserve')// Show reserve button
+      }
+    }
+
+    // Poll every 5 seconds
+    const intervalId = setInterval(pollData, 5000);
+
+    // Fetch initial data on mount
+    pollData();
+
+    // Clean up the interval when the component is unmounted or the token is invalidated
+    return () => clearInterval(intervalId);
   }, [roomid, id, navigate]);
 
   const handleToggleOccupancy = (e) => {
-    if (userRole.toLowerCase() === 'instructor') {
-      const currentTime = new Date();
-      const currentDay = days[currentTime.getDay()];
-      const currentHour = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
-  
-      // Determine the user's schedule status
-      let userSchedule;
-  
-      if (
-        currentSchedule.find(
-          (item) =>
-            id === item.user_name &&
-            item.day === currentDay &&
-            item.time_start <= currentHour &&
-            item.time_end >= currentHour
-        )
-      ) {
-        // User can occupy and unoccupy their room
-        userSchedule = 'scheduled';
-      } else if (
-        currentSchedule.find(
-          (item) =>
-            item.day === currentDay &&
-            item.time_start <= currentHour &&
-            item.time_end >= currentHour
-        )
-      ) {
-        // User can reserve and unreserve their room with a waiting status
-        userSchedule = 'waiting';
-      } else {
-        // User can occupy and unoccupy the room
-        userSchedule = 'none';
-      }
-      console.log(userSchedule)
-  
-      // Handle room status based on user schedule
-      if (userSchedule === 'scheduled') {
-        if (roomOccupied) {
-          setRoomOccupied(false);
-          setRoomStatus('Scheduled but not Occupied');
-  
-          const isWithinTimeRange = (startTime, endTime, currentTime) => {
-            const [startHour, startMin] = startTime.split(':').map(Number);
-            const [endHour, endMin] = endTime.split(':').map(Number);
-            const [currentHour, currentMin, currentSec] = currentTime.split(':').map(Number);
-  
-            const start = startHour + startMin / 60;
-            const end = endHour + endMin / 60;
-            const current = currentHour + currentMin / 60 + currentSec / 3600;
-  
-            return current >= start && current <= end;
-          };
-  
-          if (!isWithinTimeRange(userSchedule.time_start, userSchedule.time_end, currentHour)) {
-            setReservationStatus('Outside scheduled time');
-            return;
-          }
-          // Update database to mark room as unoccupied
-        } else {
-          setRoomOccupied(true);
-          setRoomStatus('Occupied');
-          // Update database to mark room as occupied
-        }
-      } else if (userSchedule === 'waiting') {
-        if (roomOccupied) {
-          setRoomOccupied(false);
-          setRoomStatus('Vacant');
-          setReservationStatus('Waiting');
-          // Update database to mark room as not reserved
-        } else {
-          setRoomOccupied(true);
-          setRoomStatus('Reserved');
-          setReservationStatus('Waiting');
-          // Update database to mark room as reserved
-        }
-      } else {
-        // userSchedule === 'none'
-        if (roomOccupied) {
-          setRoomOccupied(false);
-          setRoomStatus('Vacant');
-          // Update database to mark room as unoccupied
-        } else {
-          setRoomOccupied(true);
-          setRoomStatus('Occupied');
-          // Update database to mark room as occupied
-        }
-      }
-    }
+
+    setIsActiv(!isActiv);
   };
   
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = new Date();
-      const currentDay = days[currentTime.getDay()];
-      const currentHour = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
-  
-      // Declare userSchedule before logging it
-      const userSchedule = currentSchedule.find(
-        (item) => item.day === currentDay && item.time_start <= currentHour && item.time_end >= currentHour
-      );
-  
-      console.log(userSchedule, "      console.log(userSchedule)");
-  
-      if (userSchedule) {
-        if (roomOccupied) {
-          setRoomOccupied(false);
-          setRoomStatus('Scheduled but not Occupied');
-        } else {
-          setRoomOccupied(true);
-          setRoomStatus('Occupied');
-        }
-      } else {
-        setReservationStatus('Waiting');
-        setRoomStatus('Vacant');
-      }
-    }, 60000); // Check every minute
-  
-    return () => clearInterval(interval);
-  }, [schedule, roomOccupied]);
   
 
   return (
@@ -207,7 +292,6 @@ function RoomSearch() {
         <div 
         className={`row justify-content-center align-items-center ${roomSearch.mainLayout} mt-1`}
         >
-          {/* Left Section - Room Image and Status */}
           <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-3' : ''}`}>
             <div className={roomSearch.roomStatus}>
               <img
@@ -216,20 +300,15 @@ function RoomSearch() {
                 className={`${roomSearch.roomImage} img-fluid`}
               />
               <h2 className="mt-3">{userDetails[0]?.room_name}</h2>
-              <p className={roomSearch.roomOccupied}>{roomStatus}</p>
+              <p className={roomSearch.roomOccupied}>{status}</p>
               <p className={roomSearch.roomStatusLight}>
-                {roomStatus === 'Occupied' && <span className="text-danger">●</span>}
-                {roomStatus === 'Scheduled but not Occupied' && <span className="text-warning">●</span>}
-                {roomStatus === 'Vacant' && <span className="text-success">●</span>}
+                {status === 'occupied' && <span className="text-danger">●</span>}
+                {status === 'vacant' && <span className="text-success">●</span>}
               </p>
-              <button
-                className={`btn mt-2 ${userRole.toLowerCase() === 'student' ? 'btn-secondary' : 'btn-primary'} ${isMobile ? 'mr-2' : ''} mb-2`} 
-                onClick={handleToggleOccupancy}
-                disabled={userRole.toLowerCase() === 'student'} // Disable button for students
-              >
-                {roomOccupied ? 'Unoccupy Room' : 'Occupy Room'} {/* Toggle button text */}
-              </button>
-              {reservationStatus && <p className="mt-2">{reservationStatus}</p>}
+              <div>
+              {listButtons[buttons]()}
+              </div>
+              
             </div>
           </div>
 
