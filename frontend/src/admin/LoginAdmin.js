@@ -43,7 +43,7 @@ function LoginAdmin() {
       const data = await response.json();
       if (response.ok) {
         // Store the token and navigate to the admin dashboard
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('adminToken', data.token);
         localStorage.setItem('user_name', data.user.user_name);
         localStorage.setItem('role', data.user.role);
         setStatus(true);
