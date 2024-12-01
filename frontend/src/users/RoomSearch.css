@@ -1,0 +1,103 @@
+/* Container */
+.container-fluid {
+    padding: 0;
+  }
+  
+  /* Room Image */
+  .room-image {
+    width: 100%;
+    max-width: 250px; /* Limit the image size */
+    height: auto;
+  }
+  
+  /* Left Section (Room Status) */
+  .room-status {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+  }
+  
+  /* Room Status Light */
+  .room-status-light {
+    font-size: 1.2rem;
+  }
+  
+  .room-occupied {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* User Details */
+  .user-details {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  /* FullCalendar */
+  /* FullCalendar Styling */
+.schedule-wrapper {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    height: auto; /* Default height */
+    min-height: 400px; /* Minimum height if no content */
+  }
+  
+  /* Make FullCalendar taller on mobile */
+  @media (max-width: 768px) {
+    .schedule-wrapper {
+      height: 80vh; /* 60% of the viewport height */
+      min-height: 400px; /* Ensure it doesn't get too small */
+    }
+  
+    .fc {
+      height: 100% !important; /* Force FullCalendar to fill the container */
+    }
+  
+    /* Optional: Ensure calendar container behaves responsively */
+    .fc-view {
+      height: 100% !important; /* Make calendar views occupy full height */
+    }
+  }
+  
+  
+  /* Bootstrap Grid Customization */
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .col-lg-3, .col-md-4 {
+    margin-bottom: 20px;
+  }
+  
+  .col-lg-6 {
+    margin-bottom: 20px;
+  }
+  
+  /* Make layout responsive */
+  @media (max-width: 768px) {
+    .col-lg-3, .col-md-4, .col-lg-6 {
+      flex: 0 0 100%; /* Make all columns take up full width on mobile */
+    }
+  
+    .room-status,
+    .user-details,
+    .schedule-wrapper {
+      padding: 15px;
+    }
+  
+    .room-image {
+      max-width: 200px; /* Smaller image size on mobile */
+    }
+  }
+  /* Hide the room image on mobile */
+@media (max-width: 768px) {
+    .room-image {
+      display: none; /* Hide the room image */
+    }
+  }
+  

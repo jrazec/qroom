@@ -58,7 +58,7 @@ function SchedulePage() {
   
             return {
               id: `event-${index}`,
-              title: `${item.course_code}: ${item.room_name}`,
+              title: `${item.course_code} : ${item.room_name}`,
               start: startDate.toISOString(),
               end: endDate.toISOString(),
               backgroundColor: 'blue',
@@ -96,7 +96,11 @@ function SchedulePage() {
       <Navbar id={id} />
       <main className="mainContent mt-4">
         <div className="scheduleContainer">
-          <FullCalendar {...calendarConfig} />
+        <FullCalendar
+        {...calendarConfig}
+          contentHeight="auto"  // Let FullCalendar handle height
+          height="100%"         // Ensures the calendar takes the full height
+        />
         </div>
       </main>
     </div>
