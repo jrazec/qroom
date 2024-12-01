@@ -43,13 +43,10 @@ function ChatReport() {
     const building = buildingMap[buildingId];
     if (building) {
       const buildingName = building.name;
-      const floor = building.floors ? building.floors[0] : undefined; // Default to the first floor if floors exist
-
       try {
         const response = await axios.get('/user/rooms/floor', {
           params: {
             building: buildingName,
-            floor, // Include the floor parameter if available
           },
         });
 

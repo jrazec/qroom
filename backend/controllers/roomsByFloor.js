@@ -9,11 +9,12 @@ exports.getRoomsByFloor = async (req, res) => {
     console.log("Received building:", building); // Debugging
     console.log("Received floor:", floor);       // Debugging
 
-    const query = `
-      SELECT room_id, CONCAT(floor_number, ' | ',room_name) as room_name, room_purpose
+    let query = `
+      SELECT room_id, floor_number,room_name, room_purpose
       FROM rooms
-      WHERE bldg_name = ?;
+      WHERE bldg_name = ?
     `;
+    (floor) ? query += ` AND floor_number = ?;` : query += `;`;
     con.query(query, [building, floor], (err, result) => {
       if (err) {
         console.error('Database query error:', err);
