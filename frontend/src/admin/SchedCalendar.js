@@ -16,6 +16,13 @@ const WeeklySchedule = () => {
     const { selectedDepartment, selectedSection,userSectionSched } = location.state || {};
 
     const [events, setEvents] = useState([]);
+    const [section, setSection] = useState('');
+    const [instructorId, setInstructorId] = useState('');
+    const [roomId, setRoomId] = useState('');
+    const [courseId, setCourseId] = useState('');
+    const [courses, setCourses] = useState([]);
+
+    const [sections, setSections] = useState([]);
     const [selectedBuilding, setSelectedBuilding] = useState('');
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
@@ -56,6 +63,10 @@ const WeeklySchedule = () => {
                 const res = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/instructors-subjects`)
                 const data = await response.json();
                 const resData = await res.json();
+    
+                setSections(resData.sec);
+                setCourses(resData.sub);
+
                 setProfs(resData.prof?.map((prof) => ({
                     user_name: prof.user_name,
                     full_name: prof.name
@@ -91,13 +102,7 @@ const WeeklySchedule = () => {
 
         fetchRoomSchedules();
     }, []);
-    useEffect(() => {
-        if (!selectedDepartment || !selectedSection) {
-            alert('Schedule information is incomplete. Please go back and fill in the necessary details.');
-            navigate('/admin/scheduling/sectionselect');
-        }
-    }, [selectedDepartment, selectedSection, navigate]);
-
+    
     const handleBuildingChange = (e) => {
         const bldg_name = e.target.value;
         setSelectedBuilding(bldg_name);
@@ -105,15 +110,18 @@ const WeeklySchedule = () => {
         setFilteredRooms(filtered);
         setSelectedRoom(null);
         setShowNoRoomsWarning(filtered.length === 0)
-
+        setIsEventSelected(false);
     };
     
     const scheduleDetails = {
         department: selectedDepartment,
-        section: selectedSection,
+        section: section,
         events,
         room: selectedRoom,
         bldg_name: selectedBuilding,
+        user_name: instructorId,
+        course_id: courseId,
+        room_id: roomId,
       };
     const handleRoomSelect = (e) => {
         const roomId = e.target.value;
@@ -121,19 +129,19 @@ const WeeklySchedule = () => {
         setSelectedRoom(room);
 
         // Clear all events that don't start with 'prof-' when room changes
-        setEvents(prevEvents => prevEvents.filter(event => event.id.startsWith('prof-')));
+        setEvents(prevEvents => prevEvents.filter(event => event.id.startsWith('prof-') || event.id.startsWith('section-')));
         setIsEventSelected(false);
         updateRoomSchedules(parseInt(roomId, 10));
-
+        setIsEventSelected(false);
     };
 
     const handleProfChange = (e) => {
         const prof = e.target.value;
-        setEvents(prevEvents => prevEvents.filter(event => !event.id.startsWith('prof-')));
+        setEvents(prevEvents => prevEvents.filter(event => !event.id.startsWith('prof-') && !event.id.startsWith('new-')));
         setSelectedProf(prof);
-        
-
+        setIsEventSelected(false);
         updateProfSchedules(prof);
+        setInstructorId(prof);
     }
     const updateProfSchedules = (profName) => {
         fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule`, {
@@ -171,7 +179,7 @@ const WeeklySchedule = () => {
 
                 return {
                     id: `prof-${profName}-${index}`,
-                    title: `Prof: ${profName}`,
+                    title: `${profName} \n ${event.course_code}, \n ${event.room_name}`,
                     start: startDate.toISOString(),
                     end: endDate.toISOString(),
                     backgroundColor: 'blue',
@@ -187,6 +195,68 @@ const WeeklySchedule = () => {
         })
         .catch(error => {
             console.error('Error fetching professor schedule:', error);
+        });
+    };
+    const handleSectionChange = (e) => {
+        const sectionName = e.target.value;
+        setSection(sectionName);
+        setEvents(prevEvents => prevEvents.filter(event => !event.id.startsWith('section-') && !event.id.startsWith('new-')));
+        updateSectionSchedules(sectionName);
+        setIsEventSelected(false);
+    };
+
+    const updateSectionSchedules = (sectionName) => {
+        fetch(`${process.env.REACT_APP_LOCALHOST}/admin/section-schedule`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                section_name: sectionName
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            const baseDate = new Date();
+            baseDate.setDate(baseDate.getDate() - baseDate.getDay()); // Set to the current week's Sunday
+
+            const sectionEvents = data.result.map((event, index) => {
+                const dayIndex = daysOfWeek.indexOf(event.day);
+
+                // Calculate the target date for the event day
+                const targetDate = new Date(baseDate);
+                targetDate.setDate(baseDate.getDate() + dayIndex);
+
+                // Convert time strings to actual Date objects
+                const [startHour, startMinute] = event.time_start.split(':').map(Number);
+                const [endHour, endMinute] = event.time_end.split(':').map(Number);
+
+                const startDate = new Date(targetDate);
+                startDate.setHours(startHour, startMinute, 0, 0);
+
+                const endDate = new Date(targetDate);
+                endDate.setHours(endHour, endMinute, 0, 0);
+
+                return {
+                    id: `section-${sectionName}-${index}`,
+                    title: `${event.course_code}, ${event.room_name}`,
+                    start: startDate.toISOString(),
+                    end: endDate.toISOString(),
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    editable: false,
+                };
+            });
+
+            setEvents(prevEvents => [
+                ...prevEvents.filter(event => !event.id.startsWith(`section-${sectionName}`)),
+                ...sectionEvents
+            ]);
+        })
+        .catch(error => {
+            console.error('Error fetching section schedule:', error);
         });
     };
     const updateRoomSchedules = (roomId) => {
@@ -215,7 +285,7 @@ const WeeklySchedule = () => {
             endDate.setHours(endHour, endMinute, 0, 0);
     
             return {
-                id: `fixed-${roomId}-${index}`,
+                id: `room-${roomId}-${index}`,
                 title: `Room Reserved (${schedule.room_name})`,
                 start: startDate.toISOString(),
                 end: endDate.toISOString(),
@@ -227,7 +297,7 @@ const WeeklySchedule = () => {
     
         // Update events state
         setEvents(prevEvents => [
-            ...prevEvents.filter(event => !event.id.startsWith(`fixed-${roomId}`)),
+            ...prevEvents.filter(event => !event.id.startsWith(`room-${roomId}`)),
             ...roomEvents
         ]);
     };
@@ -244,7 +314,7 @@ const WeeklySchedule = () => {
             return;
         }
     
-        const title = `${selectedDepartment}, ${selectedSection}, Room: ${selectedRoom.room_name}`;
+        const title = `${instructorId},  ${section}, Room: ${selectedRoom.room_name}`;
         const calendarApi = selectInfo.view.calendar;
         calendarApi.unselect();
     
@@ -275,7 +345,7 @@ const WeeklySchedule = () => {
         }
     
         const newEvent = {
-            id: String(events.length + 1),
+            id: "new-"+String(events.length + 1),
             title,
             start: selectInfo.startStr,
             end: selectInfo.endStr,
@@ -283,6 +353,8 @@ const WeeklySchedule = () => {
             extendedProps: {
                 room: selectedRoom.room_name,
             },
+            course_id : courseId,
+            user_name: selectedProf
         };
     
         // Add the new event to the state
@@ -296,8 +368,8 @@ const WeeklySchedule = () => {
     
 
     const handleProceedClick = () => {
-        if (!selectedDepartment || !selectedSection) {
-            alert('Department and Section information are missing.');
+        if ( !section) {
+            alert('Section information is missing.',section);
             return;
         }
     
@@ -306,7 +378,7 @@ const WeeklySchedule = () => {
             return;
         }
     
-        const userCreatedEvent = events.find(event => !event.id.startsWith('fixed-'));
+        const userCreatedEvent = events.find(event => event.id.startsWith('new-'));
         if (!userCreatedEvent) {
             alert('No user-created event found.');
             return;
@@ -315,22 +387,23 @@ const WeeklySchedule = () => {
         const dayName = new Date(userCreatedEvent.start).toLocaleString('en-us', { weekday: 'long' });
         const startTime = new Date(userCreatedEvent.start).toTimeString().split(' ')[0];
         const endTime = new Date(userCreatedEvent.end).toTimeString().split(' ')[0];
-    
+        const sched = {
+            section_name: section,
+            room_id: selectedRoom.room_id,
+            department: selectedDepartment,
+            course_id: userCreatedEvent.course_id,
+            day: dayName,
+            user_name: userCreatedEvent.user_name, 
+            time_start: startTime,
+            time_end: endTime,
+        };
+        console.log(sched)
         fetch(`${process.env.REACT_APP_LOCALHOST}/admin/save-schedule`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                section_name: selectedSection,
-                room_id: selectedRoom.room_id,
-                department: selectedDepartment,
-                course_id: userSectionSched.course_id,
-                day: dayName,
-                user_name: userSectionSched.user_name, 
-                time_start: startTime,
-                time_end: endTime,
-            }),
+            body: JSON.stringify(sched),
         })
         .then(response => response.json())
         .then(data => {
@@ -352,10 +425,10 @@ const WeeklySchedule = () => {
     const handleBackClick = () => {
         if (events.length > 0) {
             if (window.confirm('You have already created events. Are you sure you want to go back?')) {
-                navigate('/admin/scheduling/sectionselect');
+                navigate('/admin/scheduling/');
             }
         } else {
-            navigate('/admin/scheduling/sectionselect');
+            navigate('/admin/scheduling/');
         }
     };
 
@@ -428,18 +501,52 @@ const WeeklySchedule = () => {
             <div className={`mt-4 ${styles.motherCont}`}>
                <div className={styles.roomSelection}>
                <div className={`${styles.buildingSelect}`}>
-                    <label htmlFor="buildingSelect" className={`form-label ${styles.label}`}>
+                    <label htmlFor="couseSelect" className={`form-label ${styles.label}`}>
+                        Select Course
+                    </label>
+                    <select
+                        id="courseSelect"
+                        className={`form-select ${styles.buildingDropdown}`}
+                        value={courseId}
+                        onChange={(e) => setCourseId(e.target.value)}
+                    >
+                        <option value="" disabled>Choose Course</option>
+                        {courses.map(course => (
+                            <option key={course.course_id} value={course.course_id}>{course.course_description}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className={`${styles.buildingSelect}`}>
+                    <label htmlFor="sectionSelect" className={`form-label ${styles.label}`}>
+                        Select Section
+                    </label>
+                    <select
+                        id="sectionSelect"
+                        className={`form-select ${styles.buildingDropdown}`}
+                        value={section}
+                        onChange={handleSectionChange}
+                    >
+                        <option value="" disabled>Choose Section</option>
+                        {sections.map(sec => (
+                            <option key={sec.section_name} value={sec.section_name}>{sec.section_name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className={`${styles.buildingSelect}`}>
+                    <label htmlFor="profSelect" className={`form-label ${styles.label}`}>
                         Select Professor
                     </label>
                     <select
                         id="profSelect"
                         className={`form-select ${styles.buildingDropdown}`}
-                        value={selectedProf}
                         onChange={handleProfChange}
+                        value={selectedProf}
                     >
-                        <option value="" disabled>Choose Building</option>
-                        {profs.map(professor => (
-                            <option key={professor.user_name} value={professor.user_name}>{professor.full_name}</option>
+                        <option value="" disabled>Choose Instructor</option>
+                        {profs.map(prof => (
+                            <option key={prof.user_name} value={prof.user_name}>{prof.full_name}</option>
                         ))}
                     </select>
                 </div>

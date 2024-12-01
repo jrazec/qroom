@@ -11,6 +11,7 @@ const showUserSchedule = require('./../controllers/showUserSchedule')
 const updateDocument = require("./../controllers/updateDocument");
 const createSchedule = require("./../controllers/createSchedule");
 const {deleteSchedule} = require("./../controllers/deleteSchedule");
+const {showSectionSchedules} = require("./../controllers/showSectionSchedule");
 
 // -> Middlewares
 router.use(bodyParser.json())
@@ -38,6 +39,7 @@ router.get('/user-withWithoutSched', showAccount.with_withoutSchedule)
 router.post('/add-user-to-section', createSchedule.section)
 router.delete('/user-removeSection', deleteAccount.removeSection)
 
+router.post('/section-schedule', showSectionSchedules)
 module.exports = router;
 
 

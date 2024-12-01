@@ -41,7 +41,7 @@ function Scheduling() {
       )}
       <div className={styles["circle-buttons"]}>
       <Link to="/admin/scheduling/sections" class="text-white text-decoration-none"><button className={styles["circle-btn"]}>Manage Sections</button></Link>
-      <Link to="/admin/scheduling/profselect" class="text-white text-decoration-none"><button className={styles["circle-btn"]}>Create Schedule</button></Link>
+      <Link to="/admin/scheduling/calendar" class="text-white text-decoration-none"><button className={styles["circle-btn"]}>Create Schedule</button></Link>
       <Link to="/admin/scheduling/managesched" class="text-white text-decoration-none"><button className={styles["circle-btn"]}>Manage Schedule</button></Link>
       </div>
 
