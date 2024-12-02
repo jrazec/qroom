@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import Layout from "./admin/LayoutAdmin"; // Layout with sidebar for admins
 import LoginAdmin from "./admin/LoginAdmin"; // Admin login page
 import AdminDashboard from './admin/AdminDashboard';
+import AdminFDashboard from './admin/AdminFDashboard';
 import Scheduling from './admin/Scheduling';
 import Accounts from './admin/Accounts';
 import Feedback from './admin/Feedback';
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/admin/dashboard',
-        element: <AdminDashboard />,
+        element: <AdminFDashboard />,
       },
       {
         path: '/admin/accounts',

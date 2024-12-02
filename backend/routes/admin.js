@@ -13,6 +13,7 @@ const createSchedule = require("./../controllers/createSchedule");
 const {deleteSchedule} = require("./../controllers/deleteSchedule");
 const createSection  = require('./../controllers/createSection')
 const {showSectionSchedules} = require("./../controllers/showSectionSchedule");
+const showUserCount = require('./../controllers/showUserCount');
 
 // -> Middlewares
 router.use(bodyParser.json())
@@ -42,6 +43,10 @@ router.delete('/user-removeSection', deleteAccount.removeSection)
 router.post('/sections', createSection.single)
 
 router.post('/section-schedule', showSectionSchedules)
+
+router.get('/instructor-count', showUserCount.instructorCount)
+router.get('/student-count', showUserCount.studentCount)
+
 module.exports = router;
 
 
