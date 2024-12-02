@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import roomSearch from './RoomSearch.module.css'; // Import the CSS module
-import { getRoom } from '../api/api';
+import { getRoom, getRoomSpecific, getUserSchedule } from '../api/api';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getUserSchedule } from '../api/api';
 import { convertTimeToPosition, fetchData } from './sched-bar/schedBarModules';
-import { getRoomSpecific } from '../api/api';
 import {shortenDay} from './sched-bar/schedBarModules';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -20,7 +18,6 @@ function RoomSearch() {
   const [reservationStatus, setReservationStatus] = useState(''); // State for reservation status
   const [currentSchedule, setCurrentSchedule] = useState([]); // State for current schedule
 
-  const [events, setEvents] = useState([]);
   const dayMap = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; // Map days to their index positions
   const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const { roomid, id } = useParams();
@@ -30,6 +27,8 @@ function RoomSearch() {
   const [scheduledOrVacant, setScheduledOrVacant] = useState(true);
   const [isActiv, setIsActiv] = useState(true);
   const [buttons, setButton] = useState('Disabled');
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [calendarButton, setCalendarButton] = useState('See Calendar');
 
   const buttonOccupy = () => {
     return (
@@ -153,6 +152,69 @@ function RoomSearch() {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  const handleSeeCalendar = () => {
+    if (isMobile) {
+      setShowCalendar(!showCalendar);
+      console.log('show', showCalendar, 'ismobile', isMobile);
+    }
+  };
+
+  useEffect(() => {
+    if (!isMobile) {
+      setShowCalendar(false);
+    }
+    
+    if (isMobile && showCalendar) {
+      setCalendarButton('Hide Calendar');
+    } else if (isMobile && !showCalendar) {
+      setCalendarButton('See Calendar');
+    }
+  }, [isMobile]);
+
+
+  const calendarEvents = schedule.map((item, index) => {
+    const dayOfWeek = item.day;  // e.g., 'Mon', 'Tue', etc.
+    const timeStart = item.time_start;  // e.g., '14.00' (incorrect format)
+    const timeEnd = item.time_end;  // e.g., '16.00' (incorrect format)
+    
+    // Get the current date for the year and month
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();  // Get current month (0-indexed)
+    
+    // Map the day of the week (e.g., 'Mon') to its date
+    const dayOfWeekMap = {
+      'Sun': 0, 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6
+    };
+    
+    const dayOfMonth = new Date(year, month, dayOfWeekMap[dayOfWeek]);
+    
+    // Add the time to create a valid date object
+    const startDateTime = new Date(`${dayOfMonth.toDateString()} ${timeStart.replace('.', ':')}`);
+    const endDateTime = new Date(`${dayOfMonth.toDateString()} ${timeEnd.replace('.', ':')}`);
+    
+    // Ensure startDateTime and endDateTime are valid
+    if (isNaN(startDateTime) || isNaN(endDateTime)) {
+      console.error(`Invalid date or time: ${timeStart} - ${timeEnd} on ${dayOfWeek}`);
+      return null;  // Skip invalid events
+    }
+  
+    // Log the events being generated for FullCalendar
+    console.log(`Event for ${dayOfWeek} (${timeStart} - ${timeEnd}):`, {
+      start: startDateTime,
+      end: endDateTime,
+    });
+  
+    return {
+      id: `event-${index}`,
+      title: `${item.course_code} : ${item.section_name}`,
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString()
+    };
+  }).filter(event => event !== null);  // Filter out invalid events
+  
+  console.log('Calendar Events:', calendarEvents);
+
   const calendarConfig = {
     plugins: [timeGridPlugin, interactionPlugin],
     initialView: "timeGridWeek",
@@ -180,12 +242,14 @@ function RoomSearch() {
     selectMirror: true,
     selectOverlap: false,
     editable: false,
-    events: events,
+    eventColor: '#800000',
+    events: calendarEvents,
     eventMouseEnter: (info) => {
       info.el.style.cursor = 'pointer';
     },
-    height: '100%'
+    height: '100%',
   };
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -316,7 +380,7 @@ function RoomSearch() {
     setIsActiv(!isActiv);
   };
   
-
+console.log('sched', schedule)
   
 
   return (
@@ -324,7 +388,6 @@ function RoomSearch() {
       <Navbar id={id} />
 
       <main className={roomSearch.mainContent}>
-
         <div className={roomSearch.backButton}>
           <button className="btn btn-link">
             <i className="fa fa-arrow-left"></i> Back
@@ -335,7 +398,7 @@ function RoomSearch() {
         className={`row justify-content-center align-items-center ${roomSearch.mainLayout} mt-1`}
         >
           <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-3' : ''}`}>
-            <div className={roomSearch.roomStatus}>
+            <div className={`${roomSearch.roomStatus} ${showCalendar ? 'd-none' : 'd-block'}`}>
               <img
                 src="https://picsum.photos/500/500"
                 alt="Room Status"
@@ -357,36 +420,46 @@ function RoomSearch() {
           {/* Right Section - Schedule and User Details */}
           <div className={`col-md-6 ${roomSearch.rightSection}`}>
             <div className={roomSearch.scheduleWrapper}>
-            <div className={roomSearch.leftSched}>
-              {/* Multiple User Details */}
-              {userDetails === undefined ? (
-                <p>No Schedule Yet</p>
-              ) : (
-              
-                userDetails.map((user, index) => (
-                  <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
-                    <img
-                      src={user.image}
-                      alt="User"
-                      style={{ objectFit: 'cover' }}
-                      className={`${roomSearch.userImage} img-fluid`}
-                    />
-                    <div className={roomSearch.userDetails}>
-                      <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
-                      <p><strong>Section:</strong> {user.section_name}</p>
-                      <p><strong>Time:</strong> {user.time_start} - {user.time_end}</p>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-              <div className={`${roomSearch.scheduleContainer}`}>
+              <button className={`${roomSearch.seeCalendar} ${isMobile ? 'd-block': 'd-none'}`} onClick={handleSeeCalendar}>{calendarButton}</button>
+              <div className={`${roomSearch.leftSched} ${showCalendar ? 'd-none' : 'd-block'}`}>
+                {/* Multiple User Details */}
+                {userDetails === undefined ? (
+                  <p>No Schedule Yet</p>
+                ) : (
+                  userDetails.map((user, index) => {
+                    const formatTime = (time) => {
+                      const [hour, minute] = time.split(':');
+                      const hourInt = parseInt(hour, 10);
+                      const period = hourInt >= 12 ? 'PM' : 'AM';
+                      const formattedHour = hourInt % 12 || 12;
+                      return `${formattedHour}:${minute} ${period}`;
+                    };
+
+                    return (
+                      <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
+                        <img
+                          src={user.image}
+                          alt="User"
+                          style={{ objectFit: 'cover' }}
+                          className={`${roomSearch.userImage} img-fluid`}
+                        />
+                        <div className={roomSearch.userDetails}>
+                          <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
+                          <p><strong>Section:</strong> {user.section_name}</p>
+                          <p><strong>Time:</strong> {formatTime(user.time_start)} - {formatTime(user.time_end)}</p>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+              <div className={`${roomSearch.scheduleContainer} ${showCalendar && isMobile ? 'd-block' : 'd-none'}`}>
+                <FullCalendar {...calendarConfig}/>
+              </div>
+              <div className={`${roomSearch.scheduleContainer} ${!showCalendar && !isMobile ? 'd-block' : 'd-none'}`}>
                 <FullCalendar {...calendarConfig}/>
               </div>
             </div>
-            
-
-            {/* Previous Button */}
             {/* <div className={roomSearch.previousButton}>
               <button className="btn btn-outline-dark">Previous</button>
             </div> */}
