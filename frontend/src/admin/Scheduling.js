@@ -45,28 +45,6 @@ function Scheduling() {
       <Link to="/admin/scheduling/sections" class="text-white text-decoration-none"><button className={styles["circle-btn"]}>Manage Sections</button></Link>
       </div>
 
-      <div className={styles["department-room-assignment"]}>
-        
-        <div>
-            <label htmlFor="dept" className="font-weight-bold mr-2">{(dept === '') ? "Choose Department" : dept}</label>
-            <select id="dept" className="form-control d-inline-block w-auto mr-3" name="deptSelection" 
-              ref={selectRef}
-              onChange={selectChange}>
-              <option value="">Choose here.</option>
-              <option value="cics">CICS</option>
-              <option value="cte">CTE</option>
-              <option value="cas">CAS</option>
-              <option value="cabe">CABE</option>
-            </select>
-        </div>
-        <div className={styles["room-assignment-grid"]}>
-          <div className={styles["room-column"]}>CICS</div>
-          <div className={styles["room-column"]}>CTE</div>
-          <div className={styles["room-column"]}>CAS</div>
-          <div className={styles["room-column"]}>CABE</div>
-        </div>
-      </div>
-
       
     </div>
     <RoomPDFEditor />
