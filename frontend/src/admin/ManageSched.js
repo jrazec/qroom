@@ -278,7 +278,7 @@ const WeeklySchedule = () => {
                     variant="primary"
                     className={`${styles.proceedButton} mt-4 d-block mx-auto`}
                     onClick={handleConfirmClick}
-                    disabled={events.length === 0 || !selectedRoom}
+                    disabled={!selectedRoom}
                 >
                     CONFIRM
                 </Button>

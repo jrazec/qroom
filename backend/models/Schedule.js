@@ -25,7 +25,7 @@ class scheduleTable {
     static getRoom(rId) {
         return new Promise((resolve, reject) => {
             const roomId = rId;
-            const queryUser = `select first_name,last_name,middle_name,course_code,course_description,section_name,day,room_name,time_start,time_end,image,room_purpose,course_code from users join user_section_schedules using(user_name) join section_schedules using(section_sched_id) join rooms using(room_id) join courses using(course_id) WHERE room_id = ? and role='instructor' order by day,room_name,time_start`
+            const queryUser = `select user_name,first_name,last_name,middle_name,course_code,course_description,section_name,day,room_name,time_start,time_end,image,room_purpose,course_code from users join user_section_schedules using(user_name) join section_schedules using(section_sched_id) join rooms using(room_id) join courses using(course_id) WHERE room_id = ? and role='instructor' order by day,room_name,time_start`
             con.query(queryUser, [roomId], (err, result) => {
                 if (err) {
                     console.error('Database query error:', err);

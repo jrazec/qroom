@@ -235,7 +235,7 @@ export const createOccupation = async (occupationData) => {
           throw new Error('Failed to fetch room schedule');
         }
         const data = await response.json();
-        setSched(data.schedule);
+        setSched(data);
       } catch (error) {
         console.error('Error fetching room schedule:', error);
         throw error;
