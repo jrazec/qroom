@@ -16,7 +16,7 @@ const { uploadPicture, deleteProfilePicture, getProfilePicture } = require("../c
 const { getRoomsByBuilding } = require("../controllers/roomList");
 const { getRoomsByFloor } = require("../controllers/roomsByFloor");
 const { getBuildings } = require("../controllers/roomList");
-const { getRoom } = require("../models/Schedule");
+const { profDetail } = require('../controllers/getSchedDetailProf');
 const showRoomStatus = require('../controllers/showRoomStatus');
 const {getRoomOccup} = require('../controllers/occupationController')
 const { getUserOccupied } = require('../controllers/occupationController');
@@ -30,6 +30,7 @@ router.use(express.static("frontend"));
 // Existing routes
 router.route("/login").post(showAccount.single);
 router.route("/schedule").post(showUserSchedule.single);
+router.route("/schedule-prof").post(profDetail);
 router.route("/rooms").get(showRoom.single);
 
 // New route for changing password

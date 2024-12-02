@@ -153,6 +153,36 @@ class scheduleTable {
           });
         });
       }
+
+      static getScheduleDetailProf(uName) {
+        return new Promise((resolve, reject) => {
+          const query = `SELECT section_sched_id, CONCAT(first_name, ' ', middle_name, '. ', last_name) AS professor_name 
+                         FROM users 
+                         JOIN user_section_schedules USING(user_name) 
+                         JOIN section_schedules USING(section_sched_id) 
+                         WHERE section_sched_id IN (
+                             SELECT section_sched_id 
+                             FROM users 
+                             JOIN user_section_schedules USING(user_name) 
+                             JOIN section_schedules USING(section_sched_id) 
+                             JOIN courses USING(course_id) 
+                             JOIN rooms USING(room_id) 
+                             WHERE user_name = ?
+                         ) AND role = 'instructor';`;
+          console.log(`Running query for user: ${uName}`);
+          console.log(query);
+          con.query(query, [uName], (err, result) => {
+            if (err) {
+              console.error('Database query error:', err);
+              return reject(err);
+            }
+            if (result.length === 0) {
+              return resolve({ status: false, message: 'No Schedule Found' });
+            }
+            resolve({ status: true, result: result });
+          });
+        })
+      }
 }
 
 

@@ -119,6 +119,27 @@ export const getUserSchedule = async (uName) => {
     }
 };
 
+export const getSchedDetailProf = async (uName) => {
+  try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/user/schedule-prof`, {
+          method: 'POST', // Change to POST
+          headers: { 
+              'Content-Type': 'application/json' 
+          },
+          body: JSON.stringify({ uName }) // Pass the username in the body
+      });
+
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+
+      return response.json();
+  } catch (error) {
+      console.error('Error in getSchedDetailProf:', error);
+      throw error; // Propagate error for further handling
+  }
+};
+
 export const getRoom = async (rId) => {
     try {
 

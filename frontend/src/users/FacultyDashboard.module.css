@@ -1,12 +1,12 @@
 /* General Layout */
-body {
+.body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-.dashboard-container {
+.dashboardContainer {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -14,25 +14,25 @@ body {
 }
 
 /* Dashboard Header */
-.dashboard-header {
+.dashboardHeader {
     text-align: left; /* Aligns content to the left */
     margin-bottom: 40px;
 }
 
-.dashboard-title {
+.dashboardTitle {
     font-size: 2.5rem;
     color: #8b0000;
     font-weight: bold;
     margin-bottom: 10px; /* Spacing between title and subtitle */
 }
 
-.dashboard-subtitle {
+.dashboardSubtitle {
     font-size: 1rem;
     color: #555;
 }
 
 /* Aligned Layout */
-.aligned-layout {
+.alignedLayout {
     display: flex;
     justify-content: space-between; /* Align sections horizontally */
     align-items: flex-start;
@@ -42,7 +42,7 @@ body {
 }
 
 /* Filters Section */
-.filters-section {
+.filtersSection {
     display: flex;
     justify-content: space-between; /* Distribute space evenly */
     align-items: center; /* Vertically align items */
@@ -52,7 +52,7 @@ body {
 }
 
 /* Statistics Section */
-.statistics-section {
+.statisticsSection {
     display: flex;
     justify-content: center; /* Center-align items */
     align-items: center; /* Vertically align items */
@@ -61,7 +61,7 @@ body {
     flex: 1;
 }
 
-.stat-card {
+.statCard {
     width: 150px; /* Fixed width for smaller cards */
     height: 100px; /* Fixed height */
     background-color: #fff;
@@ -73,20 +73,20 @@ body {
     flex-shrink: 0; /* Prevent shrinking */
 }
 
-.stat-title {
+.statTitle {
     font-size: 1rem;
     color: #555;
     margin-bottom: 5px;
 }
 
-.stat-value {
+.statValue {
     font-size: 2rem; /* Slightly larger value text */
     font-weight: bold;
     color: #8b0000;
 }
 
 /* Building Buttons */
-.building-buttons {
+.buildingButtons {
     display: flex;
     flex-wrap: wrap; /* Enable wrapping */
     gap: 15px; /* Space between buttons */
@@ -100,7 +100,7 @@ body {
     flex: 1;
 }
 
-.building-btn {
+.buildingBtn {
     width: 60px; /* Consistent width */
     height: 60px; /* Square buttons */
     background-color: #8b0000;
@@ -118,18 +118,18 @@ body {
 }
 
 /* Selected (Active) Button */
-.building-btn.active {
+.buildingBtnActive {
     background-color: #570202;
     color: #fff;
 }
 
 /* General Button Hover */
-.building-btn:hover {
+.buildingBtnHover:hover {
     background-color: #b50000; /* Slightly darker red */
 }
 
 /* Dropdown Container */
-.dropdown-container {
+.dropdownContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,7 +137,7 @@ body {
     max-width: 100%;
 }
 
-.modern-dropdown {
+.modernDropdown {
     width: 250px; /* Adjust width as needed */
     padding: 10px 15px;
     font-size: 1rem;
@@ -153,25 +153,25 @@ body {
 }
 
 /* On Hover */
-.modern-dropdown:hover {
+.modernDropdownHover:hover {
     background-color: #f5f5f5; /* Light gray background on hover */
     border-color: #a30000; /* Darker red border */
 }
 
 /* Dropdown Arrow Customization */
-.modern-dropdown:focus {
+.modernDropdownFocus:focus {
     border-color: #a30000; /* Highlighted border on focus */
     box-shadow: 0 0 5px rgba(163, 0, 0, 0.5);
 }
 
 /* Room Details */
-.room-details {
+.roomDetails {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
     gap: 20px; /* Space between cards */
 }
 
-.room-card {
+.roomCard {
     background-color: #fff;
     border: 2px solid #8b0000;
     border-radius: 10px;
@@ -181,7 +181,7 @@ body {
     max-height: 300px; /* Limit height to prevent overflow */
 }
 
-.room-card-header {
+.roomCardHeader {
     font-size: 1.2rem;
     font-weight: bold;
     color: #8b0000;
@@ -189,12 +189,12 @@ body {
     text-align: center;
 }
 
-.room-list {
+.roomList {
     list-style: none;
     padding: 0; /* Removes default padding */
 }
 
-.room-list-item {
+.roomListItem {
     border: 1px solid #8b0000;
     border-radius: 8px;
     padding: 10px;
@@ -204,43 +204,43 @@ body {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    .filters-section {
+    .filtersSection {
         flex-direction: column; /* Stack items vertically */
         align-items: center;
     }
 
-    .statistics-section {
+    .statisticsSection {
         justify-content: center;
         flex-wrap: wrap;
     }
 
-    .building-buttons {
+    .buildingButtons {
         justify-content: center;
         gap: 10px;
     }
 
-    .dropdown-container {
+    .dropdownContainer {
         justify-content: center;
     }
 
-    .stat-card {
+    .statCard {
         width: 120px; /* Smaller width for mobile */
         height: 90px;
     }
 
-    .stat-value {
+    .statValue {
         font-size: 1.5rem; /* Adjust font size */
     }
 
-    .room-details {
+    .roomDetails {
         grid-template-columns: 1fr; /* Single column for mobile */
     }
 
-    .room-card {
+    .roomCard {
         padding: 15px; /* Adjusted padding */
     }
 
-    .room-card-header {
+    .roomCardHeader {
         font-size: 1rem; /* Adjust header size */
     }
 }

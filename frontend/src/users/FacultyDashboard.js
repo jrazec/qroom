@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar"; // Ensure Navbar exists
-import "./FacultyDashboard.css"; // Import the custom CSS
+import FacultyDashboardCss from "./FacultyDashboard.module.css"; // Import the custom CSS
 import { fetchRoomData } from "../api/api"; // Import the API function to fetch room data
-
+import FeedbackCss from "./FeedbackPage.module.css"; // Import the FeedbackPage CSS
 function FacultyDashboard() {
   const [selectedBuildings, setSelectedBuildings] = useState([]); // Array of selected buildings
   const [filterDate, setFilterDate] = useState(() => {
@@ -104,39 +104,39 @@ function FacultyDashboard() {
   ];
 
   return (
-    <div>
+    <div className={FeedbackCss.app}>
       <Navbar />
-      <div className="dashboard-container mb-5 pb-5">
+      <main className={`container text-center py-5 ${FeedbackCss.mainContent}`}>
         {/* Header Section */}
-        <div className="dashboard-header">
-          <h1 className="dashboard-title">Dashboard</h1>
-          <p className="dashboard-subtitle">
+        <div className={FacultyDashboardCss.dashboardHeader}>
+          <h1 className={FacultyDashboardCss.dashboardTitle}>Dashboard</h1>
+          <p className={FacultyDashboardCss.dashboardSubtitle}>
             {new Date(filterDate).toDateString()} | {currentTime}
           </p>
         </div>
 
         {/* Filters Section */}
-        <div className="aligned-layout">
-          <div className="filters-section">
+        <div className={FacultyDashboardCss.alignedLayout}>
+          <div className={FacultyDashboardCss.filtersSection}>
             {/* Statistics Section */}
-            <div className="statistics-section">
-              <div className="stat-card">
-                <h5 className="stat-title">Occupied Rooms</h5>
-                <p className="stat-value">{roomData.occupiedCount}</p>
+            <div className={FacultyDashboardCss.statisticsSection}>
+              <div className={FacultyDashboardCss.statCard}>
+                <h5 className={FacultyDashboardCss.statTitle}>Occupied Rooms</h5>
+                <p className={FacultyDashboardCss.statValue}>{roomData.occupiedCount}</p>
               </div>
-              <div className="stat-card">
-                <h5 className="stat-title">Available Rooms</h5>
-                <p className="stat-value">{roomData.vacantCount}</p>
+              <div className={FacultyDashboardCss.statCard}>
+                <h5 className={FacultyDashboardCss.statTitle}>Available Rooms</h5>
+                <p className={FacultyDashboardCss.statValue}>{roomData.vacantCount}</p>
               </div>
             </div>
 
             {/* Building Buttons */}
-            <div className="building-buttons">
+            <div className={FacultyDashboardCss.buildingButtons}>
               {buildingOptions.map((building, index) => (
                 <button
                   key={index}
-                  className={`building-btn ${
-                    selectedBuildings.includes(building.name) ? "active" : ""
+                  className={`${FacultyDashboardCss.buildingBtn} ${
+                    selectedBuildings.includes(building.name) ? FacultyDashboardCss.active : ""
                   }`}
                   onClick={() => toggleBuildingSelection(building.name)}
                 >
@@ -146,11 +146,11 @@ function FacultyDashboard() {
             </div>
 
             {/* Room Purpose Dropdown */}
-            <div className="dropdown-container">
+            <div className={FacultyDashboardCss.dropdownContainer}>
               <select
                 value={roomPurpose}
                 onChange={(e) => setRoomPurpose(e.target.value)}
-                className="modern-dropdown"
+                className={FacultyDashboardCss.modernDropdown}
               >
                 <option value="ALL">ALL</option>
                 {roomPurposes.map((purpose, index) => (
@@ -165,56 +165,56 @@ function FacultyDashboard() {
 
         {/* Loading, Error, and Room Details Section */}
         {loading ? (
-          <p className="loading-text">Loading room data...</p>
+          <p className={FacultyDashboardCss.loadingText}>Loading room data...</p>
         ) : error ? (
-          <p className="error-text">{error}</p>
+          <p className={FacultyDashboardCss.errorText}>{error}</p>
         ) : (
-          <div className="room-details">
-            <div className="room-card">
-              <h3 className="room-card-header">Occupied Rooms</h3>
-              <ul className="room-list">
+          <div className={FacultyDashboardCss.roomDetails}>
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Occupied Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
                 {roomData.occupiedRooms.length > 0 ? (
                   roomData.occupiedRooms.map((room) => (
-                    <li key={room.room_id} className="room-list-item">
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
                   ))
                 ) : (
-                  <li className="room-list-item">No occupied rooms</li>
+                  <li className={FacultyDashboardCss.roomListItem}>No occupied rooms</li>
                 )}
               </ul>
             </div>
-            <div className="room-card">
-              <h3 className="room-card-header">Available Rooms</h3>
-              <ul className="room-list">
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Available Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
                 {roomData.vacantRooms.length > 0 ? (
                   roomData.vacantRooms.map((room) => (
-                    <li key={room.room_id} className="room-list-item">
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
                   ))
                 ) : (
-                  <li className="room-list-item">No available rooms</li>
+                  <li className={FacultyDashboardCss.roomListItem}>No available rooms</li>
                 )}
               </ul>
             </div>
-            <div className="room-card">
-              <h3 className="room-card-header">Scheduled but Vacant Rooms</h3>
-              <ul className="room-list">
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Scheduled but Vacant Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
                 {roomData.scheduledVacantRooms.length > 0 ? (
                   roomData.scheduledVacantRooms.map((room) => (
-                    <li key={room.room_id} className="room-list-item">
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
                   ))
                 ) : (
-                  <li className="room-list-item">No scheduled vacant rooms</li>
+                  <li className={FacultyDashboardCss.roomListItem}>No scheduled vacant rooms</li>
                 )}
               </ul>
             </div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
