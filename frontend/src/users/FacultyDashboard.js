@@ -96,7 +96,7 @@ function FacultyDashboard() {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 5000); // Poll every 5 seconds
+    const interval = setInterval(fetchData, 1000); // Poll every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [selectedBuildings, filterDate, roomPurpose]); // Re-fetch data when filters change

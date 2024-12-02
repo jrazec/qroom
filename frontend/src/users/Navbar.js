@@ -58,14 +58,14 @@ function Navbar() {
             >
               Dashboard
             </Link>
-          ) : userRole && userRole.toLowerCase() === "student" ? (
+          ) : (
             <Link 
               to={`/user/feedback/${id}`} 
               className={`${Nav['nav-item']} ${currentPath === `/user/feedback/${id}` ? Nav.active : ''}`}
             >
               Feedback
             </Link>
-          ) : null}
+          ) }
 
           <Link 
             to={`/user/settings/${id}`} 

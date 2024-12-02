@@ -8,6 +8,7 @@ import {shortenDay} from './sched-bar/schedBarModules';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import AcceptReserve from './AcceptReserve';
 
 function RoomSearch() {
   const [schedule, setSchedule] = useState([]); // State to hold dynamic schedule information
@@ -286,6 +287,7 @@ function RoomSearch() {
       if(schedule.length >= 1) {
         getRoomSpecific(roomid, setCurrentSchedule);
       }
+      console.log(currentSchedule,"setCurrentSchedule")
     }
 
     const pollData = () => {
@@ -356,7 +358,7 @@ function RoomSearch() {
           if (todaySchedule.user_name === id) {
             setButton('Occupy'); // Show occupy button
           } else {
-            setButton('Reserve'); // Show reserve button
+            setButton('Disabled'); // Show reserve button
           }
         } else {
           setButton('Occupy'); // Show reserve button
@@ -366,14 +368,14 @@ function RoomSearch() {
     
 
     // Poll every 5 seconds
-    const intervalId = setInterval(pollData, 6000);
+    const intervalId = setInterval(pollData, 1000);
 
     // Fetch initial data on mount
     pollData();
 
     // Clean up the interval when the component is unmounted or the token is invalidated
     return () => clearInterval(intervalId);
-  }, [roomid, id, navigate]);
+  }, [roomid, id, navigate,schedule.length]);
 
   const handleToggleOccupancy = (e) => {
 
@@ -400,16 +402,12 @@ console.log('sched', schedule)
           <div className={`col-md-5 text-center ${roomSearch.leftSection} ${isMobile ? 'mr-4 pr-3' : ''}`}>
             <div className={`${roomSearch.roomStatus} ${showCalendar ? 'd-none' : 'd-block'}`}>
               <img
-                src="https://picsum.photos/500/500"
+                src="/assets/room.png"
                 alt="Room Status"
                 className={`${roomSearch.roomImage} img-fluid`}
               />
               <h2 className="mt-3">{userDetails[0]?.room_name}</h2>
-              <p className={roomSearch.roomOccupied}>{status}</p>
-              <p className={roomSearch.roomStatusLight}>
-                {status === 'occupied' && <span className="text-danger">●</span>}
-                {status === 'vacant' && <span className="text-success">●</span>}
-              </p>
+              <p className={roomSearch.roomOccupied} style={{ color: status === 'vacant' ? 'green' : 'maroon' }}>{status}</p>
               <div>
               {listButtons[buttons]()}
               </div>
@@ -446,7 +444,7 @@ console.log('sched', schedule)
                         <div className={roomSearch.userDetails}>
                           <p><strong>Instructor:</strong> {user.first_name} {user.middle_name} {user.last_name}</p>
                           <p><strong>Section:</strong> {user.section_name}</p>
-                          <p><strong>Time:</strong> {formatTime(user.time_start)} - {formatTime(user.time_end)}</p>
+                          <p><strong>Time:</strong>{user.day} | {formatTime(user.time_start)} - {formatTime(user.time_end)}</p>
                         </div>
                       </div>
                     );
@@ -460,6 +458,12 @@ console.log('sched', schedule)
                 <FullCalendar {...calendarConfig}/>
               </div>
             </div>
+            
+            {/* <div className={roomSearch.acceptReserveWrapper}>
+              <AcceptReserve roomid={roomid} />
+            </div> */}
+
+            {/* Previous Button */}
             {/* <div className={roomSearch.previousButton}>
               <button className="btn btn-outline-dark">Previous</button>
             </div> */}

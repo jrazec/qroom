@@ -137,12 +137,12 @@ const Feedback = () => {
       </div>
 
       <div className="feedback-sections container">
-        <div className="row">
+        <div className="row" >
           {/* Room Reports Section */}
-          <div className="col-lg-6 col-md-6">
+          <div className="col-lg-6 col-md-6" >
             <h3 className="room-title">Room Reports</h3>
-            <div className="table-scrollable">
-              <table className="table table-borderless">
+            <div className="table-scrollable" style={{ maxHeight: "60vh", overflowY: "auto" }}>
+              <table className="table table-borderless" >
                 <thead>
                   <tr>
                     <th>Room Name</th>
@@ -218,7 +218,7 @@ const Feedback = () => {
           {/* User Reports Section */}
           <div className="col-lg-6 col-md-6">
             <h3 className="room-title">User Reports</h3>
-            <div className="table-scrollable">
+            <div className="table-scrollable" style={{ maxHeight: "60vh", overflowY: "auto" }}>
               <table className="table table-borderless">
                 <thead>
                   <tr>

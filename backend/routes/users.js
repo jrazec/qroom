@@ -11,6 +11,7 @@ const showRoom = require('./../controllers/showRoom');
 const occupationController = require('../controllers/occupationController');
 const getRoomSpecificSchedule = require('../controllers/getRoomSpecificSchedule');
 
+const approveRejectRequest = require('../controllers/approveRejectRequest');
 const updatePassword = require("../controllers/updatePassword").updatePassword;
 const { uploadPicture, deleteProfilePicture, getProfilePicture } = require("../controllers/uploadPicture");
 const { getRoomsByBuilding } = require("../controllers/roomList");
@@ -20,6 +21,7 @@ const { profDetail } = require('../controllers/getSchedDetailProf');
 const showRoomStatus = require('../controllers/showRoomStatus');
 const {getRoomOccup} = require('../controllers/occupationController')
 const { getUserOccupied } = require('../controllers/occupationController');
+const sendRoomRequest = require('../controllers/sendRoomRequest');
 const router = express.Router();
 
 // Middleware configurations
@@ -57,4 +59,6 @@ router.post('/get-user-occupied', getUserOccupied);
 router.post('/occupy-room', occupationController.toggleOccupyRoom);
 router.post('/unoccupy-room', occupationController.toggleUnoccupyRoom);
 
+router.route("/room-reqs").put(approveRejectRequest);
+router.post('/send-room-request', sendRoomRequest);
 module.exports = router;

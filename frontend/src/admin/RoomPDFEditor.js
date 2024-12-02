@@ -37,11 +37,10 @@ function RoomPDFEditor() {
       })
       .then((response) => {
         setPreview(response.data);
-        setDownloadId(response.data.document.id);
         setIsOpen(true);
       })
       .catch((error) => {
-        console.error("Error updating document:", error);
+        console.log("Error updating document:", error);
       });
   };
 
@@ -61,7 +60,7 @@ function RoomPDFEditor() {
 
   const handleDownloadDocument = () => {
 
-    window.location.href = `${extractDownloadUrl(preview.document.preview_url)}`;
+    window.open(`${extractDownloadUrl(preview.document.preview_url)}`, '_blank');
   };
 
   return (

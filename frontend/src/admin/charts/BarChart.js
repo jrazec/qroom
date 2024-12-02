@@ -13,12 +13,17 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BarChart = ({ filter }) => {
   const originalData = [
-    { year: '2019', value: 100 },
-    { year: '2020', value: 200 },
-    { year: '2021', value: 300 },
-    { year: '2022', value: 400 },
-    { year: '2023', value: 500 },
-    { year: '2024', value: 600 },
+    { year: 'VMB 305', value: 100 },
+    { year: 'VMB 404', value: 200 },
+    { year: 'GZB 305', value: 300 },
+    { year: 'GZB 304', value: 400 },
+    { year: 'Computer Laboratory 2', value: 500 },
+    { year: 'Computer Laboratory 1', value: 600 },
+    { year: 'VMB 404', value: 500 },
+    { year: 'GZB 305', value: 700 },
+    { year: 'GZB 304', value: 900 },
+    { year: 'Computer Laboratory 2', value: 1000 },
+    { year: 'Computer Laboratory 1', value: 1200 },
   ];
 
   const sortedData = [...originalData].sort((a, b) => {

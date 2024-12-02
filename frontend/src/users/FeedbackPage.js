@@ -118,37 +118,41 @@ function FeedbackPage() {
         {
           role: 'user',
           parts: [
-            {
-              inline_data: { mime_type: 'image/jpeg', data: image.split(',')[1] },
-            },
-            {
-              text: `Classify this image. 
-                      Determine if the image depicts a classroom. 
-                      If it does not, respond with 'Not a classroom, try again.' 
-                      If the image is a classroom, assess its cleanliness:
-                        If the classroom appears clean, respond with 'Clean.'
-                        If the classroom appears dirty, respond with 'Dirty.'
-                        If the cleanliness is unclear, blurred, not clear, or uncertain, respond with 'Unsure.'`,
-            },
+        {
+          inline_data: { mime_type: 'image/jpeg', data: image.split(',')[1] },
+        },
+        {
+          text: `Classify this image. 
+              Determine if the image depicts a classroom. 
+              If it does not, respond with 'Not a classroom, try again.' 
+              If the image is a classroom, assess its cleanliness:
+            If the classroom appears clean, respond with 'Clean.'
+            If the classroom appears dirty, respond with 'Dirty.'
+            If the cleanliness is unclear, blurred, not clear, or uncertain, respond with 'Unsure.'
+              Also, provide the confidence level of your classification as a percentage.`,
+        },
           ],
         },
       ];
 
       const response = await model.generateContent({ contents });
       const generatedText = response.response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const confidenceMatch = generatedText.match(/confidence level: (\d+)%/i);
+      const confidence = confidenceMatch ? parseInt(confidenceMatch[1], 10) : 0;
 
       if (generatedText.toLowerCase().includes('clean')) {
-        return 'clean';
+        return { classification: 'clean', confidence };
       } else if (generatedText.toLowerCase().includes('dirty')) {
-        return 'dirty';
+        return { classification: 'dirty', confidence };
       } else {
-        return 'unsure';
+        return { classification: 'unsure', confidence };
       }
-    } catch (error) {
+        } catch (error) {
       console.error("Error during classification:", error);
       setWarning('An error occurred during classification. Please try again.');
-      return 'unsure';
+      return { classification: 'unsure', confidence: 0 };
     }
+    
   };
 
   const handleSubmitFeedback = async () => {
@@ -164,10 +168,10 @@ function FeedbackPage() {
   
     // Classify the image (clean, dirty, or unsure)
     const classification = await classifyImageWithGemini();
-    setResult(`Classroom is ${classification}.`);
+    setResult(`Classroom is ${classification.classification}.`);
   
-    // Set approval based on the classification result
-    const approval = classification === "clean" ? "approved" : "not yet";
+    // Set approval based on the classification.classification result
+    const approval = classification.classification === "clean" ? "approved" : "not yet";
   
     // Create FormData and log it
     const formData = new FormData();
@@ -175,9 +179,9 @@ function FeedbackPage() {
     formData.append("room_id", selectedRoom);
     formData.append("room_name", roomName);
     formData.append("room_purpose", roomPurpose);
-    formData.append("status", classification);
+    formData.append("status", classification.classification);
     formData.append("image", document.getElementById("imageUpload").files[0]); // Append actual file
-    formData.append("approval", approval); // Dynamically set approval based on classification
+    formData.append("approval", approval); // Dynamically set approval based on classification.classification
   
     try {
       await axios.post(`${process.env.REACT_APP_LOCALHOST}/room-reports/submit`, formData, {
@@ -186,8 +190,8 @@ function FeedbackPage() {
         },
       });
   
-      // Show the classification result and thank-you message
-      setFeedbackMessage(`${(classification !== "unsure") ? "The system detected that it is: "+ classification+". It will be further evaluated by the admin." : "The system is unsure about the photo, it will be validated by the admin or try resending a clear picture of a classroom."}.`);
+      // Show the classification.classification result and thank-you message
+      setFeedbackMessage(`${(classification.classification !== "unsure") ? "The system detected that it is: "+ classification.classification +" \n With a confidence level of "+classification.confidence+"% . \n It will be further evaluated by the admin." : "The system is unsure about the photo, it will be validated by the admin or try resending a clear picture of a classroom."}.`);
     } catch (error) {
       console.error("Error submitting feedback:", error);
       setFeedbackMessage("An error occurred while submitting feedback. Please try again.");
