@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -13,27 +13,16 @@ import { FaArrowLeft, FaPlus, FaTrashAlt, FaTimes } from "react-icons/fa";
 import styles from "./Scheduling5.module.css";
 import AddSection from "./modals/AddSection";
 
-
 function Scheduling5() {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("All");
-  const [studentsWithoutSection, setStudentsWithoutSection] = useState([
-    { user_name: "SR-001", first_name: "Alice", last_name: "Smith", department: "CICS" },
-    { user_name: "SR-002", first_name: "Bob", last_name: "Jones", department: "CAS" },
-    { user_name: "SR-003", first_name: "Charlie", last_name: "Brown", department: "CICS" },
-    { user_name: "SR-004", first_name: "Daisy", last_name: "Miller", department: "CTE" },
-  ]);
-  const [studentsWithSection, setStudentsWithSection] = useState([
-    { user_name: "SR-005", first_name: "Eve", last_name: "Adams", department: "CICS", section_name: "BSIT 1101" },
-    { user_name: "SR-006", first_name: "Frank", last_name: "Harris", department: "CAS", section_name: "BSPSYCH 1101" },
-  ]);
-  
-  const [sections, setSections] = useState({});  // New state for sections
+  const [studentsWithoutSection, setStudentsWithoutSection] = useState([]);
+  const [studentsWithSection, setStudentsWithSection] = useState([]);
+  const [sections, setSections] = useState({});
   const [studentsToAdd, setStudentsToAdd] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState(null);
-
 
   const navigate = useNavigate();
 
@@ -64,14 +53,13 @@ function Scheduling5() {
         const data = await response.json();
         const { status, results } = data;
         if (status) {
-          // Store sections grouped by department
           const sectionsByDepartment = results.reduce((acc, section) => {
             const dept = section.department;
             if (!acc[dept]) acc[dept] = [];
             acc[dept].push(section.name);
             return acc;
           }, {});
-          setSections(sectionsByDepartment);  // Set the sections in state
+          setSections(sectionsByDepartment);
         } else {
           console.error("Failed to fetch sections.");
         }
@@ -81,7 +69,7 @@ function Scheduling5() {
     };
 
     fetchData();
-    fetchSections();  // Fetch sections data when component mounts
+    fetchSections();
   }, []);
 
   const handleDepartmentChange = (department) => {
@@ -91,7 +79,6 @@ function Scheduling5() {
 
   const handleAddButtonClick = (student) => {
     setStudentsToAdd([student]);
-    // setShowAddModal(true);
   };
 
   const handleSelectAllToggle = () => {
@@ -114,9 +101,7 @@ function Scheduling5() {
 
   const handleDeleteButtonClick = (student) => {
     setStudentToDelete(student);
-    // setShowDeleteModal(true);
   };
-
 
   const clearFilters = () => {
     setSelectedStatus("All");
@@ -124,19 +109,41 @@ function Scheduling5() {
     setSelectedSection(null);
   };
 
-  // Filter and display students
-  const allStudents = [...studentsWithoutSection, ...studentsWithSection];
-  const filteredStudents = allStudents.filter(
-    (student) =>
+  // Check if a student is irregular, regular, or has no section
+  const getStudentStatus = (student) => {
+    // Assuming studentsWithSection already has section info
+    const sectionCount = student.section_name ? 1 : 0; // Counting sections
+    if (sectionCount > 1) {
+      return "Irregular";  // More than one section
+    } else if (sectionCount === 1) {
+      return "Regular";  // Exactly one section
+    } else {
+      return "No Section";  // No section
+    }
+  };
+
+  // Filter and display students based on selected filters
+  const allStudents = [
+    ...studentsWithoutSection.map(student => ({ ...student, section_name: null })),
+    ...studentsWithSection
+  ];
+
+  const filteredStudents = allStudents.filter((student) => {
+    const status = getStudentStatus(student);
+
+    // Apply filters based on department, section, and status
+    return (
       (selectedDepartment ? student.department === selectedDepartment : true) &&
-      (selectedSection ? student.section_name === selectedSection : true)
-  );
+      (selectedSection ? student.section_name === selectedSection : true) &&
+      (selectedStatus === "All" || status === selectedStatus)
+    );
+  });
 
   return (
     <div className={`container ${styles["scheduling-container"]}`}>
       {/* Dashboard Heading */}
       <div className="d-flex align-items-center mb-3">
-        <button className="btn  me-3 back-button" style={{ backgroundColor: "whitesmoke", cursor: "pointer" }} onClick={handleBack}>
+        <button className="btn me-3 back-button" style={{ backgroundColor: "whitesmoke", cursor: "pointer" }} onClick={handleBack}>
           <FaArrowLeft style={{ width: "1rem" }} />
         </button>
         <h2 className={styles["dashboard-title"]}>Manage Section</h2>
@@ -197,7 +204,6 @@ function Scheduling5() {
           disabled={selectedStatus === "All" && !selectedDepartment && !selectedSection}
           className={`ml-3 ${styles["close-icon"]}`}
           data-toggle="tooltip" data-placement="bottom" title="Clear all filters"
-          style={{ display: (selectedStatus !== "All" || selectedDepartment || selectedSection) ? "inline-block" : "none" }}
         >
           <FaTimes />
         </Button>
