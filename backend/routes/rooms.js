@@ -77,12 +77,30 @@ router.post("/room-status", (req, res) => {
         resolve();
       });
     });
+  const fetchScheduledVacantRooms = () => {
+    return new Promise((resolve, reject) => {
+      const sql = `
+       SELECT DISTINCT(room_name)         FROM rooms  join section_schedules using(room_id) WHERE CURRENT_TIME BETWEEN time_start AND time_end
+          AND status = 'vacant' AND bldg_name IN (?)
+          ${room_purpose ? "AND room_purpose = ?" : ""}`;
+      const params = room_purpose ? [ building_names, room_purpose] : [ building_names];
+      con.query(sql, params, (err, rows) => {
+        if (err) return reject(err);
+        
+          results.scheduledVacantRooms = rows;
+        
+        resolve();
+      });
+    })
+  }
 
   fetchOccupiedCount()
     .then(fetchVacantCountAndDetails)
     .then(() => fetchRoomDetails("occupied"))
     .then(() => fetchRoomDetails("vacant"))
+    .then(() => fetchScheduledVacantRooms())
     .then(() => {
+      console.log("Results:", results);
       res.status(200).json(results);
     })
     .catch((err) => handleError(err, "Error fetching room data"));
