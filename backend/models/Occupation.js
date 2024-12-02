@@ -71,7 +71,7 @@ class occupationTable {
   }
   static getOccupationByUser(room_id) {
     return new Promise((resolve, reject) => {
-      const query = `select * from occupations join rooms using(room_id) where status = 'occupied' and room_id=?`;
+      const query = `select * from occupations join rooms using(room_id) where status = 'occupied' and room_id=? and occupation_end is null;`;
       con.query(query, [room_id], (err, results) => {
         if (err) {
           console.error('Database query error:', err);
@@ -100,6 +100,25 @@ class occupationTable {
             return reject(err);
           }
           resolve({ status: true, message: 'Room Occupied' });
+        });
+      });
+    });
+  }
+  static toggleUnoccupyRoom(room_id, user_name) {
+    return new Promise((resolve, reject) => {
+      const query = `UPDATE occupations SET occupation_end = CURRENT_TIMESTAMP() WHERE room_id = ? AND occupation_end IS NULL;`;
+      const query2 = `UPDATE rooms SET status = 'vacant' WHERE room_id = ?;`;
+      con.query(query, [room_id], (err, results) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        con.query(query2, [room_id], (err, results) => {
+          if (err) {
+            console.error('Database query error:', err);
+            return reject(err);
+          }
+          resolve({ status: true, message: 'Room Unoccupied' });
         });
       });
     });

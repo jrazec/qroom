@@ -54,6 +54,6 @@ router.get('/validate-schedule/:roomId', getRoomSpecificSchedule.single);
 router.post('/get-user-occupied', getUserOccupied);
 
 router.post('/occupy-room', occupationController.toggleOccupyRoom);
-
+router.post('/unoccupy-room', occupationController.toggleUnoccupyRoom);
 
 module.exports = router;

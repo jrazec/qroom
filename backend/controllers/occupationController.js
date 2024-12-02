@@ -125,3 +125,13 @@ exports.toggleOccupyRoom = async (req,res)=> {
     res.status(500).json({ error: 'Failed to toggle room occupation' });
   }   
 }
+
+exports.toggleUnoccupyRoom = async (req, res) => {
+  const { room_id, user_name } = req.body;
+  try {
+    const result = await occupationTable.toggleUnoccupyRoom(room_id, user_name);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to toggle room unoccupation' });
+  }
+};
