@@ -73,6 +73,9 @@ function SchedulePage() {
                 const professor = profData.professor.find(p => p.section_sched_id === item.section_sched_id);
                 const professorName = professor ? professor.professor_name : "Unknown Professor";
 
+                // Get section name
+                const sectionName = item.section_name || "No section name available";
+
                 return {
                   id: `event-${index}`,
                   title: `${item.course_code} : ${item.room_name}`,
@@ -82,6 +85,7 @@ function SchedulePage() {
                   borderColor: '#800000',
                   professor: professorName,  // Add professor name to the event
                   course_description: item.course_description || "No course description available", // Add course description
+                  section_name: sectionName, // Add section name to the event
                 };
               }).filter(event => event !== null); // Filter out any null events
 
@@ -111,6 +115,7 @@ function SchedulePage() {
         timeZone: 'Asia/Manila' // Set the time zone to Philippine Standard Time
       }),
       description: `${event.extendedProps.course_description}`, // Include course description in modal
+      section_name: `${event.extendedProps.section_name}`,  // Include section name in modal
     };
 
     console.log("Event Details:", eventDetails);
@@ -169,12 +174,13 @@ function SchedulePage() {
       {showModal && modalEventDetails && (
         <div className={ScheduleCss.modalBackdrop} onClick={closeModal}>
           <div className={ScheduleCss.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={`btn-close ${ScheduleCss.closeButton}`} onClick={closeModal}></button>
             <h2>{modalEventDetails.title}</h2>
             <p><strong>Course Description:</strong> {modalEventDetails.description}</p> {/* Display course description */}
-            <p><strong>Professor:</strong> {modalEventDetails.professor}</p>
+            <p><strong>Instructor:</strong> {modalEventDetails.professor}</p>
+            <p><strong>Section:</strong> {modalEventDetails.section_name}</p> {/* Display section name */}
             <p><strong>Start Time:</strong> {modalEventDetails.start}</p>
             <p><strong>End Time:</strong> {modalEventDetails.end}</p>
-            <button onClick={closeModal}>Close</button>
           </div>
         </div>
       )}
