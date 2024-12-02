@@ -7,6 +7,9 @@ import { getUserSchedule } from '../api/api';
 import { convertTimeToPosition, fetchData } from './sched-bar/schedBarModules';
 import { getRoomSpecific } from '../api/api';
 import {shortenDay} from './sched-bar/schedBarModules';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 function RoomSearch() {
   const [schedule, setSchedule] = useState([]); // State to hold dynamic schedule information
@@ -17,6 +20,7 @@ function RoomSearch() {
   const [reservationStatus, setReservationStatus] = useState(''); // State for reservation status
   const [currentSchedule, setCurrentSchedule] = useState([]); // State for current schedule
 
+  const [events, setEvents] = useState([]);
   const dayMap = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; // Map days to their index positions
   const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const { roomid, id } = useParams();
@@ -148,6 +152,40 @@ function RoomSearch() {
   const listButtons = {'Occupy': buttonOccupy, 'Unoccupy':buttonUnoccupy, 'Reserve':buttonReserve,'Disabled':buttonDisabled};
 
   const [isMobile, setIsMobile] = useState(false);
+
+  const calendarConfig = {
+    plugins: [timeGridPlugin, interactionPlugin],
+    initialView: "timeGridWeek",
+    headerToolbar: false,
+    dayHeaders: true,
+    hiddenDays: [],
+    dayHeaderFormat: { weekday: 'short' },
+    dayHeaderContent: (arg) => (
+      <div style={{
+        color: 'white',
+        fontWeight: 'bold',
+        textDecorationLine: 'none',
+        textDecoration: 'none',
+        borderBottom: 'none',
+        pointerEvents: 'none'
+      }}>
+        {arg.text}
+      </div>
+    ),
+    firstDay: 0,
+    slotMinTime: "07:00:00",
+    slotMaxTime: "19:00:00",
+    allDaySlot: false,
+    selectable: false,
+    selectMirror: true,
+    selectOverlap: false,
+    editable: false,
+    events: events,
+    eventMouseEnter: (info) => {
+      info.el.style.cursor = 'pointer';
+    },
+    height: '100%'
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -342,40 +380,8 @@ function RoomSearch() {
                 ))
               )}
             </div>
-              <div className={`${roomSearch.scheduleContainer} mt-5`}>
-                <div className={`${roomSearch.days} d-flex justify-content-between`}>
-                  {dayMap.map((day, index) => (
-                    <div key={index} className={roomSearch.dayLabel}>
-                      {day}
-                    </div>
-                  ))}
-                </div>
-                <div className={roomSearch.scheduleContent}>
-                  {schedule === undefined ? 
-                    <p>No schedule assigned.</p>
-                  : schedule.map((item, index) => (
-                    <div
-                      key={index}
-                      className={roomSearch.scheduleBlock}
-                      style={{
-                        top: `${convertTimeToPosition(item.time_start)}%`,
-                        height: `${convertTimeToPosition(item.time_end) - convertTimeToPosition(item.time_start)}%`,
-                        left: `${dayMap.indexOf(item.day) * 14.28}%`,
-                      }}
-                    >
-                      <div className={roomSearch.topBlock}>
-                        {item.time_start > 12.60
-                          ? `${parseFloat(item.time_start - 12).toFixed(2)}`.replace('.', ':').concat('pm')
-                          : `${item.time_start}`.replace('.', ':').concat('am')}
-                      </div>
-                      <div className={roomSearch.botBlock}>
-                        {item.time_end > 12.60
-                          ? `${parseFloat(item.time_end - 12).toFixed(2)}`.replace('.', ':').concat('pm')
-                          : `${item.time_end}`.replace('.', ':').concat('am')}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className={`${roomSearch.scheduleContainer}`}>
+                <FullCalendar {...calendarConfig}/>
               </div>
             </div>
             
