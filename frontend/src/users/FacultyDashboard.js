@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navbar from "./Navbar"; // Ensure Navbar exists
 import FacultyDashboardCss from "./FacultyDashboard.module.css"; // Import the custom CSS
 import { fetchRoomData } from "../api/api"; // Import the API function to fetch room data
 import FeedbackCss from "./FeedbackPage.module.css"; // Import the FeedbackPage CSS
+
 function FacultyDashboard() {
-  const [selectedBuildings, setSelectedBuildings] = useState([]); // Array of selected buildings
+  const [selectedBuildings, setSelectedBuildings] = useState([
+    { name: "LEONOR SOLIS BUILDING", abbreviation: "LSB" },
+    { name: "VALERIO MALABANAN BUILDING", abbreviation: "VMB" },
+    { name: "ANDRES BONIFACIO BUILDING", abbreviation: "ABB" },
+    { name: "GREGORIO ZARA BUILDING", abbreviation: "GZB" },
+  ]); // Array of selected buildings
   const [filterDate, setFilterDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; // Default to today's date
@@ -21,6 +27,8 @@ function FacultyDashboard() {
   const [loading, setLoading] = useState(false); // Track loading state
   const [error, setError] = useState(null); // Track error state
   const [currentTime, setCurrentTime] = useState(""); // Track the current time
+
+  const roomDataRef = useRef(roomData);
 
   // Update time every second
   useEffect(() => {
@@ -77,6 +85,7 @@ function FacultyDashboard() {
           roomPurpose === "ALL" ? "" : roomPurpose // If "ALL", send empty purpose
         );
         console.log("Fetched Room Data:", data); // Debugging log
+        roomDataRef.current = data;
         setRoomData(data); // Update state with fetched data
       } catch (error) {
         console.error("Error fetching room data:", error);
@@ -85,7 +94,11 @@ function FacultyDashboard() {
         setLoading(false); // Stop loading
       }
     };
+
     fetchData();
+    const interval = setInterval(fetchData, 5000); // Poll every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [selectedBuildings, filterDate, roomPurpose]); // Re-fetch data when filters change
 
   const toggleBuildingSelection = (building) => {
@@ -122,15 +135,14 @@ function FacultyDashboard() {
             <div className={FacultyDashboardCss.statisticsSection}>
               <div className={FacultyDashboardCss.statCard}>
                 <h5 className={FacultyDashboardCss.statTitle}>Occupied Rooms</h5>
-                <p className={FacultyDashboardCss.statValue}>{roomData.occupiedCount}</p>
+                <p className={FacultyDashboardCss.statValue}>{roomDataRef.current.occupiedCount}</p>
               </div>
               <div className={FacultyDashboardCss.statCard}>
                 <h5 className={FacultyDashboardCss.statTitle}>Available Rooms</h5>
-                <p className={FacultyDashboardCss.statValue}>{roomData.vacantCount}</p>
+                <p className={FacultyDashboardCss.statValue}>{roomDataRef.current.vacantCount}</p>
               </div>
             </div>
 
-            {/* Building Buttons */}
             <div className={FacultyDashboardCss.buildingButtons}>
               {buildingOptions.map((building, index) => (
                 <button
@@ -139,6 +151,11 @@ function FacultyDashboard() {
                     selectedBuildings.includes(building.name) ? FacultyDashboardCss.active : ""
                   }`}
                   onClick={() => toggleBuildingSelection(building.name)}
+                  style={{
+                    backgroundColor: selectedBuildings.includes(building.name) ? "maroon" : "white",
+                    border: selectedBuildings.includes(building.name) ? "none" : "1px solid maroon",
+                    color: selectedBuildings.includes(building.name) ? "white" : "maroon",
+                  }}
                 >
                   {building.abbreviation}
                 </button>
@@ -165,16 +182,12 @@ function FacultyDashboard() {
 
         {/* Loading, Error, and Room Details Section */}
         {loading ? (
-          <p className={FacultyDashboardCss.loadingText}>Loading room data...</p>
-        ) : error ? (
-          <p className={FacultyDashboardCss.errorText}>{error}</p>
-        ) : (
-          <div className={FacultyDashboardCss.roomDetails}>
+                    <div className={FacultyDashboardCss.roomDetails}>
             <div className={FacultyDashboardCss.roomCard}>
               <h3 className={FacultyDashboardCss.roomCardHeader}>Occupied Rooms</h3>
               <ul className={FacultyDashboardCss.roomList}>
-                {roomData.occupiedRooms.length > 0 ? (
-                  roomData.occupiedRooms.map((room) => (
+                {roomDataRef.current.occupiedRooms.length > 0 ? (
+                  roomDataRef.current.occupiedRooms.map((room) => (
                     <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
@@ -187,8 +200,8 @@ function FacultyDashboard() {
             <div className={FacultyDashboardCss.roomCard}>
               <h3 className={FacultyDashboardCss.roomCardHeader}>Available Rooms</h3>
               <ul className={FacultyDashboardCss.roomList}>
-                {roomData.vacantRooms.length > 0 ? (
-                  roomData.vacantRooms.map((room) => (
+                {roomDataRef.current.vacantRooms.length > 0 ? (
+                  roomDataRef.current.vacantRooms.map((room) => (
                     <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
@@ -201,8 +214,55 @@ function FacultyDashboard() {
             <div className={FacultyDashboardCss.roomCard}>
               <h3 className={FacultyDashboardCss.roomCardHeader}>Scheduled but Vacant Rooms</h3>
               <ul className={FacultyDashboardCss.roomList}>
-                {roomData.scheduledVacantRooms.length > 0 ? (
-                  roomData.scheduledVacantRooms.map((room) => (
+                {roomDataRef.current.scheduledVacantRooms.length > 0 ? (
+                  roomDataRef.current.scheduledVacantRooms.map((room) => (
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
+                      {room.room_name}
+                    </li>
+                  ))
+                ) : (
+                  <li className={FacultyDashboardCss.roomListItem}>No scheduled vacant rooms</li>
+                )}
+              </ul>
+            </div>
+          </div>
+        ) : error ? (
+          <p className={FacultyDashboardCss.errorText}>{error}</p>
+        ) : (
+          <div className={FacultyDashboardCss.roomDetails}>
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Occupied Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
+                {roomDataRef.current.occupiedRooms.length > 0 ? (
+                  roomDataRef.current.occupiedRooms.map((room) => (
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
+                      {room.room_name}
+                    </li>
+                  ))
+                ) : (
+                  <li className={FacultyDashboardCss.roomListItem}>No occupied rooms</li>
+                )}
+              </ul>
+            </div>
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Available Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
+                {roomDataRef.current.vacantRooms.length > 0 ? (
+                  roomDataRef.current.vacantRooms.map((room) => (
+                    <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
+                      {room.room_name}
+                    </li>
+                  ))
+                ) : (
+                  <li className={FacultyDashboardCss.roomListItem}>No available rooms</li>
+                )}
+              </ul>
+            </div>
+            <div className={FacultyDashboardCss.roomCard}>
+              <h3 className={FacultyDashboardCss.roomCardHeader}>Scheduled but Vacant Rooms</h3>
+              <ul className={FacultyDashboardCss.roomList}>
+                {roomDataRef.current.scheduledVacantRooms.length > 0 ? (
+                  roomDataRef.current.scheduledVacantRooms.map((room) => (
                     <li key={room.room_id} className={FacultyDashboardCss.roomListItem}>
                       {room.room_name}
                     </li>
