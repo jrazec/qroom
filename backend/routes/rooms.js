@@ -33,7 +33,7 @@ router.post('/room-status', (req, res) => {
         SELECT COUNT(DISTINCT room_id) AS occupied_count
         FROM rooms
         JOIN occupations USING(room_id)
-        WHERE occupation_tag = 'Occupied'
+        WHERE status = 'occupied'
           AND DATE(occupation_end) = ?
           AND bldg_name IN (?)
           ${room_purpose ? 'AND room_purpose = ?' : ''}`;
@@ -56,7 +56,7 @@ router.post('/room-status', (req, res) => {
         FROM rooms r
         LEFT JOIN occupations o ON r.room_id = o.room_id
           AND DATE(o.occupation_end) = ?
-          AND (o.occupation_tag = 'Occupied' OR o.occupation_tag = 'Scheduled')
+          AND status = 'vacant'
         WHERE r.bldg_name IN (?)
           ${room_purpose ? 'AND r.room_purpose = ?' : ''}
           AND o.room_id IS NULL;`; // Fetch rooms that are not occupied or scheduled
@@ -80,7 +80,7 @@ router.post('/room-status', (req, res) => {
         SELECT room_id, room_name
         FROM rooms
         JOIN occupations USING(room_id)
-        WHERE occupation_tag = ?
+        WHERE status = ?
           AND DATE(occupation_end) = ?
           AND bldg_name IN (?)
           ${room_purpose ? 'AND room_purpose = ?' : ''}`;
@@ -102,8 +102,8 @@ router.post('/room-status', (req, res) => {
   // Execute all queries in sequence
   fetchOccupiedCount()
     .then(fetchVacantCountAndDetails)
-    .then(() => fetchRoomDetails('Occupied'))
-    .then(() => fetchRoomDetails('Scheduled'))
+    .then(() => fetchRoomDetails('occupied'))
+    .then(() => fetchRoomDetails('vacant'))
     .then(() => {
       console.log('Final Results:', results);
       res.status(200).json(results);
