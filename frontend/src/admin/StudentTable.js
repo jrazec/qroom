@@ -166,10 +166,10 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
                     className={`${styles["delete-icon"]} ms-3`}
                     onClick={() => handleDeleteSchedules(student)} // Call the handleDeleteSchedules method
                   />
-                  <FaPlus
+                  {/* <FaPlus
                     className={styles["add-section-icon"]} // Add a new icon for adding a section
                     onClick={() => handleAddSection(student)} // Call the new handler for adding a section
-                  />
+                  /> */}
                 </td>
               </tr>
             ))
