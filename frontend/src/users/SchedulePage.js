@@ -162,12 +162,59 @@ function SchedulePage() {
     },
   };
 
+  const calendarConfigPhone = {
+    plugins: [timeGridPlugin, interactionPlugin],
+    initialView: "timeGridDay",
+    headerToolbar: {
+      center: '',
+      left: 'prev',
+      right: 'next'
+    },
+    dayHeaders: true,
+    hiddenDays: [],
+    dayHeaderFormat: { weekday: 'short' },
+    dayHeaderContent: (arg) => (
+      <div style={{
+        color: 'white',
+        fontWeight: 'bold',
+        textDecorationLine: 'none',
+        textDecoration: 'none',
+        borderBottom: 'none',
+        pointerEvents: 'none'
+      }}>
+        {arg.text}
+      </div>
+    ),
+    firstDay: 0,
+    slotMinTime: "07:00:00",
+    slotMaxTime: "19:00:00",
+    allDaySlot: false,
+    selectable: false,
+    selectMirror: true,
+    selectOverlap: false,
+    editable: false,
+    events: events,
+    eventDisplay: 'block',
+    eventColor: 'white',
+    eventClick: handleEventClick,
+    eventMouseEnter: (info) => {
+      info.el.style.cursor = 'pointer';
+    },
+    height: '100%',
+  };
+
   return (
     <div className={ScheduleCss.app}>
       <Navbar id={id} />
       <main className={ScheduleCss.mainContent}>
         <div className={ScheduleCss.scheduleContainer}>
-          <FullCalendar {...calendarConfig} />
+          <FullCalendar {...calendarConfig}
+          events={events} />
+        </div>
+
+        <div className={ScheduleCss.scheduleContainerPhone}>
+          <FullCalendar {...calendarConfigPhone}
+          events={events} />
         </div>
       </main>
 
