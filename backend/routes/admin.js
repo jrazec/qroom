@@ -15,6 +15,7 @@ const createSection = require('./../controllers/createSection');
 const { showSectionSchedules } = require("./../controllers/showSectionSchedule");
 const sectionController = require('../controllers/sectionController'); 
 const { getSectionSchedules, addSchedulesForIrregular, addSchedulesForRegular } = require('../controllers/sectionController'); 
+const showUserCount = require('./../controllers/showUserCount');
 
 // -> Middlewares
 router.use(bodyParser.json());
@@ -61,5 +62,9 @@ router.get('/api/get-section-schedules/:section_name', getSectionSchedules);
 
 router.post('/api/add-schedules-for-regular', addSchedulesForIrregular);
 router.post('/api/add-schedules-for-irregular', addSchedulesForRegular);
+
+
+router.get('/instructor-count', showUserCount.instructorCount)
+router.get('/student-count', showUserCount.studentCount)
 
 module.exports = router;

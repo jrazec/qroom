@@ -286,6 +286,35 @@ export const createOccupation = async (occupationData) => {
       }
     };
     
+    export const getInstructorCount = async () => {
+      try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/instructor-count`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch instructor count');
+      }
+      const data = await response.json();
+      console.log('Instructor Countzzz:', data); // Debugging log
+      return data;
+      } catch (error) {
+      console.error('Error fetching instructor count:', error);
+      throw error;
+      }
+    }
+
+    export const getStudentCount = async () => {
+      try {
+      const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/student-count`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch student count');
+      }
+      const data = await response.json();
+      console.log('Student Countzzz:', data); // Debugging log
+      return data;
+      } catch (error) {
+      console.error('Error fetching student count:', error);
+      throw error;
+      }
+    }
     
     export const getSection = async () => {
       const response = await fetch(`${process.env.REACT_APP_LOCALHOST}/admin/sections`, {

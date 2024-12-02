@@ -236,6 +236,45 @@ class userTable {
             });
         });
     }
+
+    static getInstructorCount() {
+        return new Promise((resolve, reject) => {
+            let queryUsers = `SELECT count(user_name) AS count FROM users WHERE role LIKE '%nstructor';`;
+            con.query(queryUsers, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);  
+                } else {
+                    // Check if result is not empty
+                    if (result && result.length > 0) {
+                        resolve(result[0].count);  // Ensure we return just the count value
+                    } else {
+                        resolve(0);  // In case no rows were found
+                    }
+                }
+            });
+        });
+    }
+    
+    static getStudentCount() {
+        return new Promise((resolve, reject) => {
+            let queryUsers = `SELECT count(user_name) AS count FROM users WHERE role LIKE '%tudent';`;
+            con.query(queryUsers, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);  
+                } else {
+                    // Check if result is not empty
+                    if (result && result.length > 0) {
+                        resolve(result[0].count);  // Ensure we return just the count value
+                    } else {
+                        resolve(0);  // In case no rows were found
+                    }
+                }
+            });
+        });
+    }
+    
 }
 
 module.exports = userTable;
