@@ -15,11 +15,11 @@
     background-color: white;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     height: 100vh;
-    max-width: 89%;
+    max-width: 100%;
     flex-grow: 1;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    padding: 0.5rem;
+    padding: 1rem;
     overflow: scroll;
   }
   
@@ -131,16 +131,6 @@
         background-color: #F5F5F5;
     }
 
-    .mainContent {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        max-height: 80%;
-        align-items: center;
-        text-align: center;
-        padding: 10px;
-        flex-grow: 1;
-    }
 }
 
 
