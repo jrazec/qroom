@@ -374,6 +374,7 @@
     margin-top: 1rem;
     display: flex;
     gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 /* Media Queries for Responsiveness */

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Feedback.css"; // Custom styles for additional customization
+import styles from "./Feedback.module.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -7,10 +7,10 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 // Modal component for viewing enlarged image
 const ImageModal = ({ imageUrl, onClose }) => {
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <img src={imageUrl} alt="Enlarged" className="modal-image" />
-        <button onClick={onClose} className="close-modal-btn">
+    <div className={styles["modal-overlay"]} onClick={onClose}>
+      <div className={styles["modal-content"]} onClick={(e) => e.stopPropagation()}>
+        <img src={imageUrl} alt="Enlarged" className={styles["modal-image"]} />
+        <button onClick={onClose} className={styles["close-modal-btn"]}>
           Close
         </button>
       </div>
@@ -129,28 +129,28 @@ const Feedback = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header text-center mb-4">
-        <h1 className="dashboard-title">
-          Dashboard <span className="sub-title">Feedback</span>
+    <div className={styles["dashboard-container"]}>
+      <div className={`${styles["dashboard-header"]} text-center pt-3 pb-2 mb-3`}>
+        <h1 className={`${styles["dashboard-title"]} h2 font-weight-bold`} styles={{color: '#800000'}}>
+          Feedback and Reports
         </h1>
       </div>
 
-      <div className="feedback-sections container">
+      <div className={`${styles["feedback-sections"]} container`}>
         <div className="row" >
           {/* Room Reports Section */}
           <div className="col-lg-6 col-md-6" >
-            <h3 className="room-title">Room Reports</h3>
-            <div className="table-scrollable" style={{ maxHeight: "60vh", overflowY: "auto" }}>
-              <table className="table table-borderless" >
+            <h4 className={styles.reportTitle}>Room Reports</h4>
+            <div className={styles["table-scrollable"]} style={{ maxHeight: "60vh", overflowY: "auto" }}>
+              <table className="table" >
                 <thead>
                   <tr>
-                    <th>Room Name</th>
-                    <th>Room ID</th>
-                    <th>Status</th>
-                    <th>Image</th>
-                    <th>Approval</th>
-                    <th>Actions</th>
+                    <th className={styles.reportTh}>Room Name</th>
+                    <th className={styles.reportTh}>Room ID</th>
+                    <th className={styles.reportTh}>Status</th>
+                    <th className={styles.reportTh}>Image</th>
+                    <th className={styles.reportTh}>Approval</th>
+                    <th className={styles.reportTh}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,7 +171,7 @@ const Feedback = () => {
                             <img
                               src={`${process.env.REACT_APP_LOCALHOST}${report.image}`}
                               alt="Report"
-                              className="report-image"
+                              className={styles["report-image"]}
                               onClick={() =>
                                 setSelectedImage(`${process.env.REACT_APP_LOCALHOST}${report.image}`)
                               }
@@ -217,16 +217,16 @@ const Feedback = () => {
 
           {/* User Reports Section */}
           <div className="col-lg-6 col-md-6">
-            <h3 className="room-title">User Reports</h3>
-            <div className="table-scrollable" style={{ maxHeight: "60vh", overflowY: "auto" }}>
-              <table className="table table-borderless">
+            <h4 className={styles.reportTitle}>User Reports</h4>
+            <div className={styles["table-scrollable"]} style={{ maxHeight: "60vh", overflowY: "auto" }}>
+              <table className="table">
                 <thead>
                   <tr>
-                    <th>Room Name</th>
-                    <th>Room ID</th>
-                    <th>Report</th>
-                    <th>Resolved</th>
-                    <th>Actions</th>
+                    <th className={styles.reportTh}>Room Name</th>
+                    <th className={styles.reportTh}>Room ID</th>
+                    <th className={styles.reportTh}>Report</th>
+                    <th className={styles.reportTh}>Resolved</th>
+                    <th className={styles.reportTh}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
