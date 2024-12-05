@@ -135,7 +135,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        max-height: 80%;
         align-items: center;
         text-align: center;
         padding: 10px;
@@ -384,6 +383,7 @@
     margin-top: 1rem;
     display: flex;
     gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 /* Media Queries for Responsiveness */
