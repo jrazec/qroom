@@ -16,7 +16,9 @@ const { showSectionSchedules } = require("./../controllers/showSectionSchedule")
 const sectionController = require('../controllers/sectionController'); 
 const { getSectionSchedules, addSchedulesForIrregular, addSchedulesForRegular } = require('../controllers/sectionController'); 
 const showUserCount = require('./../controllers/showUserCount');
-
+const donutController = require('./../controllers/donutController');
+const barChartController = require('./../controllers/barChartController');
+const occupationController = require('./../controllers/occupationController');
 // -> Middlewares
 router.use(bodyParser.json());
 router.use(express.urlencoded({ extended: true }));
@@ -67,4 +69,8 @@ router.post('/api/add-schedules-for-irregular', addSchedulesForRegular);
 router.get('/instructor-count', showUserCount.instructorCount)
 router.get('/student-count', showUserCount.studentCount)
 
+router.route('/donut').get(donutController.getDonutChartValues).post(donutController.getDonutMonthly);
+router.route('/bar-chart').post(barChartController.getBarChartValuesMonthly);
+
+router.post('/occupation-logs', occupationController.getLogs);
 module.exports = router;

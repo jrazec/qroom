@@ -100,27 +100,26 @@ function RoomSearch2() {
       <Navbar id={id} />
 
       <main className={roomSearch2.mainContent}>
-        {/* Search Bar */}
-        <div className={`${roomSearch2.searchBar} text-center position-relative`}>
-          <div className="d-flex justify-content-center align-items-center">
-            <input
-              type="text"
-              className={`form-control ${roomSearch2.searchInput} d-inline-block`}
-              placeholder="Search by building name"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            />
-            <button
-              className={`btn btn-danger ${roomSearch2.btnSearch} d-inline-block ml-2`}
-              onClick={(e) => {
-                e.preventDefault();
-                setShowSuggestions(false);
-              }}
-            >
-              Search
-            </button>
+          <div className={`${roomSearch2.searchBar} text-center position-relative`}>
+            <div className="d-flex justify-content-center align-items-center w-100">
+              <input
+                type="text"
+                className={`form-control ${roomSearch2.searchInput} d-inline-block w-100`}
+                placeholder="Search by building name"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              />
+              {/* <button
+                className={`btn btn-danger ${roomSearch2.btnSearch} d-inline-block ml-2`}
+                onClick={(e) => {
+            e.preventDefault();
+            setShowSuggestions(false);
+                }}
+              >
+                Search
+              </button> */}
           </div>
           {showSuggestions && searchTerm.trim() !== "" && (
             <ul className={`${roomSearch2.suggestions} list-group position-absolute w-100`} style={{ top: '100%', zIndex: '1000' }}>

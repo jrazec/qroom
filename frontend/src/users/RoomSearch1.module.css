@@ -67,7 +67,6 @@
 .leftSection {
   flex: 0 0 30%; /* Fixed width for search section */
   padding: 3rem 2rem;
-  resize: horizontal;
   overflow: hidden;
   background-color: transparent; /* No background color */
   display: flex;

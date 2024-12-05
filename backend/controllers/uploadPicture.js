@@ -73,7 +73,7 @@ exports.deleteProfilePicture = (req, res) => {
 exports.getProfilePicture = (req, res) => {
   const { user_name } = req.params;
 
-  con.query("SELECT image FROM users WHERE user_name = ?", [user_name], (error, results) => {
+  con.query("SELECT image,user_name,CONCAT(first_name,' ',middle_name,' ',last_name) as full_name FROM users WHERE user_name = ?", [user_name], (error, results) => {
     if (error) {
       console.error("Database error:", error);
       return res.status(500).json({ message: "Database error", error });
@@ -81,6 +81,6 @@ exports.getProfilePicture = (req, res) => {
     if (!results.length || !results[0].image) {
       return res.status(404).json({ message: "No picture found" });
     }
-    res.json({ imageUrl: results[0].image });
+    res.json({ imageUrl: results[0].image,results });
   });
 };

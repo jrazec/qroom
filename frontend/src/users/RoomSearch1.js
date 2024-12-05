@@ -130,22 +130,22 @@ function RoomSearch1() {
             </div>
 
             <div className={`${roomSearch1.searchBar} mb-3 text-center position-relative`}>
-              <div className="d-flex justify-content-center align-items-center">
+              <div className="d-flex justify-content-center align-items-center w-100">
                 <input
                   type="text"
-                  className={`form-control ${roomSearch1.searchInput} d-inline-block`}
+                  className={`form-control ${roomSearch1.searchInput} d-inline-block w-100`}
                   placeholder="Search by room name or purpose"
                   value={searchTerm}
                   onChange={handleSearchChange}
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 />
-                <button
+                {/* <button
                   className={`btn btn-danger ${roomSearch1.searchBtn} d-inline-block ml-2`}
                   onClick={handleSearch}
                 >
                   Search
-                </button>
+                </button> */}
               </div>
               {showSuggestions && searchTerm.trim() !== "" && (
                 <ul className={`${roomSearch1.suggestions} list-group position-absolute w-100`} style={{ top: '100%', zIndex: '1000' }}>

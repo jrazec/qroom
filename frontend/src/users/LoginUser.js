@@ -99,7 +99,7 @@ function LoginUser() {
           <div className="col-md-6 text-center d-none d-md-block">
             <h1 className="brand-logo">QRoom</h1>
             <img
-              src="https://via.placeholder.com/400"
+              src="/assets/qroom-login.png"
               alt="VR Experience"
               className="vr-image"
             />

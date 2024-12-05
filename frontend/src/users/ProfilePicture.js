@@ -6,7 +6,7 @@ function ProfilePicture({ user_name }) {
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
-
+  const [userDeets,setUserDeets] = useState({})
   useEffect(() => {
     // Clear the profile picture in localStorage when the user logs in
     localStorage.removeItem("profilePic");
@@ -16,7 +16,7 @@ function ProfilePicture({ user_name }) {
         // Fetch the user's profile picture from the server
         const response = await axios.get(`/user/${user_name}/profile-picture`);
         const imageUrl = response.data.imageUrl;
-
+        setUserDeets(response.data.results[0])
         if (imageUrl) {
           // Set the profile picture for the current user
           const fullImageUrl = `${process.env.REACT_APP_LOCALHOST}${imageUrl}`;
@@ -55,7 +55,12 @@ function ProfilePicture({ user_name }) {
 
   return (
     <div>
-      <h5>Profile Picture</h5>
+      <div>
+
+        <h5>{userDeets.full_name}</h5>
+        <h6>{userDeets.user_name}</h6>
+      </div>
+      
       <img
         src={profilePic || "https://via.placeholder.com/150"}
         alt="Profile"

@@ -123,6 +123,87 @@ class occupationTable {
       });
     });
   }
+  static getDonut(month) {
+    return new Promise((resolve, reject) => {
+      let query = `
+        SELECT          
+        SUM(TIMESTAMPDIFF(SECOND, occupation_start, occupation_end)) / 3600 AS total_time_used,
+        (COUNT(DISTINCT room_id) * 14 * COUNT(DISTINCT DATE(occupation_start))) AS total_available_time, 
+        (SUM(TIMESTAMPDIFF(SECOND, occupation_start, occupation_end)) / 3600) /      (COUNT(DISTINCT room_id) * 14 * COUNT(DISTINCT DATE(occupation_start))) * 100 AS room_utilization_percentage 
+        FROM occupations WHERE YEAR(occupation_start) = YEAR(CURDATE()); 
+      `;
+      if (month !== "all") {
+        month = parseInt(month)
+        query = `
+        SELECT          
+        SUM(TIMESTAMPDIFF(SECOND, occupation_start, occupation_end)) / 3600 AS total_time_used,
+        (COUNT(DISTINCT room_id) * 14 * COUNT(DISTINCT DATE(occupation_start))) AS total_available_time, 
+        (SUM(TIMESTAMPDIFF(SECOND, occupation_start, occupation_end)) / 3600) /      (COUNT(DISTINCT room_id) * 14 * COUNT(DISTINCT DATE(occupation_start))) * 100 AS room_utilization_percentage 
+        FROM occupations WHERE YEAR(occupation_start) = YEAR(CURDATE())  AND MONTH(occupation_start) = ?; 
+        `;
+      }
+      console.log(query);
+      con.query(query,month, (err,results)=>{
+        if(err){
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        if(results.length === 0){
+          return resolve({ status: false, message: 'No data found' });
+        }
+        resolve({ status: true, results })
+      });
+    });
+  }
+  static getBarChart(month) {
+    return new Promise((resolve, reject) => {
+
+      let query = `
+      SELECT 
+          room_name, 
+          SUM(TIMESTAMPDIFF(SECOND, occupation_start, occupation_end)) / 3600 AS total_usage_hours
+      FROM occupations
+      JOIN rooms using(room_id)
+      WHERE YEAR(occupation_start) = YEAR(CURDATE()) AND MONTH(occupation_start) = 12
+      GROUP BY room_id
+      ORDER BY total_usage_hours DESC;
+      `;
+      if (month) {
+        month = parseInt(month);
+        con.query(query,month, (err, results) => {
+          if (err) {
+            console.error('Database query error:', err);
+            return reject(err);
+          }
+          if (results.length === 0) {
+            return resolve({ status: false, message: 'No data found' });
+          }
+          resolve({ status: true, results });
+        });
+      } else {
+        resolve({ status: false, message: 'Month or order direction not provided' });
+      }
+    });
+  }
+  static getLogs(includeAll = false) {
+    return new Promise((resolve, reject) => {
+      let query = `SELECT * FROM occupations`;
+      if (!includeAll) {
+        query += ` WHERE DATE(occupation_start) = DATE(CURRENT_TIMESTAMP())`;
+      }
+      query += ` ORDER BY occupation_start`;
+      con.query(query, (err, results) => {
+        if (err) {
+          console.error('Database query error:', err);
+          return reject(err);
+        }
+        if (results.length === 0) {
+          return resolve({ status: false, message: 'No logs found' });
+        }
+        resolve({ status: true, results });
+      });
+    });
+  }
 }
 
 module.exports = occupationTable;

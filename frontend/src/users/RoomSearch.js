@@ -30,7 +30,58 @@ function RoomSearch() {
   const [buttons, setButton] = useState('Disabled');
   const [showCalendar, setShowCalendar] = useState(false);
   const [calendarButton, setCalendarButton] = useState('See Calendar');
+  const [modalData, setModalData] = useState(null); // State to hold modal data
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
+  const handleEventClick = (info) => {
+    const event = info.event;
+    const userDetail = userDetails.find(user => user.course_code === event.title.split(' : ')[0]);
+
+    if (userDetail) {
+      setModalData({
+        title: event.title,
+        professor: `${userDetail.first_name} ${userDetail.middle_name} ${userDetail.last_name}`,
+        start: event.start.toLocaleTimeString('en-PH', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          timeZone: 'Asia/Manila'
+        }),
+        end: event.end.toLocaleTimeString('en-PH', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          timeZone: 'Asia/Manila'
+        }),
+        description: userDetail.course_description,
+        section_name: userDetail.section_name,
+      });
+      setShowModal(true);
+    }
+  };
+
+  // Modal component
+  const Modal = ({ data, onClose }) => (
+    <div className="modal" style={{ display: 'block' }}>
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">{data.title}</h5>
+            <button type="button" className="close" onClick={onClose}>
+              <span>&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <p><strong>Professor:</strong> {data.professor}</p>
+            <p><strong>Time:</strong> {data.start} - {data.end}</p>
+            <p><strong>Description:</strong> {data.description}</p>
+            <p><strong>Section:</strong> {data.section_name}</p>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={onClose}>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
   const buttonOccupy = () => {
     return (
       <button
@@ -245,6 +296,7 @@ function RoomSearch() {
     editable: false,
     eventColor: '#800000',
     events: calendarEvents,
+    eventClick: handleEventClick,
     eventMouseEnter: (info) => {
       info.el.style.cursor = 'pointer';
     },
@@ -448,20 +500,38 @@ console.log('sched', schedule)
                         </div>
                       </div>
                     );
-                  })
+                    })
+                  )}
+                  </div>
+                  <div className={`${roomSearch.scheduleContainer} ${showCalendar && isMobile ? 'd-block' : 'd-none'}`}>
+                  <FullCalendar {...calendarConfig} />
+                  </div>
+                  <div className={`${roomSearch.scheduleContainer} ${!showCalendar && !isMobile ? 'd-block' : 'd-none'}`}>
+                  <FullCalendar {...calendarConfig} />
+                  </div>
+                </div>
+                {showModal && modalData && (
+                  <div className="modal fade show" style={{ display: 'block' }} onClick={() => setShowModal(false)}>
+                  <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">{modalData.title}</h5>
+                      <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                    </div>
+                    <div className="modal-body">
+                      <p><strong>Course Description:</strong> {modalData.description}</p>
+                      <p><strong>Instructor:</strong> {modalData.professor}</p>
+                      <p><strong>Section:</strong> {modalData.section_name}</p>
+                      <p><strong>Start Time:</strong> {modalData.start}</p>
+                      <p><strong>End Time:</strong> {modalData.end}</p>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                    </div>
+                  </div>
+                  </div>
                 )}
-              </div>
-              <div className={`${roomSearch.scheduleContainer} ${showCalendar && isMobile ? 'd-block' : 'd-none'}`}>
-                <FullCalendar {...calendarConfig}/>
-              </div>
-              <div className={`${roomSearch.scheduleContainer} ${!showCalendar && !isMobile ? 'd-block' : 'd-none'}`}>
-                <FullCalendar {...calendarConfig}/>
-              </div>
-            </div>
-            
-            {/* <div className={roomSearch.acceptReserveWrapper}>
-              <AcceptReserve roomid={roomid} />
-            </div> */}
 
             {/* Previous Button */}
             {/* <div className={roomSearch.previousButton}>

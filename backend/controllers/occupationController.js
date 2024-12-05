@@ -135,3 +135,13 @@ exports.toggleUnoccupyRoom = async (req, res) => {
     res.status(500).json({ error: 'Failed to toggle room unoccupation' });
   }
 };
+
+exports.getLogs = async (req, res) => {
+  try {
+    const includeAll = req.body.includeAll;
+    const logs = await occupationTable.getLogs(includeAll);
+    res.status(200).json(logs);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch logs' });
+  }
+};
