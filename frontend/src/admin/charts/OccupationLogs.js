@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './../AdminFDashboard.module.css';
 
 
 const OccupationLogs = () => {
@@ -18,20 +19,20 @@ const OccupationLogs = () => {
     }, []);
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f9', color: '#333' }}>
-            <h2 style={{ textAlign: 'center', color: '#4a4a4a', margin: 0 }}>Occupation Logs</h2>
+        <div>
+            <h4 className={styles.occuTitle}>Occupation Logs</h4>
             {(logs === undefined || logs.length === 0) ? (
                 <p style={{ textAlign: 'center', color: '#999', margin: 0 }}>No logs found this day.</p>
             ) : (
-                <div style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', padding: 0 }}>
+                <div className={styles.occuTableContainer}>
+                    <table className={styles.occuTable}>
                         <thead>
                             <tr>
-                                <th style={{ borderBottom: '2px solid #ddd', textAlign: 'left', color: '#4a4a4a', padding: 0, margin: 0 }}>Occupation ID</th>
-                                <th style={{ borderBottom: '2px solid #ddd', textAlign: 'left', color: '#4a4a4a', padding: 0, margin: 0 }}>Room ID</th>
-                                <th style={{ borderBottom: '2px solid #ddd', textAlign: 'left', color: '#4a4a4a', padding: 0, margin: 0 }}>Occupation Start</th>
-                                <th style={{ borderBottom: '2px solid #ddd', textAlign: 'left', color: '#4a4a4a', padding: 0, margin: 0 }}>Occupation End</th>
-                                <th style={{ borderBottom: '2px solid #ddd', textAlign: 'left', color: '#4a4a4a', padding: 0, margin: 0 }}>User Name</th>
+                                <th className={styles.occuTh}>Occupation ID</th>
+                                <th className={styles.occuTh}>Room ID</th>
+                                <th className={styles.occuTh}>Occupation Start</th>
+                                <th className={styles.occuTh}>Occupation End</th>
+                                <th className={styles.occuTh}>User Name</th>
                             </tr>
                         </thead>
                         <tbody>

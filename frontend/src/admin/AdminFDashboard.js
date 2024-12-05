@@ -153,7 +153,7 @@ function FacultyDashboard() {
   }
   return (
 
-      <main className={`container text-center py-5 ${styles.mainContent}`}>
+      <main className={`container text-center ${styles.mainContent}`}>
 
         <div className={styles.dashboardHeader} style={{ position: 'sticky', top: 0, backgroundColor: 'none', zIndex: 1000 }}>
           <h1 className={styles.dashboardTitle}>Dashboard</h1>
@@ -341,7 +341,10 @@ function FacultyDashboard() {
         )}
 
         {/* total part */}
-        <div>
+        <div className={styles.lowerSection}>
+          <div className={styles.occupationLogTable}>
+            <OccupationLogs />
+          </div>
           <div className={styles.summaryContainer}>
               <div className={styles.statCardTotal}>
                 <div>
@@ -356,10 +359,9 @@ function FacultyDashboard() {
                 </div>
               </div>
           </div>
+          
         </div>
-        <div>
-          <OccupationLogs />
-        </div>
+        
       </main>
 
   );

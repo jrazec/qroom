@@ -14,13 +14,13 @@
 .mainContent {
     background-color: white;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    height: 95vh;
+    height: 100vh;
     max-width: 89%;
     flex-grow: 1;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    margin: 0;
-    overflow-y: auto;
+    padding: 0.5rem;
+    overflow: scroll;
   }
   
 
@@ -33,8 +33,9 @@
 
 .summaryContainer {
     display: flex;
+    flex: 1;
     gap: 1rem;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     margin-top: 1rem;
@@ -86,6 +87,43 @@
     background-color: #850000;
 }
 
+/* ========================= */
+/* Occupation table styling */
+/* ========================= */
+
+/* table container (inside .lowerSection) */
+.occupationLogTable {
+    flex: 2;
+    border-radius: 1rem;
+    border:2px solid #8b0000 !important;
+    padding: 1rem;
+
+}
+
+/* actual table (OccupationLogs.js component) */
+.occuTitle {
+    color: #800000;
+    font-weight: bold;
+}
+
+.occuTableContainer {
+    height: 14rem;
+    overflow: scroll;
+}
+
+.occuTable {
+    border-radius: 3rem;
+    width: 100%;
+    height: 50%;
+}
+
+.occuTh {
+    border:2px solid #8b0000 !important;
+    color: rgb(255, 255, 255) !important;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
 
 /* Mobile Specific Layout */
 @media (max-width: 768px) {
@@ -128,7 +166,13 @@
 /* Dashboard Header */
 .dashboardHeader {
     text-align: left; /* Aligns content to the left */
-    margin-bottom: 40px;
+    box-shadow: 
+        0.5rem 0.3rem 1rem rgba(56, 50, 50, 0.308), 
+        inset 14rem 15rem 17rem 0px rgba(174, 141, 141, 0.112);
+    backdrop-filter: blur(0.15rem);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
 }
 
 .dashboardTitle {
@@ -141,6 +185,7 @@
 .dashboardSubtitle {
     font-size: 1rem;
     color: #555;
+    margin: 0 !important;
 }
 
 /* Aligned Layout */
@@ -181,18 +226,15 @@
     border-radius: 1rem;
     text-align: center;
     padding: 10px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.301); /* Add subtle shadow */
     flex-shrink: 0; /* Prevent shrinking */
     font-size: 0.5rem;
     padding: 0.5rem;
 }
 
 .statCardTotal {
-    width: 45%;
-    background-color: rgb(219, 219, 219);
-    border: none;
     height: auto; /* Auto height */
-    margin-top: 20px; /* Spacing from other cards */
+    width: 100%; /* Full width */
 }
 
 
@@ -336,6 +378,12 @@
     padding: 10px;
     margin-bottom: 10px;
     text-align: center;
+}
+
+.lowerSection {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1.5rem;
 }
 
 /* Media Queries for Responsiveness */

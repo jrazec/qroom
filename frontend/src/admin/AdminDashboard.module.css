@@ -40,6 +40,7 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  padding: 0;
 }
 
 .row2 {
@@ -50,6 +51,7 @@
 .chartContainer {
   /* border: solid 3px #50aa5f; */
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.301);
+  border: 2px solid #8b0000;
   border-radius: 1.5rem;
   padding: 0.5rem;
   display: flex;
