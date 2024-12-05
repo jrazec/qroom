@@ -4,7 +4,7 @@ class roomTable {
 
     static getLabAndRoom() {
         return new Promise((resolve, reject) => {
-            const queryUser = `Select room_id, room_name from rooms where room_purpose IN ('Classroom','Laboratory');`
+            const queryUser = `Select * from rooms where room_purpose IN ('Classroom','Laboratory');`
             con.query(queryUser, (err, results) => {
                 if (err) {
                     console.error('Database query error:', err);

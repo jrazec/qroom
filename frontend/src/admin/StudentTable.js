@@ -194,10 +194,12 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
         </tbody>
       </Table>
 
-      {/* Modal to select schedules for the student */}
+    
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>{studentType === "regular" ? "Add Schedule for Regular Student" : "Select Sections for Irregular Student"}</Modal.Title>
+          <Modal.Title>
+            {studentType === "regular" ? "Add Schedule for Regular Student" : "Select Sections for Irregular Student"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
           <div className="d-flex justify-content-center mb-3">
@@ -215,28 +217,27 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
               Irregular
             </Button>
           </div>
-          Add Section
           {studentType === "regular" ? (
             <>
-            <Form>
-              {sections.length > 0 ? (
-                sections.map((section) => (
-                  <Form.Check
-                    key={section.section_name}
-                    type="radio"
-                    label={section.section_name}
-                    name="sectionRadio"
-                    value={section.section_name}
-                    checked={selectedSection === section.section_name}
-                    onChange={(e) => setSelectedSection(e.target.value)}
-                  />
-                ))
-              ) : (
-                <p>Loading sections...</p>
-              )}
-            </Form>
+              <h5>Select Section</h5>
+              <Form>
+                {sections.length > 0 ? (
+                  sections.map((section) => (
+                    <Form.Check
+                      key={section.section_name}
+                      type="radio"
+                      label={section.section_name}
+                      name="sectionRadio"
+                      value={section.section_name}
+                      checked={selectedSection === section.section_name}
+                      onChange={(e) => setSelectedSection(e.target.value)}
+                    />
+                  ))
+                ) : (
+                  <p>Loading sections...</p>
+                )}
+              </Form>
             </>
-          
           ) : (
             <>
               <h5>Select Subjects to Add</h5>
@@ -244,35 +245,30 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
                 {schedS.length > 0 ? (
                   schedS.map((section) => (
                     <Form.Check
-                    key={section.section_sched_id}
-                    type="checkbox"
-                    label={`${section.section_sched_id} - ${section.course_description} (${section.section_name}) | ${section.name} | ${section.day} - ${section.time_start} to ${section.time_end}`}
-                    value={section.section_sched_id}
-                    checked={selectedSections.includes(section.section_sched_id)} // Make sure it reflects the state correctly
-                    onChange={(e) => {
-                      const { value, checked } = e.target;
-                      const sectionSchedId = parseInt(value);
-                  
-                      setSelectedSections((prevSections) => {
-                        let newSections = [...prevSections]; // Create a new array to ensure a re-render
-                  
-                        if (checked) {
-                          // If checked, add to the array (no duplicates)
-                          if (!newSections.includes(sectionSchedId)) {
-                            newSections.push(sectionSchedId); // Add section ID if not already present
+                      key={section.section_sched_id}
+                      type="checkbox"
+                      label={`${section.section_sched_id} - ${section.course_description} (${section.section_name}) | ${section.name} | ${section.day} - ${section.time_start} to ${section.time_end}`}
+                      value={section.section_sched_id}
+                      checked={selectedSections.includes(section.section_sched_id)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        const sectionSchedId = parseInt(value);
+
+                        setSelectedSections((prevSections) => {
+                          let newSections = [...prevSections];
+
+                          if (checked) {
+                            if (!newSections.includes(sectionSchedId)) {
+                              newSections.push(sectionSchedId);
+                            }
+                          } else {
+                            newSections = newSections.filter(id => id !== sectionSchedId);
                           }
-                        } else {
-                          // If unchecked, remove from the array
-                          newSections = newSections.filter(id => id !== sectionSchedId); // Remove section ID
-                        }
-                  
-                        return newSections; // Return the updated array
-                      });
-                    }}
-                  />
-                  
 
-
+                          return newSections;
+                        });
+                      }}
+                    />
                   ))
                 ) : (
                   <p>Loading sections...</p>
@@ -290,8 +286,6 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {/* Modal for selecting section to add to the student */}
       <Modal show={showSectionModal} onHide={() => setShowSectionModal(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add Section to {selectedStudent?.first_name} {selectedStudent?.last_name}</Modal.Title>

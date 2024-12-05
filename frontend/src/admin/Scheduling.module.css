@@ -53,9 +53,9 @@
   .circle-buttons {
     display: flex;
     justify-self: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     background-color: #800000;
-    border-radius: 5rem;
+    border-radius: 1rem;
     padding: 0.75rem;
     width: 80%;
     flex-wrap: wrap;
@@ -67,7 +67,7 @@
     font-size: 1.1rem;
     width: 13rem;
     height: 3.5rem;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     border: 2px solid #7f0000;
     display: flex;
     align-items: center;

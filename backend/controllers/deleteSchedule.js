@@ -6,7 +6,7 @@ exports.deleteSchedule = async (req, res) => {
 
         // Call the model to delete the schedule
         const result = await scheduleTable.deleteSchedule(scheduleId);
-        
+        console.log('Result:', result);
         if (result.status) {
             res.status(200).json({ message: 'Schedule deleted successfully', data: result });
         } else {

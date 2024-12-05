@@ -19,7 +19,10 @@ exports.labAndClass = async (req,res) =>{
         const rooms = results.results.map(room => ({
         code: `https://shnc77kq-3000.asse.devtunnels.ms/user/room/${room.room_id}`,
         name: room.room_name,
-        room_id : room.room_id
+        room_id : room.room_id,
+        room_purpose: room.room_purpose,
+        bldg_name: room.bldg_name,
+        floor_number: room.floor_number
         }));
         res.status(200).json(rooms);  
     } catch (error) {

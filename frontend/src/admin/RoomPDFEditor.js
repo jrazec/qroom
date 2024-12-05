@@ -64,10 +64,11 @@ function RoomPDFEditor() {
   };
 
   return (
-    <div className="container my-5">
-      <h1 className="text-center mb-4">Room PDF Editor</h1>
+    <div className="">
+     
       <button
         className="btn btn-primary d-block mx-auto"
+        style={{ borderRadius: "0.5rem" }}
         onClick={() =>{
            handleUpdateDocument();
            setIsOpen(true)}}

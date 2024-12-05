@@ -468,8 +468,8 @@ const WeeklySchedule = () => {
             </div>
         ),
         firstDay: 0,
-        slotMinTime: "07:00:00",
-        slotMaxTime: "19:00:00",
+        slotMinTime: "06:00:00",
+        slotMaxTime: "20:00:00",
         allDaySlot: false,
         selectable: true, // Allow the user to select an event
         selectMirror: true,
