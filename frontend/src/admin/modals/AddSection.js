@@ -45,9 +45,8 @@ function AddSection({setData, setGroupSections}) {
 
     await createSection(dataToSend);
     await fetchData();
-    setTimeout(() => {
-      window.location.reload(); // Reload the page after adding a section
-    }, 500);
+    window.location.reload(); // Reload the page after adding a section
+
   };
 
   // Validate input fields

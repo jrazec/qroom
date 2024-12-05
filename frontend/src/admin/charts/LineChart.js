@@ -29,8 +29,9 @@ ChartJS.register(
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const LineChart = () => {
+
   const data = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    labels: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'],
     datasets: [
       {
         label: 'Room Utilization (%)',

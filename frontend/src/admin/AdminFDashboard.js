@@ -1,8 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./AdminFDashboard.module.css"; // Import the custom CSS
 import { fetchRoomData, getInstructorCount, getStudentCount } from "../api/api"; // Import the API function to fetch room data
+import { useNavigate } from "react-router-dom";
+import AdminDashboard from "./AdminDashboard";
+import styles2 from './AdminDashboard.module.css';
+import DonutChart from './charts/DonutChart'; // Ensure this component is responsive
+import BarChart from './charts/BarChart'; // Ensure this component is responsive
+import { Dropdown } from 'react-bootstrap';
+import OccupationLogs from './charts/OccupationLogs';
+
 
 function FacultyDashboard() {
+  const [usageFilter, setUsageFilter] = useState("Most Utilized Room");
   const [selectedBuildings, setSelectedBuildings] = useState([
     { name: "LEONOR SOLIS BUILDING", abbreviation: "LSB" },
     { name: "VALERIO MALABANAN BUILDING", abbreviation: "VMB" },
@@ -133,16 +142,55 @@ function FacultyDashboard() {
     { name: "ANDRES BONIFACIO BUILDING", abbreviation: "ABB" },
     { name: "GREGORIO ZARA BUILDING", abbreviation: "GZB" },
   ];
+  const [isAdminDashboard, setIsAdminDashboard] = useState(false);
 
+  const toggleDashboard = () => {
+    setIsAdminDashboard(!isAdminDashboard);
+  };
+
+  if (isAdminDashboard) {
+    return <AdminDashboard />;
+  }
   return (
-    <div className={styles.app}>
+
       <main className={`container text-center py-5 ${styles.mainContent}`}>
-        {/* Header Section */}
-        <div className={styles.dashboardHeader}>
+
+        <div className={styles.dashboardHeader} style={{ position: 'sticky', top: 0, backgroundColor: 'none', zIndex: 1000 }}>
           <h1 className={styles.dashboardTitle}>Dashboard</h1>
           <p className={styles.dashboardSubtitle}>
             {new Date(filterDate).toDateString()} | {currentTime}
           </p>
+        </div>
+        <div>
+          {/* Main Content */}
+
+        {/* First Row (Charts & Summary) */}
+        <div className={styles2.row1}>
+          <div className={styles2.chartContainer} style={{width: '40%'}} >
+            <div className={styles2.chartCard}>
+              <h4 className={styles2.chartTitle}>Overall Room Utilization</h4>
+              <DonutChart  />
+            </div>
+              
+          </div>
+          <div className={styles2.chartContainer} style={{ width: "50%" }}>
+            <div className={styles2.filterButtonContainer}>
+              <Dropdown >
+                <Dropdown.Toggle variant="danger" id="dropdown-basic" style={{ borderTopRightRadius: '1.5rem', borderBottomLeftRadius: '1.5rem' }}>
+                  {usageFilter}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setUsageFilter('Most Utilized Room')}>Most Utilized</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setUsageFilter('Least Utilized Room')}>Least Utilized</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+            </div>
+            <div className={styles2.chartCard} >
+              <h4 className={styles2.chartTitle}>Room Usage Breakdown</h4>
+              <BarChart filter={usageFilter} />
+            </div>
+          </div>
+        </div>
         </div>
 
         {/* Filters Section */}
@@ -309,8 +357,11 @@ function FacultyDashboard() {
               </div>
           </div>
         </div>
+        <div>
+          <OccupationLogs />
+        </div>
       </main>
-    </div>
+
   );
 }
 

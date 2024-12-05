@@ -53,8 +53,8 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
             console.log(sectionSchedIds)
 
         } catch (error) {
-          console.error("Error fetching section schedules:", error);
-          alert("Error fetching section schedules. Proceeding with default schedules.");
+          console.log("Error fetching section schedules:", error);
+          console.log("Error fetching section schedules. Proceeding with default schedules.");
           sectionSchedIds = [1, 2, 3]; // Fallback brute force
         }
 
@@ -68,7 +68,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
           alert("Schedules added successfully!");
           setShowModal(false); // Close the modal after successful addition
         } else {
-          alert("Failed to add schedules.");
+
         }
 
       if (sectionSchedIds.length === 0) {
@@ -87,11 +87,11 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
           alert("Schedules added successfully!");
           setShowModal(false); // Close the modal after successful addition
         } else {
-          alert("Failed to add schedules.");
+          console.log("Failed to add schedules.");
         }
       } catch (error) {
-        console.error("Error adding schedules:", error);
-        alert("Error adding schedules.");
+        console.log("Error adding schedules:", error);
+
       }
     } else if (studentType === "irregular") {
       if (selectedSections.length === 0) {
@@ -110,13 +110,14 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
           alert("Schedules added successfully!");
           setShowModal(false); // Close the modal after successful addition
         } else {
-          alert("Failed to add schedules.");
+          console.log("Failed to add schedules.");
         }
       } catch (error) {
-        console.error("Error adding schedules:", error);
-        alert("Error adding schedules.");
+        console.log("Error adding schedules:", error);
+
       }
     }
+    window.location.reload();
   };
 
   const handleDeleteSchedules = async (student) => {
@@ -131,9 +132,10 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
         alert(response.data.message || "Failed to remove schedules.");
       }
     } catch (error) {
-      console.error("Error removing schedules:", error.response ? error.response.data : error.message);
-      alert(error.response ? error.response.data.message : "Error removing schedules.");
+      console.log("Error removing schedules:", error.response ? error.response.data : error.message);
+    
     }
+    window.location.reload();
   };
 
   const handleAddSection = async (student) => {
@@ -143,7 +145,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
 
   return (
     <>
-      <Table bordered className={styles["scheduling-table"]}>
+      <Table bordered className={styles["scheduling-table"]} style={{maxHeight:"600px",overflowY:"auto"}}>
         <thead>
           <tr>
             <th>SR Code</th>
@@ -167,7 +169,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
                     onClick={() => {
                       setSelectedStudent(student); // Set the student for whom schedules will be added
                       setSelectedSections([]); // Clear previously selected sections
-                      setStudentType(""); // Set the student type (regular/irregular)
+                      setStudentType("regular"); // Set the student type (regular/irregular)
                       setShowModal(true); // Show the modal for adding sections
                     }}
                   />
@@ -197,7 +199,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
         <Modal.Header closeButton>
           <Modal.Title>{studentType === "regular" ? "Add Schedule for Regular Student" : "Select Sections for Irregular Student"}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
           <div className="d-flex justify-content-center mb-3">
             <Button
               variant={studentType === "regular" ? "primary" : "outline-primary"}
@@ -213,7 +215,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
               Irregular
             </Button>
           </div>
-          Add Section to {selectedStudent?.first_name} {selectedStudent?.last_name}
+          Add Section
           {studentType === "regular" ? (
             <>
             <Form>
@@ -294,7 +296,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
         <Modal.Header closeButton>
           <Modal.Title>Add Section to {selectedStudent?.first_name} {selectedStudent?.last_name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         Add Section to {selectedStudent?.first_name} {selectedStudent?.last_name}
           {schedS.length > 0 ? (
             schedS.map((section) => (
@@ -338,14 +340,14 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
                     alert("Sections added successfully!");
                     setShowSectionModal(false);
                   } else {
-                    alert("Failed to add sections.");
+                    console.log("Failed to add sections.");
                   }
                 } catch (error) {
-                  console.error("Error adding sections:", error);
-                  alert("Error adding sections.");
+                  console.log("Error adding sections:", error);
+                  console.log("Error adding sections.");
                 }
               } else {
-                alert("Please select at least one section.");
+                console.log("Please select at least one section.");
               }
             }}
           >

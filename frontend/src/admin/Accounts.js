@@ -147,7 +147,7 @@ function Accounts() {
                 </div>
                 <div>
                     <button className="btn shadow btn-danger font-weight-bold" type="button" data-toggle="modal" data-target="#addAccountModal">+ Add</button>
-                    <button className="btn border shadow ml-1 font-weight-bold" type="button" data-toggle="modal" data-target="#">Upload</button>
+                    
                 </div>
             </div>
 

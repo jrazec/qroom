@@ -2,15 +2,41 @@ import React, { useState, useEffect } from 'react';
 import DonutChart from './charts/DonutChart'; // Ensure this component is responsive
 import BarChart from './charts/BarChart'; // Ensure this component is responsive
 import LineChart from './charts/LineChart'; // Additional chart example
-import PieChart from './charts/PieChart'; // Additional chart example
 import styles from './AdminDashboard.module.css';
 import { Dropdown } from 'react-bootstrap';
+import AdminFDashboard from './AdminFDashboard';
+
 
 const AdminDashboard = () => {
   const [usageFilter, setUsageFilter] = useState("Most Utilized Room");
+  const [isAdminFDashboard, setIsFAdminDashboard] = useState(false);
+
+  const toggleDashboard = () => {
+    setIsFAdminDashboard(!isAdminFDashboard);
+  };
+
+  if (isAdminFDashboard) {
+    return <AdminFDashboard />;
+  }
 
   return (
     <div className={styles["dashboard-container"]}>
+          <button
+            onClick={toggleDashboard}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              padding: "10px 20px",
+              backgroundColor: "white",
+              color: "maroon",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Switch to Room Occupancy Status
+          </button>
       {/* Header */}
       <div className={styles.header}>
         <h1>
@@ -29,38 +55,6 @@ const AdminDashboard = () => {
             </div>
               
           </div>
-            <div className={styles.summaryContainer} style={{width: '20%'}}>
-              <div className={styles.summaryCard}>
-                <div>
-                  <h4>Total Instructors</h4>
-                  <h2 className={styles.summaryValue}>12</h2>
-                </div>
-              </div>
-              <div className={styles.summaryCard}>
-                <div>  
-                  <h4>Total Students</h4>
-                  <h2 className={styles.summaryValue}>6</h2>
-                </div>
-              </div>
-            </div>
-          <div className={styles.chartContainer} style={{width: '40%'}}>
-            <div className={styles.chartCard}>
-              <h4 className={styles.chartTitle}>Room Occupancy</h4>
-              <PieChart  />
-            </div>
-              
-          </div>
-        </div>
-        
-        {/* Charts Row 2 */}
-        <div className={styles.row2}>
-          <div className={styles.chartContainer} style={{ width: "50%" }} >
-              <div className={styles.chartCard}>
-              <h4 className={styles.chartTitle}>Room Utilization (Week)</h4>
-              <LineChart />
-              </div>
-          </div>
-          
           <div className={styles.chartContainer} style={{ width: "50%" }}>
             <div className={styles.filterButtonContainer}>
               <Dropdown >
@@ -78,6 +72,17 @@ const AdminDashboard = () => {
               <BarChart filter={usageFilter} />
             </div>
           </div>
+        </div>
+        
+        {/* Charts Row 2 */}
+        <div className={styles.row2}>
+          <div className={styles.chartContainer} style={{ width: "50%" }} >
+              <div className={styles.chartCard}>
+              <h4 className={styles.chartTitle}>Room Utilization (Week)</h4>
+              <LineChart />
+              </div>
+          </div>
+        
         </div>
       </div>
     </div>

@@ -15,7 +15,6 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
   const [email, setEmail] = useState('');
 
 
-
   const fetchData = async () =>{
     try {
       const fetchedData = await getAccount();
@@ -57,9 +56,9 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
     await createAccount(dataToSend);
     await fetchData();
-    setTimeout(() => {
-      window.location.reload(); // Reload the page after deletion
-    }, 500);
+
+    window.location.reload(); // Reload the page after deletion
+
   }
   const validateInput = (formData) => {
     const fData = [ formData.get("userNameInput"),

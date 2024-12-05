@@ -1,6 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
+
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -12,32 +16,46 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BarChart = ({ filter }) => {
-  const originalData = [
-    { year: 'VMB 305', value: 100 },
-    { year: 'VMB 404', value: 200 },
-    { year: 'GZB 305', value: 300 },
-    { year: 'GZB 304', value: 400 },
-    { year: 'Computer Laboratory 2', value: 500 },
-    { year: 'Computer Laboratory 1', value: 600 },
-    { year: 'VMB 404', value: 500 },
-    { year: 'GZB 305', value: 700 },
-    { year: 'GZB 304', value: 900 },
-    { year: 'Computer Laboratory 2', value: 1000 },
-    { year: 'Computer Laboratory 1', value: 1200 },
-  ];
+  const [originalData,setOriginalData] = useState([
+{    room_name: "Computer Laboratory 2",
+    total_usage_hours: "61.5689"},
+    {    room_name: "Computer Laboratory 2",
+      total_usage_hours: "61.5689"},
+      {    room_name: "Computer Laboratory 2",
+        total_usage_hours: "61.5689"},
+        {    room_name: "Computer Laboratory 2",
+          total_usage_hours: "61.5689"},
+          {    room_name: "Computer Laboratory 2",
+            total_usage_hours: "61.5689"}
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_LOCALHOST}/admin/bar-chart`, {
+          month: 1
+        });
+        console.log('Bar chart data:', response.data);
+        setOriginalData(response.data.results);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const sortedData = [...originalData].sort((a, b) => {
-    return filter === 'Most Utilized Room' ? b.value - a.value : a.value - b.value;
+    return filter === 'Most Utilized Room' ? b.total_usage_hours - a.total_usage_hours : a.total_usage_hours - b.total_usage_hours;
   });
 
   const topFiveData = sortedData.slice(0, 5);
 
   const barData = {
-    labels: topFiveData.map((data) => data.year),
+    labels: topFiveData.map((data) => data.room_name),
     datasets: [
       {
         label: 'Usage %',
-        data: topFiveData.map((data) => data.value),
+        data: topFiveData.map((data) => data.total_usage_hours),
         backgroundColor: '#ff9999',
       },
     ],
@@ -60,10 +78,15 @@ const BarChart = ({ filter }) => {
         enabled: true,
       },
     },
+    layout: {
+      padding: {
+        top: 20,  // Add padding on the top if required
+      },
+    },
   };
 
   return (
-    <div className='d-flex align-items-center'>
+    <div className="chart-container"> {/* Add a fixed height */}
       <Bar data={barData} options={barOptions} />
     </div>
   );
