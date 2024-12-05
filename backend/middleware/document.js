@@ -1,7 +1,7 @@
 exports.createFile = async (rooms) => {
   const payload = {
     document: {
-      document_template_id: "D306EEFE-777B-46B5-8E46-23EF589AE5C5",
+      document_template_id: "09CDBA03-BA7B-484E-84E7-3A0688FF598D",
       payload: {
         products: rooms,
       },

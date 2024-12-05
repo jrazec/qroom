@@ -90,7 +90,7 @@ function EditAccount({ existingData, closeEditModal }) {
     closeEditModal(); // Close modal after saving changes
     setTimeout(() => {
       window.location.reload(); // Reload the page after deletion
-    }, 1000);
+    }, 500);
   };
 
   const togglePasswordVisibility = () => {
