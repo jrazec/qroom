@@ -157,6 +157,7 @@ const WeeklySchedule = () => {
                 alert('An error occurred while deleting the schedule');
             }
         }
+        window.location.reload();
     };
     
 

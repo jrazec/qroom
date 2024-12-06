@@ -7,15 +7,23 @@ const OccupationLogs = () => {
     const [logs, setLogs] = useState([]);
 
     useEffect(() => {
-        axios.post(`${process.env.REACT_APP_LOCALHOST}/admin/occupation-logs`, {
+        const fetchData = () => {
+            axios.post(`${process.env.REACT_APP_LOCALHOST}/admin/occupation-logs`, {
             includeAll: false
-        })
+            })
             .then(response => {
                 setLogs(response.data.results);
             })
             .catch(error => {
                 console.error('Error fetching occupation logs:', error);
             });
+        };
+
+        fetchData(); // Initial fetch
+
+        const interval = setInterval(fetchData, 1000); // Poll every 5 seconds
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
 
     return (

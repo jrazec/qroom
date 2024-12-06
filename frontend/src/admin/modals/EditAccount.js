@@ -64,7 +64,7 @@ function EditAccount({ existingData, closeEditModal }) {
         continue;// Skip password validation
       }
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
-          alert(`Failed. Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name","Password", "Role"][index]}. ${data}`);
+          alert(`Failed. Please enter a valid value for ${["ID", "First Name", "Middle Name", "Last Name","Password", "Role"][index]}. ${data}`);
           return; // Return early if validation fails
       }
     }
@@ -129,6 +129,7 @@ function EditAccount({ existingData, closeEditModal }) {
                   name="editAccountUserNameInput"
                   placeholder="Enter your value"
                   value={userName}
+                  disabled
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>

@@ -73,7 +73,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
 
     for (const [index, data] of fData.entries()) {
       if (!data) { // Check if data is falsy (empty string, null, undefined, etc.)
-          alert(`Please enter a valid value for ${["User Name", "First Name", "Middle Name", "Last Name", "Email","Password","Role","Department"][index]}.`);
+          alert(`Please enter a valid value for ${["Id", "First Name", "Middle Name", "Last Name", "Email","Password","Role","Department"][index]}.`);
           return; // Return early if validation fails
       }
     }
@@ -113,7 +113,7 @@ function AddAccount({data,groupAccounts,setData,setGroupAccounts}) {
             <form onSubmit={handleSubmit}>
               {/* Username Field */}
               <div className="mb-3">
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">ID:</label>
                 <input
                   name="userNameInput"
                   type="text"

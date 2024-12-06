@@ -80,8 +80,13 @@ router.post("/room-status", (req, res) => {
   const fetchScheduledVacantRooms = () => {
     return new Promise((resolve, reject) => {
       const sql = `
-       SELECT DISTINCT(room_name)         FROM rooms  join section_schedules using(room_id) WHERE CURRENT_TIME BETWEEN time_start AND time_end
-          AND status = 'vacant' AND bldg_name IN (?)
+       SELECT DISTINCT(room_name) 
+        FROM rooms 
+        JOIN section_schedules USING(room_id) 
+        WHERE CURRENT_TIME BETWEEN time_start AND time_end
+          AND status = 'vacant' 
+          AND day = DAYNAME(CURRENT_TIMESTAMP()) 
+          AND bldg_name IN (?)
           ${room_purpose ? "AND room_purpose = ?" : ""}`;
       const params = room_purpose ? [ building_names, room_purpose] : [ building_names];
       con.query(sql, params, (err, rows) => {
