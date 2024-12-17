@@ -225,34 +225,32 @@ function RoomSearch() {
 
 
   const calendarEvents = schedule.map((item, index) => {
-    const dayOfWeek = item.day;  // e.g., 'Mon', 'Tue', etc.
-    const timeStart = item.time_start;  // e.g., '14.00' (incorrect format)
-    const timeEnd = item.time_end;  // e.g., '16.00' (incorrect format)
     
-    // Get the current date for the year and month
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();  // Get current month (0-indexed)
-    
-    // Map the day of the week (e.g., 'Mon') to its date
-    const dayOfWeekMap = {
-      'Sun': 1, 'Mon': 2, 'Tue': 3, 'Wed': 4, 'Thu': 5, 'Fri': 6, 'Sat': 0
-    };
-    
-    const dayOfMonth = new Date(year, month, dayOfWeekMap[dayOfWeek]);
-    
-    // Add the time to create a valid date object
-    const startDateTime = new Date(`${dayOfMonth.toDateString()} ${timeStart.replace('.', ':')}`);
-    const endDateTime = new Date(`${dayOfMonth.toDateString()} ${timeEnd.replace('.', ':')}`);
-    
+    const arrDay = [{'Sun':0},{'Mon':1},{'Tues':2},{'Wed':3},{'Thurs':4},{'Fri':5},{'Sat':6}];
+    const dayIndex = arrDay.find(day => day.hasOwnProperty(item.day))[item.day];
+
+    // Calculate the target date for the event day
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + ((dayIndex - targetDate.getDay() + 7) % 7));
+
+    // Convert time strings to actual Date objects
+    const [startHour, startMinute] = item.time_start.split('.').map(Number);
+    const [endHour, endMinute] = item.time_end.split('.').map(Number);
+
+    const startDateTime = new Date(targetDate);
+    startDateTime.setHours(startHour, startMinute, 0, 0);
+
+    const endDateTime = new Date(targetDate);
+    endDateTime.setHours(endHour, endMinute, 0, 0);
+
     // Ensure startDateTime and endDateTime are valid
     if (isNaN(startDateTime) || isNaN(endDateTime)) {
-      console.error(`Invalid date or time: ${timeStart} - ${timeEnd} on ${dayOfWeek}`);
+      console.error(`Invalid date or time: ${item.time_start} - ${item.time_end} on ${item.day}`);
       return null;  // Skip invalid events
     }
-  
+
     // Log the events being generated for FullCalendar
-    console.log(`Event for ${dayOfWeek} (${timeStart} - ${timeEnd}):`, {
+    console.log(`Event for ${item.day} (${item.time_start} - ${item.time_end}):`, {
       start: startDateTime,
       end: endDateTime,
     });
@@ -287,8 +285,8 @@ function RoomSearch() {
       </div>
     ),
     firstDay: 0,
-    slotMinTime: "07:00:00",
-    slotMaxTime: "19:00:00",
+    slotMinTime: "06:00:00",
+    slotMaxTime: "20:00:00",
     allDaySlot: false,
     selectable: false,
     selectMirror: true,
