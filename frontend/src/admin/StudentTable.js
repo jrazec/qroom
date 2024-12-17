@@ -17,7 +17,7 @@ const StudentTable = ({ filteredStudents, handleAddButtonClick, handleDeleteButt
   useEffect(() => {
     const fetchSections = async () => {
       try {
-        const response = await axios.get("/api/sections");
+        const response = await axios.get(`${process.env.REACT_APP_LOCALHOST}/api/sections`);
         console.log("Fetched Sections:", response.data); // Log the response data
         if (response.data && response.data.status && Array.isArray(response.data.sections)) {
           setSchedS(response.data.sec_sched);

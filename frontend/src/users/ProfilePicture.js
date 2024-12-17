@@ -14,7 +14,7 @@ function ProfilePicture({ user_name }) {
     const fetchProfilePicture = async () => {
       try {
         // Fetch the user's profile picture from the server
-        const response = await axios.get(`/user/${user_name}/profile-picture`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCALHOST}/user/${user_name}/profile-picture`);
         const imageUrl = response.data.imageUrl;
         setUserDeets(response.data.results[0])
         if (imageUrl) {
@@ -39,7 +39,7 @@ function ProfilePicture({ user_name }) {
 
     try {
       // Upload the profile picture to the server
-      const response = await axios.post("/user/picture/upload", formData);
+      const response = await axios.post(`${process.env.REACT_APP_LOCALHOST}/user/picture/upload`, formData);
       const imageUrl = response.data.imageUrl;
 
       if (imageUrl) {

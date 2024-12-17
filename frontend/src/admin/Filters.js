@@ -22,7 +22,7 @@ const Filters = ({
 
   useEffect(() => {
     // Fetch all departments
-    axios.get("/api/departments")
+    axios.get(`${process.env.REACT_APP_LOCALHOST}/api/departments`)
       .then(response => {
         if (response.data.status) {
           setDepartments(response.data.departments);  // Set the fetched departments
@@ -38,7 +38,7 @@ const Filters = ({
   useEffect(() => {
     // Fetch all sections when the department is selected or cleared
     if (selectedDepartment) {
-      axios.get(`/api/sections?department=${selectedDepartment}`)
+      axios.get(`${process.env.REACT_APP_LOCALHOST}/api/sections?department=${selectedDepartment}`)
         .then(response => {
           if (response.data.status) {
             setAllSections(response.data.sections);  // Set all sections for a department
@@ -51,7 +51,7 @@ const Filters = ({
         });
     } else {
       // If no department selected, show all sections
-      axios.get("/api/sections")
+      axios.get(`${process.env.REACT_APP_LOCALHOST}/api/sections`)
         .then(response => {
           if (response.data.status) {
             setAllSections(response.data.sections);  // Show all sections

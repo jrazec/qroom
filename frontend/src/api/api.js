@@ -178,7 +178,7 @@ export const getRoom = async (rId) => {
   // Function to change the user's password
   export const changePassword = async (user_name, oldPassword, newPassword) => {
     try {
-      const response = await axios.post("/user/change-password", {
+      const response = await axios.post(`${process.env.REACT_APP_LOCALHOST}/user/change-password`, {
         user_name,
         oldpass: oldPassword,
         newpass: newPassword,

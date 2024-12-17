@@ -21,7 +21,7 @@ function ChangePassword({ user_name }) {
       console.log("Sending password change request:", { user_name, oldPassword, newPassword });
 
       // Ensure that the URL is correct (you may need to use a full URL or set the base URL correctly in axios)
-      const response = await axios.post("/user/change-password", {
+      const response = await axios.post(`${process.env.REACT_APP_LOCALHOST}/user/change-password`, {
         user_name,
         oldpass: oldPassword,
         newpass: newPassword,

@@ -49,7 +49,7 @@ function FeedbackPage() {
       const buildingName = building.name;
 
       try {
-        const response = await axios.get('/user/rooms/floor', {
+        const response = await axios.get(`${process.env.REACT_APP_LOCALHOST}/user/rooms/floor`, {
           params: {
             building: buildingName,
           },
