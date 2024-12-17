@@ -112,7 +112,7 @@ function LoginAdmin() {
                 {/* CAPTCHA Section */}
                 <div className="captcha-container mb-3">
                   <ReCAPTCHA
-                    sitekey="6LfT84cqAAAAAL8yzip2W08lSkixpwTpL2nytHny"  // Use your actual site key
+                    sitekey={process.env.REACT_APP_CAPTCHA_API_KEY}  // Use your actual site key
                     onChange={handleCaptchaChange}
                   />
                 </div>

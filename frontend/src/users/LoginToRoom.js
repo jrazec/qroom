@@ -100,7 +100,7 @@ function LoginToRoom() {
                 {/* CAPTCHA Section (commented out for now) */}
                 <div className="captcha-container mb-3">
                   <ReCAPTCHA
-                    sitekey={"6LfT84cqAAAAAL8yzip2W08lSkixpwTpL2nytHny"} // Replace with your actual site key
+                    sitekey={process.env.REACT_APP_CAPTCHA_API_KEY} // Replace with your actual site key
                     onChange={handleCaptchaChange}
                     
                   />
