@@ -226,7 +226,7 @@ function RoomSearch() {
 
   const calendarEvents = schedule.map((item, index) => {
     
-    const arrDay = [{'Sun':0},{'Mon':1},{'Tues':2},{'Wed':3},{'Thurs':4},{'Fri':5},{'Sat':6}];
+    const arrDay = [{'Sun':0},{'Mon':1},{'Tue':2},{'Wed':3},{'Thu':4},{'Fri':5},{'Sat':6}];
     const dayIndex = arrDay.find(day => day.hasOwnProperty(item.day))[item.day];
 
     // Calculate the target date for the event day
@@ -486,7 +486,7 @@ console.log('sched', schedule)
                     return (
                       <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
                         <img
-                          src={user.image}
+                          src={`${process.env.REACT_APP_LOCALHOST}/${user.image}`}
                           alt="User"
                           style={{ objectFit: 'cover' }}
                           className={`${roomSearch.userImage} img-fluid`}
