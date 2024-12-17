@@ -486,7 +486,7 @@ console.log('sched', schedule)
                     return (
                       <div key={index} className={`${roomSearch.scheduleUser} mb-3`}>
                         <img
-                          src={`${process.env.REACT_APP_LOCALHOST}/${user.image}`}
+                          src={`${process.env.REACT_APP_LOCALHOST}${user.image}`}
                           alt="User"
                           style={{ objectFit: 'cover' }}
                           className={`${roomSearch.userImage} img-fluid`}
